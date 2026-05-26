@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ElektroKlik – Dé specialist in elektrotechniek, beveiliging en slimme installaties voor particulieren en bedrijven.">
+<meta name="keywords" content="elektrotechniek, laadpalen, camerasystemen, alarmsystemen, elektricien">
+<title>ElektroKlik – Slimme Elektrotechnische Oplossingen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" onclick="showPage('home')">
+      <img src="assets/logo.png" alt="ElektroKlik" class="site-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+      <li><a onclick="showPage('diensten')" id="nav-diensten">Diensten</a></li>
+      <li><a onclick="showPage('overons')" id="nav-overons">Over Ons</a></li>
+      <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+      <li><a onclick="showPage('offerte')" id="nav-offerte" class="nav-cta">Offerte aanvragen</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMobileNav()" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
+  <a onclick="showPage('home'); toggleMobileNav()">Home</a>
+  <a onclick="showPage('diensten'); toggleMobileNav()">Diensten</a>
+  <a onclick="showPage('overons'); toggleMobileNav()">Over Ons</a>
+  <a onclick="showPage('contact'); toggleMobileNav()">Contact</a>
+  <a onclick="showPage('offerte'); toggleMobileNav()" style="color: var(--electric);">Offerte aanvragen →</a>
+</div>
+
+<div id="page-home" class="page active">
+  <div class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-circuit">
+      <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#00d4ff" fill="none" stroke-width="1">
+          <path d="M50,100 H200 V200 H400 V100 H550"/>
+          <path d="M100,150 V400 H300 V500"/>
+          <path d="M300,50 V200 H500 V350 H400"/>
+          <path d="M50,300 H150 V450 H350 V350 H500"/>
+          <path d="M200,300 V500 H450 V400"/>
+          <path d="M400,200 H550 V450 H350"/>
+          <circle cx="200" cy="200" r="5" fill="#00d4ff"/>
+          <circle cx="400" cy="100" r="5" fill="#00d4ff"/>
+          <circle cx="300" cy="350" r="5" fill="#0f9b8e"/>
+          <circle cx="150" cy="450" r="5" fill="#00d4ff"/>
+          <circle cx="500" cy="250" r="5" fill="#0f9b8e"/>
+          <circle cx="100" cy="300" r="3" fill="#00d4ff"/>
+          <circle cx="450" cy="400" r="3" fill="#00d4ff"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge"><div class="badge-dot"></div> Gecertificeerd & Betrouwbaar</div>
+        <h1>Slimme<br><span class="line-teal">Elektrotechnische</span><br><span class="line-electric">Oplossingen</span></h1>
+        <p class="hero-sub">ElektroKlik biedt professionele elektrotechnische oplossingen voor particulieren en bedrijven. Vakmanschap, kwaliteit en persoonlijk contact — altijd.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="showPage('offerte')">⚡ Offerte aanvragen</button>
+          <button class="btn-secondary" onclick="showPage('diensten')">Bekijk onze diensten →</button>
+          <button class="btn-secondary" onclick="showPage('contact')">📞 Neem contact op</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">Tevreden klanten</div></div>
+          <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Vakkundig</div>
+          </div>
+          <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Beschikbaar</div></div>
+          <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Duidelijke afspraken</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="elec-visual">
+          <div class="elec-ring ring-1"></div><div class="elec-ring ring-2"></div><div class="elec-ring ring-3"></div>
+          <div class="elec-core"><div class="lightning-main">⚡</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-inner">
+      <div class="trust-item reveal"><div class="trust-icon">🛡️</div><div class="trust-text"><strong>Betrouwbaar</strong><span>Gecertificeerde installateurs</span></div></div>
+      <div class="trust-item reveal"><div class="trust-icon">🔧</div><div class="trust-text"><strong>Vakmanschap</strong><span>Netjes en veilig uitgevoerd</span></div></div>
+      <div class="trust-item reveal"><div class="trust-icon">⚡</div><div class="trust-text"><strong>Snelle service</strong><span>Snel ter plaatse bij storingen</span></div></div>
+      <div class="trust-item reveal"><div class="trust-icon">🤝</div><div class="trust-text"><strong>Persoonlijk contact</strong><span>Altijd direct in gesprek</span></div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-header reveal">
+      <div class="section-label">Wat wij doen</div>
+      <h2 class="section-title">Onze <span style="color:var(--electric)">Diensten</span></h2>
+      <p class="section-sub">Van slimme installaties tot geavanceerde beveiligingssystemen — ElektroKlik biedt totaaloplossingen voor uw woning of bedrijf.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">🔲</div><h3>Meterkasten</h3><p>Voor het plaatsen van een extra groep, het aansluiten van een kookgroep of het aanpassen/vervangen van de volledige meterkast.</p><span class="card-link">Meer info →</span></div>
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">🔌</div><h3>Laadpalen</h3><p>Professionele installatie van laadpalen voor elektrische voertuigen, thuis en zakelijk.</p><span class="card-link">Meer info →</span></div>
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">📹</div><h3>Camerasystemen</h3><p>Camerabewaking met scherpe beelden, nachtzicht en toegang via telefoon of recorder.</p><span class="card-link">Meer info →</span></div>
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">🔔</div><h3>Alarmsystemen</h3><p>Alarmsystemen voor woningen en bedrijfspanden, afgestemd op de situatie.</p><span class="card-link">Meer info →</span></div>
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">🚪</div><h3>Toegangscontrole</h3><p>Toegangscontrole met tag, code of andere praktische oplossingen voor deuren en ruimtes.</p><span class="card-link">Meer info →</span></div>
+      <div class="service-card reveal" onclick="showPage('diensten')"><div class="service-icon">💡</div><h3>Verlichting</h3><p>LED-verlichting, sfeerverlichting en professionele binnen- en buitenverlichting.</p><span class="card-link">Meer info →</span></div>
+    </div>
+    <div style="text-align:center; margin-top:3rem;" class="reveal"><button class="btn-primary" onclick="showPage('diensten')">Alle diensten bekijken →</button></div>
+  </section>
+
+  <div style="background: linear-gradient(135deg, var(--navy-mid), var(--navy-light)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 2rem;">
+    <div style="max-width: 700px; margin: 0 auto; text-align: center;" class="reveal">
+      <div class="section-label">Klaar om te starten?</div>
+      <h2 class="section-title">Vraag vandaag nog een<br><span style="color:var(--electric)">gratis offerte</span> aan</h2>
+      <p class="section-sub" style="margin: 1rem auto 2.5rem;">Binnen 24 uur ontvangt u een uitgebreide offerte op maat. Vrijblijvend en kosteloos.</p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn-primary" onclick="showPage('offerte')">⚡ Offerte aanvragen</button>
+        <button class="btn-secondary" onclick="showPage('contact')">📞 Bel ons direct</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-diensten" class="page">
+  <div class="diensten-hero" id="diensten">
+    <div style="position:relative; z-index:1;">
+      <div class="section-label" style="justify-content:center; display:flex;">Onze expertise</div>
+      <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight:900; letter-spacing:-2px; margin-bottom:1rem;">Onze <span style="color:var(--electric)">Diensten</span></h1>
+      <p style="color:var(--text-body); font-size:1.1rem; max-width:600px; margin:0 auto; line-height:1.7;">Totaaloplossingen in elektrotechniek en beveiliging — van installatie tot onderhoud.</p>
+    </div>
+  </div>
+  <section style="padding-top: 60px;">
+    
+
+<div class="diensten-grid">
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">🔲</div></div>
+    <div class="dienst-body">
+      <h3>Meterkasten</h3>
+      <p>Voor het plaatsen van een extra groep, het aansluiten van een kookgroep of het aanpassen/vervangen van de volledige meterkast.</p>
+      <div class="tag-list"><span class="tag">Extra groep</span><span class="tag">Kookgroep</span><span class="tag">Meterkast vervangen</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">🔌</div></div>
+    <div class="dienst-body">
+      <h3>Laadpalen</h3>
+      <p>Professionele installatie van laadpalen voor elektrische voertuigen, thuis en zakelijk.</p>
+      <div class="tag-list"><span class="tag">Thuisladen</span><span class="tag">Zakelijk</span><span class="tag">Installatie</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">📹</div></div>
+    <div class="dienst-body">
+      <h3>Camerasystemen</h3>
+      <p>Camerabewaking met scherpe beelden, nachtzicht en toegang via telefoon of recorder.</p>
+      <div class="tag-list"><span class="tag">Camera</span><span class="tag">Beveiliging</span><span class="tag">Nachtzicht</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">🔔</div></div>
+    <div class="dienst-body">
+      <h3>Alarmsystemen</h3>
+      <p>Alarmsystemen voor woningen en bedrijfspanden, afgestemd op de situatie.</p>
+      <div class="tag-list"><span class="tag">Alarm</span><span class="tag">Woning</span><span class="tag">Bedrijf</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">🚪</div></div>
+    <div class="dienst-body">
+      <h3>Toegangscontrole</h3>
+      <p>Toegangscontrole met tag, code of andere praktische oplossingen voor deuren en ruimtes.</p>
+      <div class="tag-list"><span class="tag">Tag</span><span class="tag">Code</span><span class="tag">Toegang</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+
+  <div class="dienst-card reveal">
+    <div class="dienst-img"><div class="dienst-img-bg"></div><div class="dienst-img-glow"></div><div class="big-icon">💡</div></div>
+    <div class="dienst-body">
+      <h3>Verlichting</h3>
+      <p>LED-verlichting, sfeerverlichting en professionele binnen- en buitenverlichting.</p>
+      <div class="tag-list"><span class="tag">LED</span><span class="tag">Binnen</span><span class="tag">Buiten</span></div>
+      <button class="btn-primary" onclick="showPage('offerte')" style="width:100%; justify-content:center;">Offerte aanvragen</button>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<div id="page-overons" class="page">
+  <div class="overons-hero" id="overons">
+    <div class="overons-content">
+      <div class="reveal">
+        <div class="section-label">Over ElektroKlik</div>
+        <h1 style="font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight:900; letter-spacing:-2px; margin-bottom:1.5rem; line-height:1.1;">Vakmanschap<br><span style="color:var(--electric)">staat voorop</span></h1>
+        
+
+<p style="color:var(--text-body); line-height:1.8; margin-bottom:1.5rem;">Wat ElektroKlik anders maakt dan andere elektriciens, is dat wij een team zijn van gediplomeerde elektrotechnici, met diverse achtergronden in de elektrotechniek. We zijn bij elkaar gekomen om onze krachten te bundelen en elkaar aan te vullen met onze unieke vaardigheden en expertise.</p>
+<p style="color:var(--text-body); line-height:1.8; margin-bottom:2rem;">Wij geloven in heldere communicatie, een persoonlijke aanpak en het leveren van maatwerk voor iedere klant. Of u nu een particulier of een bedrijf bent, bij ons bent u verzekerd van een vakkundige en efficiënte uitvoering van uw project.</p>
+
+
+        <button class="btn-primary" onclick="showPage('offerte')">⚡ Vraag een offerte aan</button>
+        <div class="values-grid" style="margin-top:2rem;">
+          <div class="value-card"><span class="v-icon">🏆</span><h4>Kwaliteit</h4><p>Wij werken uitsluitend met gecertificeerde materialen en volgen alle geldende normen en richtlijnen.</p></div>
+          <div class="value-card"><span class="v-icon">🤝</span><h4>Klantgericht</h4><p>Uw wensen staan centraal. Wij luisteren, adviseren en leveren maatwerkoplossingen.</p></div>
+          <div class="value-card"><span class="v-icon">⚡</span><h4>Vakmanschap</h4><p>Onze monteurs zijn gecertificeerd en continu bijgeschoold op de nieuwste technieken.</p></div>
+          <div class="value-card"><span class="v-icon">📞</span><h4>Bereikbaar</h4><p>Altijd direct contact met ons team. Bij storingen zijn we 24/7 voor u beschikbaar.</p></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="team-visual">
+          <div class="team-visual-bg"></div>
+          <div class="team-visual-inner">
+            <div class="team-people"><div class="person-avatar">👷</div><div class="person-avatar">👷</div><div class="person-avatar">👷</div></div>
+            <h3 style="font-size:1.3rem; margin-bottom:0.5rem;">Ons team van specialisten</h3>
+            <p style="color:var(--text-body); font-size:0.9rem; max-width:280px; margin:0 auto;">Gecertificeerde elektriciens en installatietechnici met passie voor hun vak</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="milestone reveal"><div class="milestone-num">500+</div><div class="milestone-label">Tevreden klanten</div></div>
+    <div class="milestone reveal"><div class="milestone-num">100%</div><div class="milestone-label">Vakkundig</div></div>
+    <div class="milestone reveal"><div class="milestone-num">✓</div><div class="milestone-label">Persoonlijke aanpak</div></div>
+    <div class="milestone reveal"><div class="milestone-num">✓</div><div class="milestone-label">Duidelijke afspraken</div></div>
+  </div>
+</div>
+
+<div id="page-offerte" class="page">
+  <div class="form-hero" id="offerte">
+    <div style="position:relative; z-index:1;">
+      <div class="section-label" style="justify-content:center; display:flex;">Vrijblijvend en kosteloos</div>
+      <h1 style="font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight:900; letter-spacing:-1.5px; margin-bottom:1rem;">Offerte <span style="color:var(--electric)">aanvragen</span></h1>
+      <p style="color:var(--text-body); font-size:1rem; max-width:550px; margin:0 auto; line-height:1.7;">Vul onderstaand formulier in en ontvang binnen 24 uur een uitgebreide offerte op maat.</p>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <div class="form-card reveal">
+      <div id="offerteForm">
+        <h2 style="font-size:1.5rem; margin-bottom:2rem; font-weight:800;">Uw gegevens</h2>
+        <div class="form-row">
+          <div class="form-group"><label>Naam *</label><input type="text" id="of-naam" placeholder="Uw volledige naam"></div>
+          <div class="form-group"><label>Telefoonnummer *</label><input type="tel" id="of-tel" placeholder="+31 6 58 85 67 29"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>E-mailadres *</label><input type="email" id="of-email" placeholder="uw@email.nl"></div>
+          <div class="form-group"><label>Adres</label><input type="text" id="of-adres" placeholder="Straat, huisnummer, postcode"></div>
+        </div>
+        <div class="form-group">
+          <label>Type woning / bedrijf</label>
+          <select id="of-type">
+            <option value="">Selecteer type...</option><option>Particuliere woning</option><option>Appartement</option><option>Kantoor</option><option>Winkel/Horeca</option><option>Industrieel pand</option><option>Nieuwbouwproject</option><option>Anders</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gewenste dienst(en)</label>
+          
+
+
+<div class="checkbox-group">
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Meterkasten"><span>Meterkasten</span></label>
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Laadpalen"><span>Laadpalen</span></label>
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Camerasystemen"><span>Camerasystemen</span></label>
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Alarmsystemen"><span>Alarmsystemen</span></label>
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Toegangscontrole"><span>Toegangscontrole</span></label>
+  <label class="checkbox-item"><input type="checkbox" name="diensten" value="Verlichting"><span>Verlichting</span></label>
+</div>
+
+        <div class="form-group"><label>Omschrijving werkzaamheden *</label><textarea id="of-omschrijving" placeholder="Beschrijf zo uitgebreid mogelijk welke werkzaamheden u wilt laten uitvoeren..."></textarea></div>
+        <div class="form-group"><label>Extra informatie / opmerkingen</label><textarea id="of-extra" placeholder="Eventuele extra wensen, bijzonderheden of tijdsvoorkeur..." style="min-height:100px;"></textarea></div>
+        <button class="form-submit" onclick="submitOfferte()">⚡ Offerte aanvragen</button>
+        <p style="text-align:center; color:var(--gray-mid); font-size:0.8rem; margin-top:1rem;">Uw aanvraag opent uw e-mailprogramma en wordt verstuurd naar info@elektroklik.nl.</p>
+      </div>
+      
+      <div class="form-success" id="offerteSuccess">
+        <div class="success-icon">✅</div>
+        <h2 style="font-size:1.8rem; margin-bottom:1rem;">Aanvraag verstuurd!</h2>
+        <p style="color:var(--text-body); font-size:1rem; line-height:1.7;">Bedankt voor uw offerteaanvraag. Wij nemen zo snel mogelijk contact met u op.</p>
+        <button class="btn-primary" style="margin-top:2rem;" onclick="showPage('home')">← Terug naar home</button>
+      </div>
+</div>
+  </div>
+</div>
+
+
+<div id="page-contact" class="page">
+
+  <div class="form-hero">
+    <div style="position:relative; z-index:1;">
+      <div class="section-label" style="justify-content:center; display:flex;">Wij staan voor u klaar</div>
+      <h1 style="font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight:900; letter-spacing:-1.5px; margin-bottom:1rem;">Neem <span style="color:var(--electric)">contact op</span></h1>
+      <p style="color:var(--text-body); font-size:1rem; max-width:550px; margin:0 auto; line-height:1.7;">Heeft u een vraag of wilt u direct advies? Wij helpen u graag verder.</p>
+    </div>
+  </div>
+
+  <div class="contact-layout">
+    <div class="reveal">
+      <h2>Contactgegevens</h2>
+      <p>ElektroKlik staat voor u klaar. Neem gerust contact op via het formulier, telefoon, WhatsApp of e-mail. Wij reageren zo snel mogelijk.</p>
+
+      <div class="contact-details">
+        <a class="contact-item" href="mailto:info@elektroklik.nl">
+          <div class="ci-icon">📧</div>
+          <div class="ci-text">
+            <strong>E-mail</strong>
+            <span>info@elektroklik.nl</span>
+          </div>
+        </a>
+
+        <a class="contact-item" href="tel:+31658856729">
+          <div class="ci-icon">📞</div>
+          <div class="ci-text">
+            <strong>Telefoon</strong>
+            <span>+31 6 58 85 67 29</span>
+          </div>
+        </a>
+
+        <a class="contact-item" href="https://wa.me/31658856729" target="_blank" rel="noopener">
+          <div class="ci-icon">💬</div>
+          <div class="ci-text">
+            <strong>WhatsApp</strong>
+            <span>App ons direct</span>
+          </div>
+        </a>
+
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div class="ci-text">
+            <strong>Bereikbaarheid</strong>
+            <span>Ma–Vr 07:00–19:00 · Weekend op afspraak</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="maps-embed" style="margin-top:2rem;">
+        <div class="maps-bg"></div>
+        <div class="maps-placeholder">
+          <span class="map-icon">📍</span>
+          <div>Werkgebied: Nederland</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="form-card" style="padding:2.5rem;">
+        <div id="contactFormBox">
+          <h3 style="font-size:1.4rem; font-weight:800; margin-bottom:2rem;">Stuur ons een bericht</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Naam *</label>
+              <input type="text" id="ct-naam" placeholder="Uw naam">
+            </div>
+            <div class="form-group">
+              <label>Telefoonnummer</label>
+              <input type="tel" id="ct-tel" placeholder="+31 6 58 85 67 29">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>E-mailadres *</label>
+            <input type="email" id="ct-email" placeholder="uw@email.nl">
+          </div>
+
+          <div class="form-group">
+            <label>Uw bericht *</label>
+            <textarea id="ct-bericht" placeholder="Stel hier uw vraag of beschrijf uw situatie..." style="min-height:180px;"></textarea>
+          </div>
+
+          <button class="form-submit" onclick="submitContact()">📨 Verstuur bericht</button>
+        </div>
+
+        <div class="form-success" id="contactSuccess">
+          <div class="success-icon">✅</div>
+          <h3 style="font-size:1.5rem; margin-bottom:1rem;">Bericht verstuurd!</h3>
+          <p style="color:var(--text-body); line-height:1.7;">Bedankt voor uw bericht. Wij nemen zo snel mogelijk contact met u op.</p>
+          <button class="btn-secondary" style="margin-top:2rem; cursor:pointer;" onclick="resetContactForm()">Nog een bericht sturen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:1rem; cursor:default;">
+        <img src="assets/logo.png" alt="ElektroKlik" class="site-logo-img">
+      </div>
+      <p>Professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Heldere communicatie, vakkundige uitvoering en maatwerk voor iedere klant.</p>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="Facebook">f</a>
+        <a class="social-btn" href="#" title="Instagram">📷</a>
+        <a class="social-btn" href="#" title="LinkedIn">in</a>
+        <a class="social-btn" href="https://wa.me/31658856729" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigatie</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('diensten')">Diensten</a></li>
+        <li><a onclick="showPage('overons')">Over Ons</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+        <li><a onclick="showPage('offerte')">Offerte aanvragen</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Diensten</h4>
+      <ul>
+        <li><a onclick="showPage('diensten')">Meterkasten</a></li>
+        <li><a onclick="showPage('diensten')">Laadpalen</a></li>
+        <li><a onclick="showPage('diensten')">Camerasystemen</a></li>
+        <li><a onclick="showPage('diensten')">Alarmsystemen</a></li>
+        <li><a onclick="showPage('diensten')">Toegangscontrole</a></li>
+        <li><a onclick="showPage('diensten')">Verlichting</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a></li>
+        <li><a href="tel:+31658856729">+31 6 58 85 67 29</a></li>
+        <li><a href="https://wa.me/31658856729" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a onclick="showPage('contact')">Contactformulier</a></li>
+        <li><a onclick="showPage('offerte')">Offerte aanvragen</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 ElektroKlik. Alle rechten voorbehouden.</span>
+    <span style="color:var(--teal-light);">⚡ Vakmanschap & Kwaliteit</span>
+  </div>
+</footer>
+
+
+<a class="whatsapp-btn" href="https://wa.me/31658856729" target="_blank" title="App ons op WhatsApp">💬</a>
+<div class="toast" id="toast">✅ Formulier verstuurd!</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
