@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>Pagina niet gevonden | ElektroKlik</title>
+  <script>
+    const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
+    const redirects = {
+      '/home': '/',
+      '/diensten': '/diensten/',
+      '/overons': '/over-ons/',
+      '/over-ons': '/over-ons/',
+      '/over': '/over-ons/',
+      '/contact': '/contact/',
+      '/offerte': '/offerte/'
+    };
+    if (redirects[path]) window.location.replace(redirects[path]);
+    else window.location.replace('/');
+  </script>
+</head>
+<body>
+  <p>Pagina niet gevonden. U wordt doorgestuurd naar <a href="/">ElektroKlik</a>.</p>
+</body>
+</html>
