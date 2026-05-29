@@ -1,0 +1,1 @@
+ElektroKlik website - herstelversie. CSS en JavaScript zijn ook direct in de HTML gezet, zodat styling en formulieren niet meer kapot gaan door verkeerde uploadpaden. Upload de volledige inhoud naar GitHub Pages.

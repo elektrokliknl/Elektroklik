@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElektroKlik | Elektricien voor meterkast, laadpaal en elektrotechniek</title>
+  <meta name="description" content="ElektroKlik helpt particulieren en bedrijven met meterkast vervangen, extra groep aanleggen, kookgroep aansluiten, laadpaal installeren, camerasysteem, alarmsysteem, toegangscontrole en LED verlichting." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="ElektroKlik" />
+  <meta name="theme-color" content="#0a1628" />
+  <link rel="canonical" href="https://elektroklik.nl/" />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ElektroKlik" />
+  <meta property="og:title" content="ElektroKlik | Elektricien voor meterkast, laadpaal en elektrotechniek" />
+  <meta property="og:description" content="ElektroKlik helpt particulieren en bedrijven met meterkast vervangen, extra groep aanleggen, kookgroep aansluiten, laadpaal installeren, camerasysteem, alarmsysteem, toegangscontrole en LED verlichting." />
+  <meta property="og:url" content="https://elektroklik.nl/" />
+  <meta property="og:image" content="https://elektroklik.nl/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ElektroKlik | Elektricien voor meterkast, laadpaal en elektrotechniek" />
+  <meta name="twitter:description" content="ElektroKlik helpt particulieren en bedrijven met meterkast vervangen, extra groep aanleggen, kookgroep aansluiten, laadpaal installeren, camerasysteem, alarmsysteem, toegangscontrole en LED verlichting." />
+  <meta name="twitter:image" content="https://elektroklik.nl/assets/logo.png" />
+  <link rel="icon" href="/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --navy: #0a1628;
+  --navy-mid: #0d1f3c;
+  --navy-light: #132845;
+  --teal: #0f9b8e;
+  --teal-light: #14c4b4;
+  --electric: #00d4ff;
+  --orange: #f5a623;
+  --white: #ffffff;
+  --gray-mid: #8fa3c0;
+  --text-body: #c8d8ee;
+  --card-bg: rgba(13,31,60,0.84);
+  --border: rgba(0,212,255,0.16);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+h1, h2, h3, h4 { font-family: 'Exo 2', sans-serif; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(10,22,40,0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+}
+.nav-inner {
+  max-width: 1280px; height: 72px; margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { cursor: pointer; display: flex; align-items: center; }
+.site-logo-img { height: 48px; width: auto; display: block; background: white; border-radius: 6px; padding: 4px 8px; }
+.nav-links { display: flex; gap: .25rem; list-style: none; align-items: center; }
+.nav-links a {
+  color: var(--text-body); text-decoration: none; padding: .55rem .9rem;
+  border-radius: 8px; font-size: .92rem; font-weight: 600; cursor: pointer;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--electric); background: rgba(0,212,255,.08); }
+.nav-cta { background: linear-gradient(135deg,var(--teal),var(--teal-light)); color: white !important; }
+.hamburger { display: none; background: none; border: 0; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 26px; height: 2px; background: var(--electric); }
+
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 999; background: var(--navy);
+  padding: 100px 2rem 2rem; flex-direction: column; gap: 1rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a { color: white; font-size: 1.4rem; font-weight: 800; cursor: pointer; text-decoration: none; }
+.mobile-close { position: absolute; right: 2rem; top: 1.5rem; background: none; border: 0; color: var(--electric); font-size: 1.7rem; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.hero {
+  min-height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,212,255,.08), transparent 60%),
+    linear-gradient(165deg, #0a1628 0%, #0d1f3c 42%, #0a1628 100%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content {
+  position: relative; max-width: 1280px; margin: 0 auto; padding: 130px 2rem 80px;
+  display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; gap: .5rem; align-items: center; padding: .45rem 1rem; border-radius: 100px;
+  border: 1px solid rgba(0,212,255,.22); color: var(--electric); background: rgba(0,212,255,.08);
+  font-weight: 700; font-size: .82rem; margin-bottom: 1.4rem;
+}
+.hero-badge span { width: 7px; height: 7px; border-radius: 50%; background: var(--electric); display: block; }
+.hero h1 { font-size: clamp(2.7rem, 5vw, 4.7rem); line-height: 1.04; font-weight: 900; letter-spacing: -2px; margin-bottom: 1.4rem; }
+.hero h1 span { color: var(--teal-light); font-style: normal; }
+.hero h1 em { color: var(--electric); font-style: normal; }
+.hero-sub { color: var(--text-body); font-size: 1.08rem; line-height: 1.75; max-width: 560px; margin-bottom: 2.3rem; }
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+
+.btn-primary, .btn-secondary, .form-submit {
+  border: 0; border-radius: 10px; padding: .9rem 1.5rem; cursor: pointer;
+  font-weight: 800; font-family: 'DM Sans', sans-serif; transition: .25s;
+}
+.btn-primary, .form-submit { background: linear-gradient(135deg,var(--teal),var(--teal-light)); color: white; }
+.btn-primary:hover, .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,255,.25); }
+.btn-secondary { background: transparent; color: var(--electric); border: 1px solid rgba(0,212,255,.3); }
+
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.stat-card, .service-card, .dienst-card, .form-card, .values-grid div, .milestones div {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; backdrop-filter: blur(10px);
+}
+.stat-card { padding: 1.1rem; }
+.stat-number { font-family: 'Exo 2'; color: var(--electric); font-size: 2rem; font-weight: 900; line-height: 1; }
+.stat-label { color: var(--gray-mid); font-size: .82rem; margin-top: .35rem; }
+
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.elec-visual { width: 380px; height: 380px; position: relative; }
+.ring { position: absolute; border: 1px solid rgba(0,212,255,.18); border-radius: 50%; animation: spin linear infinite; }
+.ring-1 { inset: 0; animation-duration: 20s; }
+.ring-2 { inset: 40px; animation-duration: 15s; animation-direction: reverse; }
+.ring-3 { inset: 85px; animation-duration: 25s; }
+.elec-core { position: absolute; inset: 110px; display: flex; align-items: center; justify-content: center; font-size: 5rem; filter: drop-shadow(0 0 18px var(--electric)); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.trust-bar { background: var(--navy-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; }
+.trust-inner { max-width: 1280px; margin: auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+.trust-item { display: grid; grid-template-columns: auto 1fr; column-gap: .8rem; row-gap: .2rem; align-items: center; padding: .8rem; }
+.trust-item div { grid-row: span 2; font-size: 1.4rem; }
+.trust-item strong { font-family: 'Exo 2'; }
+.trust-item span { color: var(--gray-mid); font-size: .82rem; }
+
+.content-section, .over-layout, .form-container, .contact-layout { max-width: 1280px; margin: 0 auto; padding: 90px 2rem; }
+.section-header { margin-bottom: 3rem; }
+.section-label { text-transform: uppercase; letter-spacing: 3px; color: var(--electric); font-weight: 900; font-size: .75rem; margin-bottom: 1rem; }
+.section-header h2, .page-hero h1 { font-size: clamp(2rem,4vw,3.4rem); font-weight: 900; letter-spacing: -1px; }
+.section-header h2 span, .page-hero span { color: var(--electric); }
+.section-header p, .page-hero p { color: var(--text-body); line-height: 1.7; max-width: 650px; margin-top: 1rem; }
+
+.services-grid, .diensten-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+.service-card { padding: 1.8rem; cursor: pointer; transition: .25s; }
+.service-card:hover, .dienst-card:hover { transform: translateY(-4px); border-color: rgba(0,212,255,.35); }
+.service-card div, .dienst-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.service-card h3, .dienst-card h3 { margin-bottom: .7rem; font-size: 1.2rem; }
+.service-card p, .dienst-card p, .over-layout p, .values-grid p { color: var(--text-body); line-height: 1.65; }
+
+.page-hero {
+  text-align: center; padding: 140px 2rem 80px; background: linear-gradient(180deg, var(--navy-mid), var(--navy));
+  border-bottom: 1px solid var(--border);
+}
+.page-hero p { margin-left: auto; margin-right: auto; }
+
+.dienst-card { padding: 2rem; }
+.dienst-card .btn-primary { width: 100%; margin-top: 1.5rem; }
+
+.over-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.over-layout p { margin-bottom: 1.3rem; }
+.values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.values-grid div { padding: 1.3rem; }
+.values-grid strong { display: block; margin-bottom: .5rem; }
+
+.milestones { max-width: 1280px; margin: 0 auto; padding: 0 2rem 90px; display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+.milestones div { padding: 1.5rem; text-align: center; }
+.milestones strong { color: var(--electric); font-family: 'Exo 2'; font-size: 2.5rem; display: block; }
+.milestones span { color: var(--text-body); }
+
+.form-container { max-width: 850px; }
+.form-card { padding: 2.5rem; }
+.form-card h2 { margin-bottom: 1.7rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.form-group { margin-bottom: 1.3rem; }
+.form-group label { display: block; font-weight: 700; margin-bottom: .5rem; color: #e8edf5; font-size: .9rem; }
+input, select, textarea {
+  width: 100%; background: rgba(10,22,40,.82); border: 1px solid var(--border); color: white;
+  border-radius: 10px; padding: .9rem 1rem; font: inherit; outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--electric); box-shadow: 0 0 0 3px rgba(0,212,255,.10); }
+textarea { min-height: 140px; resize: vertical; }
+.small-textarea { min-height: 90px; }
+
+.checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.checkbox-group label {
+  display: flex; align-items: center; gap: .7rem; cursor: pointer; padding: .8rem .9rem;
+  border: 1px solid var(--border); border-radius: 10px; background: rgba(10,22,40,.45); color: var(--text-body);
+}
+.checkbox-group input[type="checkbox"] {
+  width: 18px !important; height: 18px !important; min-width: 18px !important;
+  appearance: auto !important; -webkit-appearance: checkbox !important;
+  opacity: 1 !important; visibility: visible !important; display: inline-block !important;
+  accent-color: var(--electric); margin: 0; padding: 0;
+}
+
+.form-submit { width: 100%; font-size: 1rem; }
+.form-submit:disabled { opacity: .7; cursor: not-allowed; }
+.form-success { display: none; text-align: center; padding: 2rem; }
+.form-success.show { display: block !important; }
+.success-icon { font-size: 4rem; margin-bottom: 1rem; }
+
+.contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; }
+.contact-layout h2 { margin-bottom: 1rem; }
+.contact-layout p { color: var(--text-body); line-height: 1.7; margin-bottom: 2rem; }
+.contact-details { display: flex; flex-direction: column; gap: 1rem; }
+.contact-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; color: white; text-decoration: none; }
+.contact-item div { width: 42px; height: 42px; background: rgba(0,212,255,.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.contact-item span { display: flex; flex-direction: column; gap: .2rem; }
+.contact-item strong { color: var(--gray-mid); font-size: .82rem; }
+
+footer { background: var(--navy-mid); border-top: 1px solid var(--border); }
+.footer-main { max-width: 1280px; margin: 0 auto; padding: 4rem 2rem 2rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; align-items: start; }
+.footer-brand p { color: var(--text-body); line-height: 1.7; font-size: .9rem; margin: 1rem 0; }
+.social-links { display: flex; gap: .7rem; }
+.social-links a { width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-body); display: flex; align-items: center; justify-content: center; text-decoration: none; }
+.footer-col { display: flex; flex-direction: column; gap: .65rem; }
+.footer-col h4 { margin-bottom: .7rem; }
+.footer-col a { color: var(--text-body); text-decoration: none; cursor: pointer; font-size: .9rem; }
+.footer-col a:hover { color: var(--electric); }
+.footer-bottom { border-top: 1px solid var(--border); max-width: 1280px; margin: auto; padding: 1.5rem 2rem; display: flex; justify-content: center; color: var(--gray-mid); font-size: .85rem; text-align: center; }
+.footer-bottom span { color: var(--teal-light); }
+
+.whatsapp-btn {
+  position: fixed; right: 2rem; bottom: 2rem; z-index: 900; width: 58px; height: 58px;
+  background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  text-decoration: none; font-size: 1.6rem; box-shadow: 0 4px 20px rgba(37,211,102,.35);
+}
+.toast {
+  position: fixed; left: 50%; bottom: 6rem; transform: translateX(-50%) translateY(20px);
+  opacity: 0; pointer-events: none; background: var(--teal); color: white; padding: 1rem 1.5rem;
+  border-radius: 12px; z-index: 2000; font-weight: 800; transition: .3s; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 1024px) {
+  .hero-content, .over-layout, .contact-layout { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .services-grid, .diensten-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .hero-stats, .trust-inner, .milestones { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .services-grid, .diensten-grid, .form-row, .checkbox-group, .values-grid { grid-template-columns: 1fr; }
+  .footer-main, .hero-stats, .trust-inner, .milestones { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: .7rem; text-align: center; }
+  .hero-buttons { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; }
+}
+
+</style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Electrician",
+      "@id": "https://elektroklik.nl/#bedrijf",
+      "name": "ElektroKlik",
+      "url": "https://elektroklik.nl/",
+      "logo": "https://elektroklik.nl/assets/logo.png",
+      "image": "https://elektroklik.nl/assets/logo.png",
+      "email": "info@elektroklik.nl",
+      "telephone": "+31658856729",
+      "priceRange": "€€",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Nederland"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Midden-Nederland"
+        }
+      ],
+      "description": "ElektroKlik voert elektrotechnische werkzaamheden uit voor particulieren en bedrijven, waaronder meterkasten, extra groepen, kookgroepen, laadpalen, camerasystemen, alarmsystemen, toegangscontrole en verlichting.",
+      "knowsAbout": [
+        "elektricien",
+        "elektromonteur",
+        "meterkast vervangen",
+        "meterkast uitbreiden",
+        "extra groep aanleggen",
+        "groepenkast vervangen",
+        "kookgroep aansluiten",
+        "laadpaal installeren",
+        "laadpaal thuis installeren",
+        "camerasysteem plaatsen",
+        "alarmsysteem installeren",
+        "toegangscontrole plaatsen",
+        "LED verlichting installeren",
+        "buitenverlichting aanleggen",
+        "elektrische installatie woning",
+        "elektrotechniek bedrijfspand"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://elektroklik.nl/#website",
+      "url": "https://elektroklik.nl/",
+      "name": "ElektroKlik",
+      "publisher": {
+        "@id": "https://elektroklik.nl/#bedrijf"
+      },
+      "inLanguage": "nl-NL"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://elektroklik.nl/#webpage",
+      "url": "https://elektroklik.nl/",
+      "name": "ElektroKlik | Elektricien voor meterkast, laadpaal en elektrotechniek",
+      "description": "ElektroKlik helpt particulieren en bedrijven met meterkast vervangen, extra groep aanleggen, kookgroep aansluiten, laadpaal installeren, camerasysteem, alarmsysteem, toegangscontrole en LED verlichting.",
+      "isPartOf": {
+        "@id": "https://elektroklik.nl/#website"
+      },
+      "about": {
+        "@id": "https://elektroklik.nl/#bedrijf"
+      },
+      "inLanguage": "nl-NL"
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://elektroklik.nl/diensten/#diensten",
+      "name": "ElektroKlik diensten",
+      "itemListElement": [
+        {
+          "@type": "Service",
+          "position": 1,
+          "name": "Meterkast vervangen en extra groep aanleggen",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Meterkast aanpassen, meterkast vervangen, groepenkast uitbreiden, extra groep plaatsen en kookgroep aansluiten."
+        },
+        {
+          "@type": "Service",
+          "position": 2,
+          "name": "Laadpaal installeren",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Laadpaal thuis of zakelijk installeren, inclusief controle van meterkast, aansluiting en bekabeling."
+        },
+        {
+          "@type": "Service",
+          "position": 3,
+          "name": "Camerasysteem plaatsen",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Camerabewaking en camerasystemen voor woningen en bedrijfspanden."
+        },
+        {
+          "@type": "Service",
+          "position": 4,
+          "name": "Alarmsysteem installeren",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Alarmsystemen voor woningen en bedrijfspanden."
+        },
+        {
+          "@type": "Service",
+          "position": 5,
+          "name": "Toegangscontrole plaatsen",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Toegangscontrole met tag, code of passende oplossing voor deuren en ruimtes."
+        },
+        {
+          "@type": "Service",
+          "position": 6,
+          "name": "LED verlichting installeren",
+          "provider": {
+            "@id": "https://elektroklik.nl/#bedrijf"
+          },
+          "description": "Binnenverlichting, buitenverlichting, LED verlichting en sfeerverlichting installeren."
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="/">
+      <img src="/logo.png" alt="ElektroKlik elektricien en elektrotechniek" class="site-logo-img">
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/" id="nav-home" class="active">Home</a></li>
+      <li><a href="/diensten/" id="nav-diensten" class="">Diensten</a></li>
+      <li><a href="/over-ons/" id="nav-overons" class="">Over Ons</a></li>
+      <li><a href="/contact/" id="nav-contact" class="">Contact</a></li>
+      <li><a href="/offerte/" id="nav-offerte" class="nav-cta ">Offerte aanvragen</a></li>
+    </ul>
+
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
+  <a href="/" onclick="toggleMobileNav()">Home</a>
+  <a href="/diensten/" onclick="toggleMobileNav()">Diensten</a>
+  <a href="/over-ons/" onclick="toggleMobileNav()">Over Ons</a>
+  <a href="/contact/" onclick="toggleMobileNav()">Contact</a>
+  <a href="/offerte/" onclick="toggleMobileNav()">Offerte aanvragen</a>
+</div>
+
+<main>
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge"><span></span> Gediplomeerde elektrotechnici</div>
+        <h1>Slimme<br><span>Elektrotechnische</span><br><em>Oplossingen</em></h1>
+        <p class="hero-sub">ElektroKlik biedt professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Helder, vakkundig en afgestemd op uw situatie.</p>
+
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="window.location.href='/offerte/'">⚡ Offerte aanvragen</button>
+          <button class="btn-secondary" onclick="window.location.href='/diensten/'">Bekijk diensten</button>
+          <button class="btn-secondary" onclick="window.location.href='/contact/'">Neem contact op</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-card"><div class="stat-number">24u</div><div class="stat-label">Reactie op uw aanvraag</div></div>
+          <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Heldere afspraken</div></div>
+          <div class="stat-card"><div class="stat-number">✓</div><div class="stat-label">Veilig &amp; vakkundig</div></div>
+          <div class="stat-card"><div class="stat-number">Scherp</div><div class="stat-label">Eerlijke prijzen</div></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="elec-visual">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="elec-core">⚡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-bar">
+    <div class="trust-inner">
+      <div class="trust-item"><div>🛡️</div><strong>Betrouwbaar</strong><span>Heldere afspraken</span></div>
+      <div class="trust-item"><div>🔧</div><strong>Vakkundig</strong><span>Gediplomeerde monteurs</span></div>
+      <div class="trust-item"><div>⚡</div><strong>Efficiënt</strong><span>Netjes uitgevoerd</span></div>
+      <div class="trust-item"><div>🤝</div><strong>Persoonlijk</strong><span>Maatwerk per klant</span></div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <div class="section-label">Wat wij doen</div>
+      <h2>Onze <span>Diensten</span></h2>
+      <p>Wij helpen particulieren en bedrijven met praktische en professionele elektrotechnische oplossingen.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>🔲</div><h3>Meterkasten</h3><p>Extra groep, kookgroep of volledige meterkast aanpassen/vervangen.</p></div>
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>🔌</div><h3>Laadpalen</h3><p>Installatie van laadpalen voor thuis en zakelijk gebruik.</p></div>
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>📹</div><h3>Camerasystemen</h3><p>Camerabewaking met scherpe beelden en praktische bediening.</p></div>
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>🔔</div><h3>Alarmsystemen</h3><p>Alarmsystemen voor woningen en bedrijfspanden.</p></div>
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>🚪</div><h3>Toegangscontrole</h3><p>Toegang via tag, code of passende oplossing voor uw locatie.</p></div>
+      <div class="service-card" onclick="window.location.href='/diensten/'"><div>💡</div><h3>Verlichting</h3><p>LED, binnenverlichting, buitenverlichting en sfeerverlichting.</p></div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="/logo.png" alt="ElektroKlik elektricien" class="site-logo-img">
+      <p>Professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Heldere communicatie, vakkundige uitvoering en maatwerk voor iedere klant.</p>
+      <div class="social-links">
+        <a href="#">f</a>
+        <a href="#">📷</a>
+        <a href="#">in</a>
+        <a href="https://wa.me/31658856729" target="_blank">💬</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigatie</h4>
+      <a href="/">Home</a>
+      <a href="/diensten/">Diensten</a>
+      <a href="/over-ons/">Over Ons</a>
+      <a href="/contact/">Contact</a>
+      <a href="/offerte/">Offerte aanvragen</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Diensten</h4>
+      <a href="/diensten/">Meterkasten</a>
+      <a href="/diensten/">Laadpalen</a>
+      <a href="/diensten/">Camerasystemen</a>
+      <a href="/diensten/">Alarmsystemen</a>
+      <a href="/diensten/">Toegangscontrole</a>
+      <a href="/diensten/">Verlichting</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a>
+      <a href="tel:+31658856729">+31 6 58 85 67 29</a>
+      <a href="https://wa.me/31658856729" target="_blank">WhatsApp</a>
+      <a href="/contact/">Contactformulier</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap & Kwaliteit</span>
+  </div>
+</footer>
+
+<a class="whatsapp-btn" href="https://wa.me/31658856729" target="_blank">💬</a>
+<div class="toast" id="toast"></div>
+
+<script>
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) pageEl.classList.add('active');
+
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileNav() {
+  const mobileNav = document.getElementById('mobileNav');
+  if (mobileNav) mobileNav.classList.toggle('open');
+}
+
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+function getValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function getChecked() {
+  return Array.from(document.querySelectorAll('#page-offerte input[type="checkbox"]:checked'))
+    .map(cb => cb.value)
+    .join(', ');
+}
+
+async function sendToMail(data) {
+  const response = await fetch('https://formsubmit.co/ajax/info@elektroklik.nl', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) throw new Error('Verzenden mislukt');
+  return response.json();
+}
+
+async function submitOfferte(event) {
+  if (event && typeof event.preventDefault === 'function') event.preventDefault();
+
+  const naam = getValue('of-naam');
+  const tel = getValue('of-tel');
+  const email = getValue('of-email');
+  const adres = getValue('of-adres');
+  const type = getValue('of-type');
+  const diensten = getChecked();
+  const omschrijving = getValue('of-omschrijving');
+  const extra = getValue('of-extra');
+
+  if (!naam || !email || !omschrijving) {
+    showToast('⚠️ Vul alle verplichte velden in');
+    return;
+  }
+
+  const btn = document.querySelector('#offerteForm .form-submit');
+  const oldText = btn ? btn.textContent : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Bezig met verzenden...';
+  }
+
+  try {
+    await sendToMail({
+      _subject: 'Offerte aanvraag - ' + naam,
+      _template: 'table',
+      Naam: naam,
+      Email: email,
+      Telefoon: tel,
+      Adres: adres,
+      Type: type,
+      Diensten: diensten || 'Niet opgegeven',
+      Omschrijving: omschrijving,
+      Extra_informatie: extra
+    });
+
+    const form = document.getElementById('offerteForm');
+    if (form) form.style.display = 'none';
+    const success = document.getElementById('offerteSuccess');
+    if (success) {
+      success.style.display = 'block';
+      success.classList.add('show');
+    }
+    showToast('✅ Aanvraag verstuurd!');
+  } catch (error) {
+    console.error(error);
+    showToast('⚠️ Verzenden lukte niet. Probeer het opnieuw.');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = oldText;
+    }
+  }
+}
+
+async function submitContact(event) {
+  if (event && typeof event.preventDefault === 'function') event.preventDefault();
+
+  const naam = getValue('ct-naam');
+  const email = getValue('ct-email');
+  const tel = getValue('ct-tel');
+  const bericht = getValue('ct-bericht');
+
+  if (!naam || !email || !bericht) {
+    showToast('⚠️ Vul alle verplichte velden in');
+    return;
+  }
+
+  const btn = document.querySelector('#contactFormBox .form-submit');
+  const oldText = btn ? btn.textContent : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Bezig met verzenden...';
+  }
+
+  try {
+    await sendToMail({
+      _subject: 'Contactbericht - ' + naam,
+      _template: 'table',
+      Naam: naam,
+      Email: email,
+      Telefoon: tel,
+      Bericht: bericht
+    });
+
+    const form = document.getElementById('contactFormBox');
+    if (form) form.style.display = 'none';
+    const success = document.getElementById('contactSuccess');
+    if (success) {
+      success.style.display = 'block';
+      success.classList.add('show');
+    }
+    showToast('✅ Bericht verstuurd!');
+  } catch (error) {
+    console.error(error);
+    showToast('⚠️ Verzenden lukte niet. Probeer het opnieuw.');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = oldText;
+    }
+  }
+}
+
+function resetContactForm() {
+  const form = document.getElementById('contactFormBox');
+  if (form) form.style.display = 'block';
+  const success = document.getElementById('contactSuccess');
+  if (success) {
+    success.style.display = 'none';
+    success.classList.remove('show');
+  }
+
+  ['ct-naam', 'ct-email', 'ct-tel', 'ct-bericht'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+window.submitOfferte = submitOfferte;
+window.submitContact = submitContact;
+window.resetContactForm = resetContactForm;
+window.toggleMobileNav = toggleMobileNav;
+
+</script>
+</body>
+</html>
