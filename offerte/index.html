@@ -10,6 +10,20 @@
 
   gtag('config', 'AW-18199719989');
 </script>
+  <script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18199719989/voaECKH177scELXgpuZD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Offerte Aanvragen Elektricien | Vrijblijvend & Snel | ElektroKlik</title>
@@ -194,7 +208,7 @@
 
         <div class="form-group"><label id="of-omschrijving-label">Omschrijving werkzaamheden *</label><textarea id="of-omschrijving" placeholder="Beschrijf de werkzaamheden..."></textarea></div>
         <div class="form-group"><label>Extra informatie</label><textarea id="of-extra" placeholder="Extra informatie..." class="small-textarea"></textarea></div>
-        <button class="form-submit" onclick="submitOfferte()">⚡ Offerte aanvragen</button>
+        <button class="form-submit" onclick="gtag_report_conversion(); submitOfferte()">⚡ Offerte aanvragen</button>
       </div>
       <div class="form-success" id="offerteSuccess">
         <div class="success-icon">✅</div>
