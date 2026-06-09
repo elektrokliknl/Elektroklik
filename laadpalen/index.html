@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laadpaal installeren | Thuis laden | ElektroKlik Amersfoort e.o.</title>
+  <meta name="description" content="Laadpaal thuis laten installeren in Amersfoort, Leusden, Soest, Nijkerk en omgeving? ElektroKlik installeert uw laadstation vakkundig, inclusief load balancing en meterkastcontrole. Vraag vrijblijvend een offerte aan." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="ElektroKlik" />
+  <meta name="theme-color" content="#0a1628" />
+  <link rel="canonical" href="https://elektroklik.nl/laadpalen/" />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ElektroKlik" />
+  <meta property="og:title" content="Laadpaal installeren | Thuis laden | ElektroKlik Amersfoort e.o." />
+  <meta property="og:description" content="Laadpaal thuis laten installeren in Amersfoort en omgeving? ElektroKlik installeert uw laadstation vakkundig, inclusief load balancing en meterkastcontrole." />
+  <meta property="og:url" content="https://elektroklik.nl/laadpalen/" />
+  <meta property="og:image" content="https://elektroklik.nl/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Laadpaal installeren | Thuis laden | ElektroKlik Amersfoort e.o." />
+  <meta name="twitter:description" content="Laadpaal thuis laten installeren in Amersfoort en omgeving? ElektroKlik installeert uw laadstation vakkundig." />
+  <meta name="twitter:image" content="https://elektroklik.nl/assets/logo.png" />
+  <link rel="icon" href="../favicon-elektroklik.png" type="image/png" />
+  <link rel="apple-touch-icon" href="../logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .dienst-hero { text-align: center; padding: 140px 2rem 80px; background: linear-gradient(180deg, var(--navy-mid), var(--navy)); border-bottom: 1px solid var(--border); }
+    .dienst-hero .section-label { text-transform: uppercase; letter-spacing: 3px; color: var(--electric); font-weight: 900; font-size: .75rem; margin-bottom: 1rem; }
+    .dienst-hero h1 { font-size: clamp(2rem,4vw,3.4rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 1rem; }
+    .dienst-hero h1 span { color: var(--electric); }
+    .dienst-hero p { color: var(--text-body); line-height: 1.7; max-width: 650px; margin: 0 auto 2rem; }
+    .dienst-section { max-width: 1280px; margin: 0 auto; padding: 80px 2rem; }
+    .dienst-section.alt { background: var(--navy-mid); }
+    .dienst-section.alt-inner { max-width: 1280px; margin: 0 auto; padding: 80px 2rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .two-col.reverse { direction: rtl; }
+    .two-col.reverse > * { direction: ltr; }
+    .info-block h2 { font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 1rem; }
+    .info-block h2 span { color: var(--electric); }
+    .info-block p { color: var(--text-body); line-height: 1.75; margin-bottom: 1rem; }
+    .check-list { list-style: none; padding: 0; margin: 1.2rem 0; }
+    .check-list li { color: var(--text-body); padding: .45rem 0; display: flex; align-items: flex-start; gap: .7rem; line-height: 1.5; }
+    .check-list li::before { content: "✓"; color: var(--teal-light); font-weight: 900; flex-shrink: 0; margin-top: 2px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 2rem; }
+    .feature-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
+    .feature-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-size: 1.1rem; margin-bottom: .7rem; }
+    .feature-card p { color: var(--text-body); line-height: 1.65; font-size: .95rem; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; counter-reset: steps; }
+    .step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; position: relative; }
+    .step-number { font-family: 'Exo 2'; font-size: 2.5rem; font-weight: 900; color: rgba(0,212,255,.15); line-height: 1; margin-bottom: .8rem; }
+    .step-card h3 { font-size: 1rem; margin-bottom: .5rem; }
+    .step-card p { color: var(--text-body); line-height: 1.6; font-size: .9rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+    .faq-question { width: 100%; background: var(--card-bg); border: 0; color: white; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; padding: 1.2rem 1.5rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .faq-question:hover { background: rgba(13,31,60,0.95); }
+    .faq-question .arrow { color: var(--electric); font-size: 1.2rem; flex-shrink: 0; transition: transform .25s; }
+    .faq-question.open .arrow { transform: rotate(180deg); }
+    .faq-answer { display: none; padding: 0 1.5rem 1.2rem; background: var(--card-bg); color: var(--text-body); line-height: 1.7; }
+    .faq-answer.open { display: block; }
+    .cta-band { background: linear-gradient(135deg, var(--navy-mid), var(--navy-light)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; padding: 70px 2rem; }
+    .cta-band h2 { font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 900; margin-bottom: 1rem; }
+    .cta-band p { color: var(--text-body); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .internal-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .internal-link { display: inline-flex; align-items: center; gap: .5rem; color: var(--electric); text-decoration: none; font-weight: 700; font-size: .9rem; padding: .55rem 1rem; border: 1px solid rgba(0,212,255,.25); border-radius: 8px; transition: .2s; }
+    .internal-link:hover { background: rgba(0,212,255,.08); }
+    .section-header-center { text-align: center; margin-bottom: 3rem; }
+    .section-header-center h2 { font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 900; letter-spacing: -1px; }
+    .section-header-center h2 span { color: var(--electric); }
+    .section-header-center p { color: var(--text-body); line-height: 1.7; max-width: 650px; margin: 1rem auto 0; }
+    @media (max-width: 1024px) { .features-grid { grid-template-columns: repeat(2,1fr); } .steps-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 768px) { .two-col, .two-col.reverse { grid-template-columns: 1fr; direction: ltr; } .features-grid, .steps-grid { grid-template-columns: 1fr; } .cta-buttons { flex-direction: column; align-items: center; } }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Electrician",
+        "@id": "https://elektroklik.nl/#bedrijf",
+        "name": "ElektroKlik",
+        "url": "https://elektroklik.nl/",
+        "email": "info@elektroklik.nl",
+        "telephone": "+31658856729",
+        "priceRange": "€€",
+        "address": { "@type": "PostalAddress", "addressRegion": "Utrecht", "addressCountry": "NL" },
+        "areaServed": [
+          {"@type": "City", "name": "Amersfoort"},
+          {"@type": "City", "name": "Leusden"},
+          {"@type": "City", "name": "Soest"},
+          {"@type": "City", "name": "Nijkerk"},
+          {"@type": "City", "name": "Hoevelaken"},
+          {"@type": "City", "name": "Baarn"},
+          {"@type": "City", "name": "Bunschoten"}
+        ],
+        "openingHoursSpecification": [{"@type": "OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"19:00"}]
+      },
+      {
+        "@type": "Service",
+        "name": "Laadpaal installeren",
+        "serviceType": "Laadpaal installatie",
+        "provider": {"@id": "https://elektroklik.nl/#bedrijf"},
+        "areaServed": "Midden-Nederland",
+        "description": "Professionele installatie van laadpalen voor elektrische auto's thuis, inclusief load balancing, meterkastcontrole en advies.",
+        "url": "https://elektroklik.nl/laadpalen/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://elektroklik.nl/laadpalen/#webpage",
+        "url": "https://elektroklik.nl/laadpalen/",
+        "name": "Laadpaal installeren | Thuis laden | ElektroKlik Amersfoort e.o.",
+        "description": "Laadpaal thuis laten installeren in Amersfoort, Leusden, Soest en omgeving. Vakkundige installatie door gecertificeerde elektriciens.",
+        "inLanguage": "nl-NL",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://elektroklik.nl/"},
+            {"@type": "ListItem", "position": 2, "name": "Diensten", "item": "https://elektroklik.nl/diensten/"},
+            {"@type": "ListItem", "position": 3, "name": "Laadpalen", "item": "https://elektroklik.nl/laadpalen/"}
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type": "Question", "name": "Wat kost een laadpaal laten installeren?", "acceptedAnswer": {"@type": "Answer", "text": "De totaalprijs bestaat uit de laadpaal zelf en de installatiekosten. Wij kijken altijd eerst naar uw situatie – de meterkast, de bekabelingsroute en de gewenste locatie – voordat we een eerlijke prijs opgeven. Vraag vrijblijvend een offerte aan."}},
+          {"@type": "Question", "name": "Heb ik een slimme meter nodig voor een laadpaal?", "acceptedAnswer": {"@type": "Answer", "text": "Voor load balancing is een geschikte slimme meter nodig. Hiermee kan het laadstation het beschikbare vermogen afstemmen op het actuele verbruik in huis."}},
+          {"@type": "Question", "name": "Wat is load balancing bij een laadpaal?", "acceptedAnswer": {"@type": "Answer", "text": "Load balancing verdeelt het beschikbare stroomvermogen automatisch tussen uw woning en de laadpaal. Als u thuis meer stroom verbruikt, laadt de auto iets langzamer. Zo wordt overbelasting van uw aansluiting voorkomen."}},
+          {"@type": "Question", "name": "Kan ik ook laden als ik zonnepanelen heb?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Heeft u zonnepanelen? Dan kan er bij een geschikte laadoplossing rekening worden gehouden met opgewekte stroom. Wij adviseren u graag over de mogelijkheden."}},
+          {"@type": "Question", "name": "Moet mijn meterkast worden aangepast voor een laadpaal?", "acceptedAnswer": {"@type": "Answer", "text": "Dat hangt af van uw huidige installatie. Wij controleren altijd vooraf of uw meterkast geschikt is en of er ruimte is voor een extra groep. Als dat nodig is, regelen we dit in één klus."}}
+        ]
+      }
+    ]
+  }
+  </script>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1869941847011402');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="../"><img src="../logo.png" alt="ElektroKlik elektricien en elektrotechniek" class="site-logo-img"></a>
+    <ul class="nav-links">
+      <li><a href="../" id="nav-home">Home</a></li>
+      <li><a href="../diensten/" id="nav-diensten" class="active">Diensten</a></li>
+      <li><a href="../over-ons/" id="nav-overons">Over Ons</a></li>
+      <li><a href="../contact/" id="nav-contact">Contact</a></li>
+      <li><a href="../offerte/" id="nav-offerte" class="nav-cta">Offerte aanvragen</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
+  <a href="../" onclick="toggleMobileNav()">Home</a>
+  <a href="../diensten/" onclick="toggleMobileNav()">Diensten</a>
+  <a href="../laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
+  <a href="../meterkasten-en-elektra/" onclick="toggleMobileNav()">Meterkasten en elektra</a>
+  <a href="../alarm-en-camerasystemen/" onclick="toggleMobileNav()">Alarm- en camerasystemen</a>
+  <a href="../over-ons/" onclick="toggleMobileNav()">Over Ons</a>
+  <a href="../contact/" onclick="toggleMobileNav()">Contact</a>
+  <a href="../offerte/" onclick="toggleMobileNav()">Offerte aanvragen</a>
+</div>
+
+<main>
+
+  <!-- Hero -->
+  <section class="dienst-hero">
+    <div class="section-label">Thuisladen voor uw elektrische auto</div>
+    <h1>Laadpalen <span>installeren</span></h1>
+    <p>Wij installeren laadstations voor thuis, veilig en netjes afgestemd op uw woning. ElektroKlik is werkzaam in Amersfoort, Leusden, Soest, Nijkerk, Hoevelaken, Baarn en omgeving.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="window.location.href='../offerte/'">⚡ Offerte aanvragen</button>
+      <button class="btn-secondary" onclick="window.location.href='../contact/'">Stel een vraag</button>
+    </div>
+  </section>
+
+  <!-- Wat wij doen -->
+  <section class="dienst-section">
+    <div class="two-col">
+      <div class="info-block">
+        <h2>Laadpaal thuis laten <span>installeren</span></h2>
+        <p>Steeds meer mensen rijden elektrisch. Een laadstation aan huis is dan een logische stap: comfortabel, goedkoper dan openbaar laden en altijd beschikbaar. Wij regelen de installatie van begin tot eind.</p>
+        <p>We kijken vooraf naar uw meterkast, de gewenste locatie van het laadstation en de plek waar uw auto normaal geparkeerd staat. Zo zorgen we dat de installatie goed aansluit op uw situatie.</p>
+        <ul class="check-list">
+          <li>Laadpaal aansluiten op uw meterkast</li>
+          <li>Bekabeling zo netjes mogelijk uitgevoerd</li>
+          <li>Wandmontage of montage op een paal</li>
+          <li>Load balancing instellen indien mogelijk</li>
+          <li>Advies op maat over type en merk laadpaal</li>
+          <li>Uitleg over het gebruik na de installatie</li>
+        </ul>
+      </div>
+      <div>
+        <div class="feature-card" style="margin-bottom:1rem;">
+          <div class="icon">🔌</div>
+          <h3>1-fase of 3-fase aansluiting</h3>
+          <p>Welke laadoplossing passend is, hangt af van uw aansluiting en de situatie in de meterkast. Daarom vragen wij vooraf om duidelijke foto’s, zodat wij goed kunnen beoordelen welke uitvoering geschikt is.</p>
+        </div>
+        <div class="feature-card" style="margin-bottom:1rem;">
+          <div class="icon">⚖️</div>
+          <h3>Load balancing</h3>
+          <p>Load balancing verdeelt het beschikbare stroomvermogen automatisch tussen uw woning en de laadpaal. Zo wordt overbelasting van uw aansluiting voorkomen.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>Laadkosten registreren</h3>
+          <p>Wilt u laadkosten registreren of declareren? Dan kijken wij mee welke uitvoering of registratie-oplossing past bij uw situatie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Handige informatie -->
+  <div style="background: var(--navy-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section class="dienst-section" style="padding-top:80px;padding-bottom:80px;">
+    <div class="section-header-center">
+      <div class="section-label">Goed om te weten</div>
+      <h2>Waar u op kunt <span>letten</span></h2>
+      <p>Een laadpaal installeren is meer dan alleen een stekker aan de muur. Dit zijn de belangrijkste aandachtspunten.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">🧾</div>
+        <h3>Meterkast controleren</h3>
+        <p>Voordat we de laadpaal installeren, kijken we of uw meterkast geschikt is. Is er ruimte voor een extra groep? Is de aansluiting voldoende? Wij regelen dit in één klus als aanpassing nodig is.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📡</div>
+        <h3>Slimme meter</h3>
+        <p>Voor load balancing is een geschikte slimme meter nodig. Hiermee kan het laadstation het beschikbare vermogen afstemmen op het actuele verbruik in huis.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">☀️</div>
+        <h3>Zonnepanelen combineren</h3>
+        <p>Heeft u zonnepanelen? Dan kan de laadoplossing hier, afhankelijk van de situatie en instellingen, rekening mee houden.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>Laadstation beveiligen</h3>
+        <p>U kunt het laadstation via de app uitschakelen wanneer u deze niet gebruikt. Ook kunt u kiezen voor toegang met een RFID-tag, zodat alleen bevoegde gebruikers kunnen laden.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- Werkwijze -->
+  <section class="dienst-section">
+    <div class="section-header-center">
+      <div class="section-label">Hoe het werkt</div>
+      <h2>Van aanvraag tot <span>installatie</span></h2>
+      <p>Wij werken stap voor stap, zodat u precies weet wat u kunt verwachten.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Aanvraag indienen</h3>
+        <p>U vult het offerteformulier in met uw situatie en wensen. Dit duurt slechts een paar minuten.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Beoordeling en offerte</h3>
+        <p>Wij bekijken uw aanvraag en sturen een duidelijke offerte.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Foto’s en afspraak</h3>
+        <p>Na akkoord ontvangen wij graag de benodigde foto’s en plannen wij samen een installatiedatum.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <h3>Installatie</h3>
+        <p>Wij installeren het laadstation en leggen kort uit hoe u deze gebruikt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <div style="background: var(--navy-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section class="dienst-section" style="padding-top:80px;padding-bottom:80px;">
+    <div class="section-header-center">
+      <div class="section-label">Veelgestelde vragen</div>
+      <h2>Vragen over <span>laadpalen</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Wat kost een laadpaal laten installeren? <span class="arrow">▼</span></button>
+        <div class="faq-answer">De totaalprijs bestaat uit de laadpaal zelf en de installatiekosten. Wij kijken altijd eerst naar uw situatie – de meterkast, de bekabelingsroute en de gewenste locatie – voordat we een eerlijke prijs opgeven. Vraag vrijblijvend een offerte aan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Heb ik een slimme meter nodig voor een laadpaal? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Voor load balancing is een geschikte slimme meter nodig. Hiermee kan het laadstation het beschikbare vermogen afstemmen op het actuele verbruik in huis.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Wat is load balancing en heb ik dat nodig? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Load balancing verdeelt het beschikbare stroomvermogen automatisch tussen uw woning en de laadpaal. Als u thuis meer stroom verbruikt, laadt de auto iets langzamer. Zo wordt overbelasting van uw aansluiting voorkomen. Voor de meeste woningen met een standaard aansluiting is load balancing sterk aan te raden.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Kan ik ook laden met mijn zonnepanelen? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Ja. Heeft u zonnepanelen? Dan kan er bij een geschikte laadoplossing rekening worden gehouden met opgewekte stroom. Wij adviseren u graag over de mogelijkheden.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Moet mijn meterkast worden aangepast voor een laadpaal? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Dat hangt af van uw huidige installatie. Wij controleren altijd vooraf of uw meterkast geschikt is en of er ruimte is voor een extra groep. Als aanpassing nodig is, regelen we dit gelijk mee. Bekijk ook onze pagina over <a href="../meterkasten-en-elektra/" style="color:var(--electric);">meterkasten en elektra</a>.</div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="section-label">Klaar om te beginnen?</div>
+    <h2>Laadpaal laten installeren?</h2>
+    <p>Vraag vrijblijvend een offerte aan. Wij beoordelen uw situatie en komen met een heldere prijs.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="window.location.href='../offerte/'">⚡ Offerte aanvragen</button>
+      <button class="btn-secondary" onclick="window.location.href='../contact/'">📞 Contact opnemen</button>
+    </div>
+    <div style="margin-top:2rem;">
+      <p style="color:var(--gray-mid); font-size:.9rem; margin-bottom:.8rem;">Bekijk ook onze andere diensten:</p>
+      <div class="internal-links" style="justify-content:center;">
+        <a class="internal-link" href="../meterkasten-en-elektra/">🔲 Meterkasten en elektra</a>
+        <a class="internal-link" href="../alarm-en-camerasystemen/">📹 Alarm- en camerasystemen</a>
+        <a class="internal-link" href="../diensten/">Alle diensten</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="../logo.png" alt="ElektroKlik elektricien" class="site-logo-img">
+      <p>Professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Heldere communicatie, vakkundige uitvoering en maatwerk voor iedere klant.</p>
+      <div class="social-links"><a href="https://www.facebook.com/people/ElektroKliknl/61563486633011/" aria-label="Facebook">f</a><a href="https://www.linkedin.com/in/elektro-klik-503481358/" aria-label="LinkedIn">in</a><a href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp">💬</a></div>
+    </div>
+    <div class="footer-col"><h4>Navigatie</h4><a href="../">Home</a><a href="../diensten/">Diensten</a><a href="../over-ons/">Over Ons</a><a href="../contact/">Contact</a><a href="../offerte/">Offerte aanvragen</a></div>
+    <div class="footer-col"><h4>Diensten</h4><a href="../laadpalen/">Laadpalen</a><a href="../meterkasten-en-elektra/">Meterkasten en elektra</a><a href="../alarm-en-camerasystemen/">Alarm- en camerasystemen</a></div>
+    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31658856729">+31 6 58 85 67 29</a><a href="https://wa.me/31658856729" target="_blank">WhatsApp</a><a href="../contact/">Contactformulier</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap &amp; Kwaliteit</span></div>
+</footer>
+
+<a class="whatsapp-btn" href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp ElektroKlik">💬</a>
+<div class="toast" id="toast"></div>
+<script src="../script.js"></script>
+<script>
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer.open').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-question.open').forEach(b => b.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); btn.classList.add('open'); }
+}
+</script>
+</body>
+</html>
