@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laadpaal laten installeren incl. montage | Midden-Nederland | ElektroKlik</title>
+  <meta name="description" content="Laadpaal thuis laten installeren in Midden-Nederland. Gecertificeerd volgens NEN 1010 & NEN 3140, inclusief load balancing en meterkastcheck. Vaste prijs vooraf, 5,0 op Google. Vraag gratis een offerte aan." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="ElektroKlik" />
+  <meta name="theme-color" content="#0a1628" />
+  <link rel="canonical" href="https://elektroklik.nl/laadpalen/" />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ElektroKlik" />
+  <meta property="og:title" content="Laadpaal laten installeren incl. montage | Midden-Nederland" />
+  <meta property="og:description" content="Laadpaal thuis laten installeren in Midden-Nederland. Gecertificeerd (NEN 1010 & NEN 3140), inclusief load balancing en meterkastcheck. Vaste prijs vooraf, 5,0 op Google." />
+  <meta property="og:url" content="https://elektroklik.nl/laadpalen/" />
+  <meta property="og:image" content="https://elektroklik.nl/img/werk/laadpaal-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Laadpaal laten installeren incl. montage | Midden-Nederland" />
+  <meta name="twitter:description" content="Gecertificeerde laadpaalinstallatie in Midden-Nederland, inclusief load balancing en meterkastcheck. Vaste prijs vooraf, 5,0 op Google." />
+  <meta name="twitter:image" content="https://elektroklik.nl/img/werk/laadpaal-hero.jpg" />
+  <link rel="icon" href="../favicon-elektroklik.png" type="image/png" />
+  <link rel="apple-touch-icon" href="../logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* ============ LAADPAAL LANDING ============ */
+    a.btn-primary, a.btn-secondary { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+
+    /* HERO */
+    .lp-hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 70% 60% at 75% 40%, rgba(0,212,255,.10), transparent 60%), linear-gradient(180deg, var(--navy-mid), var(--navy)); }
+    .lp-hero-inner { max-width: 1280px; margin: 0 auto; padding: 130px 2rem 70px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 3rem; align-items: center; }
+    .lp-eyebrow { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .9rem; border-radius: 100px; border: 1px solid rgba(0,212,255,.25); background: rgba(0,212,255,.08); color: var(--electric); font-weight: 700; font-size: .8rem; margin-bottom: 1.3rem; }
+    .lp-hero h1 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); line-height: 1.05; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 1.1rem; }
+    .lp-hero h1 span { color: var(--electric); }
+    .lp-hero .lead { color: var(--text-body); font-size: 1.08rem; line-height: 1.7; max-width: 540px; margin-bottom: 1.4rem; }
+    .lp-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.8rem; }
+    .lp-badge { display: inline-flex; align-items: center; gap: .45rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: .5rem .8rem; font-size: .82rem; font-weight: 600; color: #e6eefb; }
+    .lp-badge b { color: var(--teal-light); font-weight: 800; }
+    .lp-cta-row { display: flex; flex-wrap: wrap; gap: .9rem; }
+    .lp-cta-row .btn-primary, .lp-cta-row .btn-secondary { padding: .95rem 1.5rem; font-size: 1rem; }
+    .lp-hero-note { margin-top: 1rem; color: var(--gray-mid); font-size: .84rem; }
+    .lp-hero-media { position: relative; }
+    .lp-hero-media img { width: 100%; height: 100%; max-height: 460px; object-fit: cover; border-radius: 18px; border: 1px solid var(--border); box-shadow: 0 24px 60px rgba(2,8,23,.5); }
+    .lp-hero-photo-tag { position: absolute; left: 14px; bottom: 14px; background: rgba(10,22,40,.86); border: 1px solid var(--border); color: #dbe6f6; font-size: .78rem; font-weight: 600; padding: .45rem .8rem; border-radius: 8px; backdrop-filter: blur(6px); }
+
+    /* USP strip */
+    .lp-usps { background: var(--navy-mid); border-bottom: 1px solid var(--border); }
+    .lp-usps-inner { max-width: 1280px; margin: 0 auto; padding: 1.4rem 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    .lp-usp { display: flex; align-items: center; gap: .7rem; color: #dbe6f6; font-size: .92rem; font-weight: 600; }
+    .lp-usp .ic { font-size: 1.3rem; }
+
+    /* Generic section */
+    .lp-section { max-width: 1280px; margin: 0 auto; padding: 72px 2rem; }
+    .lp-band { background: var(--navy-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .lp-head { text-align: center; max-width: 680px; margin: 0 auto 2.6rem; }
+    .lp-head .k { text-transform: uppercase; letter-spacing: 3px; color: var(--electric); font-weight: 900; font-size: .72rem; margin-bottom: .8rem; }
+    .lp-head h2 { font-size: clamp(1.7rem,3vw,2.5rem); font-weight: 900; letter-spacing: -1px; }
+    .lp-head h2 span { color: var(--electric); }
+    .lp-head p { color: var(--text-body); line-height: 1.7; margin-top: .9rem; }
+
+    /* OFFERTEFORMULIER — wit kaartje, teal accenten */
+    .lpf { max-width: 560px; margin: 0 auto; background: #fff; border: 1px solid rgba(15,23,42,.06); border-radius: 20px; overflow: hidden; box-shadow: 0 24px 60px rgba(2,8,23,.45); }
+    .lpf-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px 0; }
+    .lpf-eyebrow { font-size: .68rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #0f9b8e; }
+    .lpf-teller { font-size: .75rem; font-weight: 600; color: #94a3b8; white-space: nowrap; }
+    .lpf-voortgang { display: flex; align-items: center; padding: 14px 22px 0; }
+    .lpf-vstap { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .lpf-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; background: #eef1f6; color: #94a3b8; transition: .25s; }
+    .lpf-lbl { font-size: .74rem; font-weight: 600; color: #94a3b8; transition: .25s; }
+    .lpf-vstap.actief .lpf-num { background: var(--teal-light); color: #0a1628; box-shadow: 0 0 0 4px rgba(20,196,180,.22); }
+    .lpf-vstap.actief .lpf-lbl { color: #0f172a; }
+    .lpf-vstap.klaar .lpf-num { background: #0f9b8e; color: #fff; }
+    .lpf-vstap.klaar .lpf-lbl { color: #475569; }
+    .lpf-vlijn { flex: 1; height: 2px; background: #e2e8f0; margin: 0 8px; border-radius: 2px; transition: .25s; }
+    .lpf-vlijn.klaar { background: var(--teal-light); }
+    .lpf-inhoud { padding: 18px 22px 22px; }
+    .lpf-verborgen { display: none !important; }
+    .lpf-titel { font-family: 'Exo 2', sans-serif; font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+    .lpf-sub { font-size: .82rem; color: #64748b; margin-bottom: 16px; }
+    .lpf-terug { background: none; border: 0; color: #64748b; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; padding: 0; margin-bottom: 10px; }
+    .lpf-terug:hover { color: #0f9b8e; }
+    .lpf-vraag { margin-bottom: 15px; }
+    .lpf-vlabel { display: block; font-size: .84rem; font-weight: 700; color: #334155; margin-bottom: 7px; }
+    .lpf-req { color: #0f9b8e; }
+    .lpf-opt { color: #94a3b8; font-weight: 500; }
+    .lpf-pillen { display: flex; flex-wrap: wrap; gap: 7px; }
+    .lpf-pil { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 9px; padding: .6rem .95rem; font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600; color: #475569; cursor: pointer; transition: .15s; }
+    .lpf-pil:hover { border-color: var(--teal-light); color: #0f9b8e; }
+    .lpf-pil.gekozen { border-color: var(--teal-light); background: #e6faf6; color: #0f766e; box-shadow: 0 0 0 1px var(--teal-light) inset; }
+    .lpf-select, .lpf-veld input, .lpf-veld textarea { width: 100%; background: #fff; border: 1px solid #d5dbe6; border-radius: 9px; padding: .8rem 1rem; color: #0f172a; font-family: 'DM Sans', sans-serif; font-size: .92rem; outline: none; transition: .15s; }
+    .lpf-select:focus, .lpf-veld input:focus, .lpf-veld textarea:focus { border-color: var(--teal-light); box-shadow: 0 0 0 3px rgba(20,196,180,.14); }
+    .lpf-veld { margin-bottom: 12px; }
+    .lpf-veld label { display: block; font-size: .84rem; font-weight: 700; color: #334155; margin-bottom: 6px; }
+    .lpf-veld textarea { resize: vertical; min-height: 80px; }
+    .lpf-veld input::placeholder, .lpf-veld textarea::placeholder, .lpf-select { color: #0f172a; }
+    .lpf-veld input::placeholder, .lpf-veld textarea::placeholder { color: #9aa6b8; }
+    .lpf-fout { display: none; font-size: .74rem; color: #dc2626; margin-top: 4px; }
+    .lpf-cb { display: flex; align-items: flex-start; gap: 9px; cursor: pointer; font-size: .82rem; color: #64748b; margin: 6px 0 2px; }
+    .lpf-cb input { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; accent-color: var(--teal-light); }
+    .lpf-cb a { color: #0f9b8e; }
+    .lpf-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: .95rem 1.4rem; margin-top: 6px; border: 0; border-radius: 11px; background: linear-gradient(135deg, var(--teal-light), #0f9b8e); color: #0a1628; font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 800; cursor: pointer; transition: transform .1s, box-shadow .18s, filter .18s; }
+    .lpf-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(20,196,180,.35); filter: brightness(1.03); }
+    .lpf-btn:disabled { opacity: .65; cursor: not-allowed; }
+    .lpf-noot { text-align: center; font-size: .72rem; color: #94a3b8; margin-top: 9px; }
+    .lpf-succes { display: none; text-align: center; padding: 40px 24px; }
+    .lpf-succes-ic { font-size: 3rem; margin-bottom: 10px; }
+    .lpf-succes h3 { font-family: 'Exo 2', sans-serif; font-size: 1.3rem; font-weight: 900; color: #0f172a; margin-bottom: 8px; }
+    .lpf-succes p { color: #64748b; line-height: 1.6; }
+
+    /* INCLUSIEF / prijsopbouw */
+    .lp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .lp-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
+    .lp-card h3 { font-size: 1.15rem; margin-bottom: 1rem; }
+    .lp-inc { list-style: none; padding: 0; margin: 0; }
+    .lp-inc li { color: var(--text-body); padding: .5rem 0; display: flex; gap: .7rem; align-items: flex-start; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .lp-inc li:last-child { border-bottom: 0; }
+    .lp-inc li::before { content: "✓"; color: var(--teal-light); font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+    .lp-price-factors { list-style: none; padding: 0; margin: 0; }
+    .lp-price-factors li { color: var(--text-body); padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.05); line-height: 1.5; }
+    .lp-price-factors li:last-child { border-bottom: 0; }
+    .lp-price-factors b { color: #fff; font-weight: 700; }
+    .lp-price-note { margin-top: 1.2rem; padding: 1rem 1.1rem; background: rgba(0,212,255,.06); border: 1px solid rgba(0,212,255,.2); border-radius: 12px; color: #dbe6f6; font-size: .92rem; line-height: 1.55; }
+
+    /* WAAROM cards */
+    .lp-grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.3rem; }
+    .lp-why { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; }
+    .lp-why .ic { font-size: 1.9rem; margin-bottom: .8rem; }
+    .lp-why h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+    .lp-why p { color: var(--text-body); line-height: 1.6; font-size: .93rem; }
+
+    /* STAPPEN */
+    .lp-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.3rem; }
+    .lp-step { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; }
+    .lp-step .n { font-family: 'Exo 2'; font-size: 2.2rem; font-weight: 900; color: rgba(0,212,255,.18); line-height: 1; margin-bottom: .6rem; }
+    .lp-step h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .lp-step p { color: var(--text-body); line-height: 1.55; font-size: .9rem; }
+
+    /* PROOF: foto + reviews */
+    .lp-proof { display: grid; grid-template-columns: .85fr 1.15fr; gap: 2.5rem; align-items: center; }
+    .lp-proof-media img { width: 100%; max-height: 420px; object-fit: cover; border-radius: 16px; border: 1px solid var(--border); }
+    .lp-reviews { display: grid; gap: 1rem; }
+    .lp-review { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.3rem; }
+    .lp-review .stars { color: #fbbf24; letter-spacing: 2px; font-size: .95rem; }
+    .lp-review p { color: var(--text-body); line-height: 1.6; font-size: .95rem; font-style: italic; margin: .5rem 0 .6rem; }
+    .lp-review .who { display: flex; align-items: center; justify-content: space-between; }
+    .lp-review .who strong { color: #fff; font-size: .9rem; }
+    .lp-review .who span { color: var(--gray-mid); font-size: .78rem; }
+    .lp-google { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1rem; color: var(--electric); text-decoration: none; font-weight: 700; font-size: .9rem; }
+
+    /* FAQ (reuse look) */
+    .lp-faq { max-width: 820px; margin: 0 auto; }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; margin-bottom: .9rem; overflow: hidden; }
+    .faq-question { width: 100%; background: var(--card-bg); border: 0; color: #fff; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; padding: 1.1rem 1.4rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .faq-question:hover { background: rgba(13,31,60,.95); }
+    .faq-question .arrow { color: var(--electric); font-size: 1.1rem; flex-shrink: 0; transition: transform .25s; }
+    .faq-question.open .arrow { transform: rotate(180deg); }
+    .faq-answer { display: none; padding: 0 1.4rem 1.1rem; background: var(--card-bg); color: var(--text-body); line-height: 1.7; }
+    .faq-answer.open { display: block; }
+    .faq-answer a { color: var(--electric); }
+
+    /* CTA band */
+    .lp-ctaband { background: linear-gradient(135deg, var(--navy-mid), var(--navy-light)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; padding: 66px 2rem; }
+    .lp-ctaband h2 { font-size: clamp(1.7rem,3vw,2.5rem); font-weight: 900; margin-bottom: .9rem; }
+    .lp-ctaband p { color: var(--text-body); max-width: 560px; margin: 0 auto 1.7rem; line-height: 1.7; }
+    .lp-ctaband .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .lp-internal { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; margin-top: 1.6rem; }
+    .lp-internal a { display: inline-flex; align-items: center; gap: .4rem; color: var(--electric); text-decoration: none; font-weight: 700; font-size: .88rem; padding: .5rem 1rem; border: 1px solid rgba(0,212,255,.25); border-radius: 8px; }
+    .lp-internal a:hover { background: rgba(0,212,255,.08); }
+
+    /* STICKY MOBILE CTA */
+    .lp-sticky { display: none; }
+    @media (max-width: 768px) {
+      .lp-sticky { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 950; gap: .6rem; padding: .6rem .8rem calc(.6rem + env(safe-area-inset-bottom,0px)); background: rgba(10,22,40,.96); border-top: 1px solid var(--border); backdrop-filter: blur(12px); }
+      .lp-sticky a { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: .85rem 1rem; border-radius: 10px; font-weight: 800; font-size: .95rem; text-decoration: none; font-family: 'DM Sans', sans-serif; }
+      .lp-sticky .s-primary { background: linear-gradient(135deg, var(--teal), var(--teal-light)); color: #fff; }
+      .lp-sticky .s-secondary { background: rgba(0,212,255,.1); border: 1px solid rgba(0,212,255,.3); color: var(--electric); }
+      body { padding-bottom: 68px; }
+      .whatsapp-btn { bottom: 84px; }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .lp-usps-inner { grid-template-columns: repeat(2,1fr); }
+      .lp-grid3 { grid-template-columns: repeat(2,1fr); }
+      .lp-steps { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 900px) {
+      .lp-hero-inner { grid-template-columns: 1fr; }
+      .lp-hero-media { order: -1; }
+      .lp-hero-media img { max-height: 300px; }
+      .lp-two, .lp-proof { grid-template-columns: 1fr; }
+      .lp-proof-media { order: -1; }
+    }
+    @media (max-width: 560px) {
+      .lp-usps-inner, .lp-grid3, .lp-steps { grid-template-columns: 1fr; }
+      .lp-cta-row .btn-primary, .lp-cta-row .btn-secondary { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    /* HERO prijs + checks */
+    #offerte-aanvraag { scroll-margin-top: 84px; }
+    .lp-prijs-hero { display: inline-flex; align-items: baseline; gap: .55rem; background: rgba(20,196,180,.12); border: 1px solid rgba(20,196,180,.38); border-radius: 12px; padding: .55rem 1.05rem; margin-bottom: 1.3rem; }
+    .lp-prijs-bedrag { font-family: 'Exo 2', sans-serif; font-size: 1.75rem; font-weight: 900; color: var(--teal-light); line-height: 1; }
+    .lp-prijs-bij { color: var(--text-body); font-size: .92rem; font-weight: 600; }
+    .lp-checks { list-style: none; padding: 0; margin: 0 0 1.7rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem .9rem; }
+    .lp-checks li { display: flex; align-items: center; gap: .5rem; color: #dbe6f6; font-size: .94rem; font-weight: 600; }
+    .lp-checks li::before { content: "✓"; color: var(--teal-light); font-weight: 900; flex-shrink: 0; }
+
+    /* INBEGREPEN grid */
+    .lp-inc-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: .7rem 1.2rem; max-width: 780px; margin: 0 auto; }
+    .lp-inc-item { display: flex; align-items: center; gap: .7rem; color: #e6eefb; font-size: 1rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: .85rem 1.05rem; }
+    .lp-inc-item::before { content: "✓"; color: var(--teal-light); font-weight: 900; flex-shrink: 0; }
+    .lp-inc-note { text-align: center; color: var(--gray-mid); font-size: .86rem; margin-top: 1.3rem; }
+    .lp-prijsblok { max-width: 780px; margin: 1.8rem auto 0; background: rgba(0,212,255,.06); border: 1px solid rgba(0,212,255,.22); border-radius: 14px; padding: 1.6rem; text-align: center; }
+    .lp-prijsblok h3 { font-size: 1.15rem; margin-bottom: .6rem; }
+    .lp-prijsblok p { color: var(--text-body); line-height: 1.65; margin-bottom: 1.2rem; }
+    .lp-prijs-cta { display: inline-flex; }
+
+    /* WAAROM review-kaart */
+    .lp-why-review { background: linear-gradient(160deg, rgba(20,196,180,.10), var(--card-bg)); border-color: rgba(20,196,180,.3); }
+    .lp-why-stars { color: #fbbf24; font-size: 1.4rem; letter-spacing: 3px; margin-bottom: .6rem; }
+
+    @media (max-width: 560px) { .lp-checks, .lp-inc-grid { grid-template-columns: 1fr; } }
+
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Electrician",
+        "@id": "https://elektroklik.nl/#bedrijf",
+        "name": "ElektroKlik",
+        "url": "https://elektroklik.nl/",
+        "email": "info@elektroklik.nl",
+        "telephone": "+31850600572",
+        "priceRange": "€€",
+        "address": { "@type": "PostalAddress", "addressLocality": "Amersfoort", "addressRegion": "Utrecht", "addressCountry": "NL" },
+        "areaServed": [
+          {"@type": "AdministrativeArea", "name": "Midden-Nederland"},
+          {"@type": "City", "name": "Amersfoort"},
+          {"@type": "City", "name": "Utrecht"},
+          {"@type": "City", "name": "Hilversum"},
+          {"@type": "City", "name": "Apeldoorn"},
+          {"@type": "City", "name": "Almere"}
+        ],
+        "openingHoursSpecification": [{"@type": "OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"19:00"}]
+      },
+      {
+        "@type": "Service",
+        "name": "Laadpaal installeren",
+        "serviceType": "Laadpaal installatie",
+        "provider": {"@id": "https://elektroklik.nl/#bedrijf"},
+        "areaServed": "Midden-Nederland",
+        "description": "Professionele installatie van laadpalen voor elektrische auto's thuis, inclusief load balancing, meterkastcheck en advies op maat. Vaste prijs vooraf.",
+        "url": "https://elektroklik.nl/laadpalen/"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://elektroklik.nl/laadpalen/#webpage",
+        "url": "https://elektroklik.nl/laadpalen/",
+        "name": "Laadpaal laten installeren incl. montage | Midden-Nederland | ElektroKlik",
+        "description": "Laadpaal thuis laten installeren in Midden-Nederland. Gecertificeerde installatie inclusief load balancing en meterkastcheck.",
+        "inLanguage": "nl-NL",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://elektroklik.nl/"},
+            {"@type": "ListItem", "position": 2, "name": "Diensten", "item": "https://elektroklik.nl/diensten/"},
+            {"@type": "ListItem", "position": 3, "name": "Laadpalen", "item": "https://elektroklik.nl/laadpalen/"}
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type": "Question", "name": "Wat kost een laadpaal inclusief installatie?", "acceptedAnswer": {"@type": "Answer", "text": "Een laadpaal inclusief installatie ligt bij ons meestal tussen €1.200 en €2.100. De exacte prijs hangt af van uw situatie: de laadpaal zelf, 1- of 3-fase, de kabelroute en een eventuele meterkastaanpassing. Wij beoordelen dit aan de hand van foto's en geven daarna een vaste prijs vooraf, zonder verrassingen achteraf. Vraag vrijblijvend een offerte aan."}},
+          {"@type": "Question", "name": "Kan mijn meterkast een laadpaal aan?", "acceptedAnswer": {"@type": "Answer", "text": "Dat controleren wij altijd vooraf. We kijken of er ruimte is voor een extra groep en of de aansluiting voldoende is. Als een aanpassing nodig is, regelen we dit in dezelfde klus mee."}},
+          {"@type": "Question", "name": "Heb ik 3-fase nodig voor een laadpaal?", "acceptedAnswer": {"@type": "Answer", "text": "Niet altijd. Veel woningen laden prima op 1-fase. Wilt u sneller laden of heeft u een zwaardere laadpaal, dan is 3-fase nodig. Wij beoordelen op basis van uw meterkast en wensen wat past."}},
+          {"@type": "Question", "name": "Is load balancing nodig?", "acceptedAnswer": {"@type": "Answer", "text": "Load balancing verdeelt het beschikbare vermogen automatisch tussen uw woning en de laadpaal, zodat overbelasting van uw aansluiting wordt voorkomen. Voor de meeste woningen met een standaard aansluiting is dit sterk aan te raden."}},
+          {"@type": "Question", "name": "Kan ik laden met zonnepanelen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. De load balancing houdt rekening met het verbruik in huis en de opwek van uw zonnepanelen, zodat het laden hierop wordt afgestemd."}},
+          {"@type": "Question", "name": "Wat als de afstand tot de meterkast groot is?", "acceptedAnswer": {"@type": "Answer", "text": "Een grotere afstand betekent meer bekabeling en soms een andere route. Daarom vragen we vooraf foto's, zodat we de route bepalen en dit meenemen in de offerte. U weet vooraf waar u aan toe bent."}},
+          {"@type": "Question", "name": "Welke laadpalen installeren jullie?", "acceptedAnswer": {"@type": "Answer", "text": "Wij adviseren en installeren een laadpaal die past bij uw auto, uw aansluiting en uw situatie. Geschikt voor alle merken elektrische auto's. Heeft u al een voorkeur of zelf een laadpaal? Geef dit aan bij uw aanvraag, dan stemmen we het af."}}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1869941847011402');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="../"><img src="../logo.png" alt="ElektroKlik elektricien en elektrotechniek" class="site-logo-img"></a>
+    <ul class="nav-links">
+      <li><a href="../" id="nav-home">Home</a></li>
+      <li><a href="../diensten/" id="nav-diensten" class="active">Diensten</a></li>
+      <li><a href="../over-ons/" id="nav-overons">Over Ons</a></li>
+      <li><a href="../contact/" id="nav-contact">Contact</a></li>
+      <li><a href="../offerte/" id="nav-offerte" class="nav-cta">Offerte aanvragen</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
+  <a href="../" onclick="toggleMobileNav()">Home</a>
+  <a href="../diensten/" onclick="toggleMobileNav()">Diensten</a>
+  <a href="../laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
+  <a href="../meterkasten-en-elektra/" onclick="toggleMobileNav()">Meterkasten en elektra</a>
+  <a href="../alarm-en-camerasystemen/" onclick="toggleMobileNav()">Alarm- en camerasystemen</a>
+  <a href="../over-ons/" onclick="toggleMobileNav()">Over Ons</a>
+  <a href="../contact/" onclick="toggleMobileNav()">Contact</a>
+  <a href="../offerte/" onclick="toggleMobileNav()">Offerte aanvragen</a>
+</div>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div>
+        <span class="lp-eyebrow">⚡ Laadpaal inclusief installatie · Midden-Nederland</span>
+        <h1>Laadpaal thuis <span>inclusief installatie</span></h1>
+        <p class="lead">Van laadpaal tot volledig werkende installatie. Veilig en vakkundig geïnstalleerd door ElektroKlik — met een vaste prijs vooraf.</p>
+        <div class="lp-prijs-hero">
+          <span class="lp-prijs-bedrag">Vanaf €1.200</span>
+          <span class="lp-prijs-bij">incl. installatie</span>
+        </div>
+        <ul class="lp-checks">
+          <li>Vaste prijs vooraf</li>
+          <li>Gecertificeerd installateur</li>
+          <li>5,0 ★ op Google</li>
+          <li>Actief in Midden-Nederland</li>
+        </ul>
+        <div class="lp-cta-row">
+          <a class="btn-primary" href="#offerte-aanvraag" data-cta="offerte-hero">Vraag mijn prijs op →</a>
+          <a class="btn-secondary" href="tel:+31850600572" data-cta="bel-hero">📞 085 060 05 72</a>
+        </div>
+        <p class="lp-hero-note">Vrijblijvend · reactie binnen 1 werkdag</p>
+      </div>
+      <div class="lp-hero-media">
+        <img src="../img/werk/laadpaal-hero.jpg" alt="Door ElektroKlik geïnstalleerde Easee-laadpaal op een buitenmuur" width="660" height="880" loading="eager">
+        <span class="lp-hero-photo-tag">Door ElektroKlik geïnstalleerd</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ USP STRIP ============ -->
+  <div class="lp-usps">
+    <div class="lp-usps-inner">
+      <div class="lp-usp"><span class="ic">🛡️</span> Gecertificeerd volgens NEN 1010 & NEN 3140</div>
+      <div class="lp-usp"><span class="ic">🔌</span> A-merk laadpalen</div>
+      <div class="lp-usp"><span class="ic">💶</span> Vaste prijs vooraf</div>
+      <div class="lp-usp"><span class="ic">⭐</span> 5,0 op Google</div>
+    </div>
+  </div>
+
+  <!-- ============ INBEGREPEN ============ -->
+  <div class="lp-band">
+  <section class="lp-section">
+    <div class="lp-head">
+      <div class="k">Wat krijgt u voor uw geld?</div>
+      <h2>Dit is <span>inbegrepen</span></h2>
+      <p>Een complete, werkende laadoplossing — van check tot uitleg. Vanaf €1.200 inclusief installatie.</p>
+    </div>
+    <div class="lp-inc-grid">
+      <div class="lp-inc-item">Laadpaal</div>
+      <div class="lp-inc-item">Meterkastcheck</div>
+      <div class="lp-inc-item">Aansluiting op de meterkast</div>
+      <div class="lp-inc-item">Bekabeling</div>
+      <div class="lp-inc-item">Wand- of paalmontage</div>
+      <div class="lp-inc-item">Load balancing indien van toepassing</div>
+      <div class="lp-inc-item">Inbedrijfstelling</div>
+      <div class="lp-inc-item">Uitleg na installatie</div>
+    </div>
+    <p class="lp-inc-note">De exacte inhoud kan afhankelijk zijn van uw situatie en de gekozen oplossing.</p>
+    <div class="lp-prijsblok">
+      <h3>Wat bepaalt de prijs?</h3>
+      <p>De laadpaal zelf, 1- of 3-fase, de kabelroute en een eventuele meterkastaanpassing. De meeste installaties vallen tussen <b>€1.200 en €2.100</b> — laadpaal én installatie samen. U krijgt altijd een <b>vaste totaalprijs vooraf</b>, zonder verrassingen achteraf.</p>
+      <a class="btn-primary lp-prijs-cta" href="#offerte-aanvraag" data-cta="offerte-inbegrepen">Vraag mijn prijs op →</a>
+    </div>
+  </section>
+  </div>
+
+  <!-- ============ OFFERTEFORMULIER (wit, multi-step) ============ -->
+  <section class="lp-section" id="offerte-aanvraag">
+    <div class="lp-head">
+      <div class="k">Gratis &amp; vrijblijvend</div>
+      <h2>Vraag uw <span>offerte</span> aan</h2>
+      <p>Beantwoord een paar korte vragen over uw situatie. Daarna laat u uw gegevens achter en ontvangt u een vaste prijs vooraf — reactie binnen 1 werkdag.</p>
+    </div>
+
+    <div class="lpf" id="lpf">
+      <div class="lpf-kop">
+        <span class="lpf-eyebrow">Gratis offerte op maat</span>
+        <span class="lpf-teller">Stap <span id="lpf-nu">1</span> / 2</span>
+      </div>
+      <div class="lpf-voortgang">
+        <div class="lpf-vstap actief" id="lpf-v1"><span class="lpf-num">1</span><span class="lpf-lbl">Situatie</span></div>
+        <div class="lpf-vlijn" id="lpf-lijn"></div>
+        <div class="lpf-vstap" id="lpf-v2"><span class="lpf-num">2</span><span class="lpf-lbl">Gegevens</span></div>
+      </div>
+
+      <form id="lpfForm" novalidate>
+        <!-- STAP 1: Situatie -->
+        <div class="lpf-inhoud" id="lpf-stap1">
+          <p class="lpf-titel">Uw laadpaal-situatie</p>
+          <p class="lpf-sub">Zo kunnen wij u beter helpen.</p>
+
+          <div class="lpf-vraag">
+            <label class="lpf-vlabel">Stroomaansluiting? <span class="lpf-req">*</span></label>
+            <div class="lpf-pillen" data-veld="stroomaansluiting">
+              <button type="button" class="lpf-pil" data-val="1-fase">1-fase</button>
+              <button type="button" class="lpf-pil" data-val="3-fase">3-fase</button>
+              <button type="button" class="lpf-pil" data-val="Weet ik niet">Weet ik niet</button>
+            </div>
+            <span class="lpf-fout" data-fout="stroomaansluiting">Maak een keuze.</span>
+          </div>
+
+          <div class="lpf-vraag">
+            <label class="lpf-vlabel">Load balancing gewenst? <span class="lpf-req">*</span></label>
+            <div class="lpf-pillen" data-veld="load_balancing">
+              <button type="button" class="lpf-pil" data-val="Ja">Ja</button>
+              <button type="button" class="lpf-pil" data-val="Nee">Nee</button>
+              <button type="button" class="lpf-pil" data-val="Graag advies">Graag advies</button>
+            </div>
+            <span class="lpf-fout" data-fout="load_balancing">Maak een keuze.</span>
+          </div>
+
+          <div class="lpf-vraag">
+            <label class="lpf-vlabel">Heeft u een slimme meter? <span class="lpf-req">*</span></label>
+            <div class="lpf-pillen" data-veld="slimme_meter">
+              <button type="button" class="lpf-pil" data-val="Ja">Ja</button>
+              <button type="button" class="lpf-pil" data-val="Nee">Nee</button>
+              <button type="button" class="lpf-pil" data-val="Weet ik niet">Weet ik niet</button>
+            </div>
+            <span class="lpf-fout" data-fout="slimme_meter">Maak een keuze.</span>
+          </div>
+
+          <div class="lpf-vraag">
+            <label class="lpf-vlabel">Heeft uw woning een kruipruimte? <span class="lpf-req">*</span></label>
+            <div class="lpf-pillen" data-veld="kruipruimte">
+              <button type="button" class="lpf-pil" data-val="Ja">Ja</button>
+              <button type="button" class="lpf-pil" data-val="Nee">Nee</button>
+              <button type="button" class="lpf-pil" data-val="Weet ik niet">Weet ik niet</button>
+            </div>
+            <span class="lpf-fout" data-fout="kruipruimte">Maak een keuze.</span>
+          </div>
+
+          <div class="lpf-vraag">
+            <label class="lpf-vlabel" for="lpf-wanneer">Wanneer wilt u het laten installeren?</label>
+            <select id="lpf-wanneer" class="lpf-select">
+              <option value="">Kies…</option>
+              <option>Zo snel mogelijk</option>
+              <option>Binnen 1 maand</option>
+              <option>Over 1 – 3 maanden</option>
+              <option>Later / oriënterend</option>
+              <option>Weet ik nog niet</option>
+            </select>
+          </div>
+
+          <button type="button" class="lpf-btn" onclick="lpfNaar(2)">Volgende stap <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+
+        <!-- STAP 2: Gegevens -->
+        <div class="lpf-inhoud lpf-verborgen" id="lpf-stap2">
+          <button type="button" class="lpf-terug" onclick="lpfNaar(1)">‹ Terug</button>
+          <p class="lpf-titel">Uw gegevens</p>
+          <p class="lpf-sub">We nemen binnen 1 werkdag contact met u op.</p>
+
+          <div class="lpf-veld">
+            <label for="lpf-naam">Naam <span class="lpf-req">*</span></label>
+            <input type="text" id="lpf-naam" autocomplete="name">
+            <span class="lpf-fout" data-fout="naam">Vul uw naam in.</span>
+          </div>
+          <div class="lpf-veld">
+            <label for="lpf-tel">Telefoonnummer <span class="lpf-opt">(optioneel)</span></label>
+            <input type="tel" id="lpf-tel" autocomplete="tel" placeholder="06 - XX XX XX XX">
+          </div>
+          <div class="lpf-veld">
+            <label for="lpf-email">E-mailadres <span class="lpf-req">*</span></label>
+            <input type="email" id="lpf-email" autocomplete="email">
+            <span class="lpf-fout" data-fout="email">Vul een geldig e-mailadres in.</span>
+          </div>
+          <div class="lpf-veld">
+            <label for="lpf-postcode">Postcode + plaats <span class="lpf-req">*</span></label>
+            <input type="text" id="lpf-postcode" placeholder="3811 AB Amersfoort">
+            <span class="lpf-fout" data-fout="postcode">Vul uw postcode en plaats in.</span>
+          </div>
+          <div class="lpf-veld">
+            <label for="lpf-extra">Extra informatie <span class="lpf-opt">(optioneel)</span></label>
+            <textarea id="lpf-extra" rows="3" placeholder="Bijv. gewenste laadpaal, afstand tot de meterkast, of andere vragen..."></textarea>
+          </div>
+          <label class="lpf-cb">
+            <input type="checkbox" id="lpf-privacy">
+            <span>Ik ga akkoord met de <a href="../privacy.html" target="_blank" rel="noopener">privacyverklaring</a>.</span>
+          </label>
+          <span class="lpf-fout" data-fout="privacy" style="margin-top:2px;">Ga akkoord om te versturen.</span>
+
+          <button type="submit" class="lpf-btn lpf-verstuur" id="lpf-submit">Aanvraag versturen</button>
+          <p class="lpf-noot">Vrijblijvend · vaste prijs vooraf · geen verplichtingen</p>
+        </div>
+      </form>
+
+      <div class="lpf-succes" id="lpf-succes">
+        <div class="lpf-succes-ic">✅</div>
+        <h3>Bedankt, uw aanvraag is verstuurd!</h3>
+        <p>We nemen binnen 1 werkdag contact met u op met de vervolgstappen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WAAROM ============ -->
+  <section class="lp-section">
+    <div class="lp-head">
+      <div class="k">Waarom ElektroKlik</div>
+      <h2>Waarom klanten voor <span>ElektroKlik kiezen</span></h2>
+    </div>
+    <div class="lp-grid3">
+      <div class="lp-why">
+        <div class="ic">🛡️</div>
+        <h3>Veilig geïnstalleerd</h3>
+        <p>Professionele installatie volgens de geldende normen (NEN 1010 &amp; NEN 3140).</p>
+      </div>
+      <div class="lp-why">
+        <div class="ic">💶</div>
+        <h3>Vaste prijs vooraf</h3>
+        <p>Duidelijkheid over de kosten en geen onverwachte verrassingen achteraf.</p>
+      </div>
+      <div class="lp-why">
+        <div class="ic">⚡</div>
+        <h3>Slim laden</h3>
+        <p>Load balancing mogelijk en een laadoplossing die past bij uw woning.</p>
+      </div>
+      <div class="lp-why">
+        <div class="ic">📍</div>
+        <h3>Lokaal &amp; persoonlijk</h3>
+        <p>ElektroKlik uit Amersfoort, actief in heel Midden-Nederland.</p>
+      </div>
+      <div class="lp-why lp-why-review">
+        <div class="lp-why-stars">★★★★★</div>
+        <h3>5,0 op Google</h3>
+        <p>Beoordeeld door onze klanten met een 5,0 — lees hun ervaringen verderop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOE HET WERKT ============ -->
+  <div class="lp-band">
+  <section class="lp-section">
+    <div class="lp-head">
+      <div class="k">Hoe het werkt</div>
+      <h2>Van aanvraag tot <span>werkende laadpaal</span></h2>
+      <p>Vier heldere stappen, zodat u precies weet wat u kunt verwachten.</p>
+    </div>
+    <div class="lp-steps">
+      <div class="lp-step">
+        <div class="n">01</div>
+        <h3>Aanvraag</h3>
+        <p>Vul in een paar minuten het offerteformulier in met uw situatie en wensen.</p>
+      </div>
+      <div class="lp-step">
+        <div class="n">02</div>
+        <h3>Offerte</h3>
+        <p>Wij beoordelen uw aanvraag en foto's en sturen een vaste prijs vooraf.</p>
+      </div>
+      <div class="lp-step">
+        <div class="n">03</div>
+        <h3>Afspraak</h3>
+        <p>Na akkoord plannen we samen een installatiedatum die u uitkomt.</p>
+      </div>
+      <div class="lp-step">
+        <div class="n">04</div>
+        <h3>Installatie</h3>
+        <p>Wij installeren de laadpaal en leggen kort uit hoe u deze gebruikt.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- ============ KLANTBEOORDELINGEN ============ -->
+  <section class="lp-section">
+    <div class="lp-head">
+      <div class="k">Klantbeoordelingen</div>
+      <h2>Beoordeeld met een <span>5,0 op Google</span></h2>
+    </div>
+    <div class="lp-proof">
+      <div class="lp-proof-media">
+        <img src="../img/werk/werk-laadpaal-easee.jpg" alt="Laadpaal geïnstalleerd door ElektroKlik" width="637" height="900" loading="lazy">
+      </div>
+      <div class="lp-reviews">
+        <div class="lp-review">
+          <span class="stars">★★★★★</span>
+          <p>"Geweldige service, vaste prijs (echt goedkoop vergeleken met andere). Fijne monteur die tijd en moeite nam om alles goed te laten werken, zonder dat hier extra kosten bijkwamen. Zeer tevreden!"</p>
+          <div class="who"><strong>Reina Loots</strong><span>Google review</span></div>
+        </div>
+        <div class="lp-review">
+          <span class="stars">★★★★★</span>
+          <p>"Reageerde snel, gaf een update wanneer hij er bijna was en was transparant over de kosten. Een elektricien met kennis van zaken."</p>
+          <div class="who"><strong>Robert Jan Wasch</strong><span>Zoofy review</span></div>
+        </div>
+        <div class="lp-review">
+          <span class="stars">★★★★★</span>
+          <p>"Snel en netjes gewerkt, vriendelijk in de omgang en zeker een aanrader!"</p>
+          <div class="who"><strong>Eline Driebergen</strong><span>Google review</span></div>
+        </div>
+        <a class="lp-google" href="https://www.google.com/search?q=ElektroKlik" target="_blank" rel="noopener">Bekijk al onze reviews op Google →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <div class="lp-band">
+  <section class="lp-section">
+    <div class="lp-head">
+      <div class="k">Veelgestelde vragen</div>
+      <h2>Alles over uw <span>laadpaal</span></h2>
+    </div>
+    <div class="lp-faq">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Wat kost een laadpaal inclusief installatie? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Een laadpaal inclusief installatie ligt bij ons meestal tussen €1.200 en €2.100. De exacte prijs hangt af van uw situatie: de laadpaal zelf, 1- of 3-fase, de kabelroute en een eventuele meterkastaanpassing. Wij beoordelen dit aan de hand van foto's en geven daarna een vaste prijs vooraf, zonder verrassingen achteraf. <a href="../offerte/">Vraag vrijblijvend een offerte aan</a>.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Kan mijn meterkast een laadpaal aan? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Dat controleren wij altijd vooraf. We kijken of er ruimte is voor een extra groep en of de aansluiting voldoende is. Als een aanpassing nodig is, regelen we dit in dezelfde klus mee. Bekijk ook onze pagina over <a href="../meterkasten-en-elektra/">meterkasten en elektra</a>.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Heb ik 3-fase nodig voor een laadpaal? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Niet altijd. Veel woningen laden prima op 1-fase. Wilt u sneller laden of heeft u een zwaardere laadpaal, dan is 3-fase nodig. Wij beoordelen op basis van uw meterkast en wensen wat past — u hoeft dit zelf niet uit te zoeken.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Is load balancing nodig? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Load balancing verdeelt het beschikbare vermogen automatisch tussen uw woning en de laadpaal. Verbruikt u thuis meer stroom, dan laadt de auto iets langzamer, zodat overbelasting van uw aansluiting wordt voorkomen. Voor de meeste woningen met een standaard aansluiting is dit sterk aan te raden.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Kan ik laden met zonnepanelen? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Ja. De load balancing houdt rekening met het verbruik in huis en de opwek van uw zonnepanelen, zodat het laden hierop wordt afgestemd.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Wat als de afstand tot de meterkast groot is? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Een grotere afstand betekent meer bekabeling en soms een andere route. Daarom vragen we vooraf foto's van uw meterkast en de gewenste locatie, zodat we de route bepalen en dit meenemen in de offerte. Zo weet u vooraf waar u aan toe bent.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Welke laadpalen installeren jullie? <span class="arrow">▼</span></button>
+        <div class="faq-answer">Wij adviseren en installeren een laadpaal die past bij uw auto, uw aansluiting en uw situatie — geschikt voor alle merken elektrische auto's. Heeft u al een voorkeur of zelf een laadpaal aangeschaft? Geef dit aan bij uw aanvraag, dan stemmen we het samen af.</div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- ============ SLOT-CTA ============ -->
+  <section class="lp-ctaband">
+    <div class="lp-head" style="margin-bottom:1.2rem;">
+      <div class="k" style="color:var(--electric);">Klaar om te laden?</div>
+    </div>
+    <h2>Laadpaal laten installeren?</h2>
+    <p>Vraag vrijblijvend een offerte aan of bel voor direct advies. U krijgt een heldere, vaste prijs vooraf.</p>
+    <div class="cta-buttons">
+      <a class="btn-primary" href="../offerte/" data-cta="offerte-slot">⚡ Gratis offerte aanvragen</a>
+      <a class="btn-secondary" href="tel:+31850600572" data-cta="bel-slot">📞 085 060 05 72</a>
+    </div>
+    <div class="lp-internal">
+      <a href="../meterkasten-en-elektra/">🔲 Meterkasten en elektra</a>
+      <a href="../alarm-en-camerasystemen/">📹 Alarm- en camerasystemen</a>
+      <a href="../diensten/">Alle diensten</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="../logo.png" alt="ElektroKlik elektricien" class="site-logo-img">
+      <p>Professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Heldere communicatie, vakkundige uitvoering en maatwerk voor iedere klant.</p>
+      <div class="social-links"><a href="https://www.facebook.com/people/ElektroKliknl/61563486633011/" aria-label="Facebook">f</a><a href="https://www.linkedin.com/in/elektro-klik-503481358/" aria-label="LinkedIn">in</a><a href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp">💬</a></div>
+    </div>
+    <div class="footer-col"><h4>Navigatie</h4><a href="../">Home</a><a href="../diensten/">Diensten</a><a href="../over-ons/">Over Ons</a><a href="../contact/">Contact</a><a href="../offerte/">Offerte aanvragen</a></div>
+    <div class="footer-col"><h4>Diensten</h4><a href="../laadpalen/">Laadpalen</a><a href="../meterkasten-en-elektra/">Meterkasten en elektra</a><a href="../alarm-en-camerasystemen/">Alarm- en camerasystemen</a></div>
+    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31850600572">085 060 05 72</a><a href="https://wa.me/31658856729" target="_blank">WhatsApp</a><a href="../contact/">Contactformulier</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap &amp; Kwaliteit</span></div>
+</footer>
+
+<!-- Sticky mobiele CTA -->
+<div class="lp-sticky">
+  <a class="s-primary" href="../offerte/" data-cta="offerte-sticky">⚡ Gratis offerte</a>
+  <a class="s-secondary" href="tel:+31850600572" data-cta="bel-sticky">📞 Bel direct</a>
+</div>
+
+<a class="whatsapp-btn" href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp ElektroKlik" data-cta="whatsapp-fab">💬</a>
+<div class="toast" id="toast"></div>
+<script src="../script.js"></script>
+<script>
+/* ---------- FAQ ---------- */
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer.open').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-question.open').forEach(b => b.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); btn.classList.add('open'); }
+}
+
+/* ---------- Conversietracking (Meta Pixel, veilig afgeschermd) ---------- */
+function track(event, params) {
+  try { if (typeof fbq === 'function') fbq('trackCustom', event, params || {}); } catch (e) {}
+}
+document.addEventListener('click', function (e) {
+  const el = e.target.closest('[data-cta]');
+  if (!el) return;
+  const cta = el.getAttribute('data-cta');
+  if (cta.indexOf('offerte') === 0) track('LaadpaalOfferteClick', { plek: cta });
+  else if (cta.indexOf('bel') === 0) { try { if (typeof fbq === 'function') fbq('track', 'Contact', { methode: 'telefoon', plek: cta }); } catch (e) {} }
+  else if (cta.indexOf('whatsapp') === 0) { try { if (typeof fbq === 'function') fbq('track', 'Contact', { methode: 'whatsapp', plek: cta }); } catch (e) {} }
+});
+
+/* ---------- Offerteformulier (wit, 2 stappen) ---------- */
+(function () {
+  const form = document.getElementById('lpfForm');
+  if (!form) return;
+  let stap = 1;
+  const keuze = {};
+
+  function fout(veld, toon) {
+    const el = document.querySelector('[data-fout="' + veld + '"]');
+    if (el) el.style.display = toon ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('.lpf-pillen').forEach(function (groep) {
+    const veld = groep.getAttribute('data-veld');
+    groep.querySelectorAll('.lpf-pil').forEach(function (pil) {
+      pil.addEventListener('click', function () {
+        groep.querySelectorAll('.lpf-pil').forEach(function (p) { p.classList.remove('gekozen'); });
+        pil.classList.add('gekozen');
+        keuze[veld] = pil.getAttribute('data-val');
+        fout(veld, false);
+      });
+    });
+  });
+
+  function valideerStap1() {
+    let ok = true;
+    ['stroomaansluiting', 'load_balancing', 'slimme_meter', 'kruipruimte'].forEach(function (v) {
+      if (!keuze[v]) { fout(v, true); ok = false; } else fout(v, false);
+    });
+    return ok;
+  }
+
+  window.lpfNaar = function (n) {
+    if (n === 2 && !valideerStap1()) return;
+    stap = n;
+    document.getElementById('lpf-stap1').classList.toggle('lpf-verborgen', n !== 1);
+    document.getElementById('lpf-stap2').classList.toggle('lpf-verborgen', n !== 2);
+    document.getElementById('lpf-nu').textContent = n;
+    document.getElementById('lpf-v1').classList.toggle('klaar', n > 1);
+    document.getElementById('lpf-v2').classList.toggle('actief', n === 2);
+    document.getElementById('lpf-lijn').classList.toggle('klaar', n > 1);
+    if (n === 1) document.getElementById('lpf-v2').classList.remove('actief');
+    const sec = document.getElementById('offerte-aanvraag');
+    if (sec) window.scrollTo({ top: sec.offsetTop - 70, behavior: 'smooth' });
+    if (n === 2) track('LaadpaalSituatieVoltooid', keuze);
+  };
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    let ok = true;
+    const naam = document.getElementById('lpf-naam').value.trim();
+    const email = document.getElementById('lpf-email').value.trim();
+    const pc = document.getElementById('lpf-postcode').value.trim();
+    const tel = document.getElementById('lpf-tel').value.trim();
+    const extra = document.getElementById('lpf-extra').value.trim();
+    const wanneer = document.getElementById('lpf-wanneer').value;
+    const privacy = document.getElementById('lpf-privacy').checked;
+    if (naam.length < 2) { fout('naam', true); ok = false; } else fout('naam', false);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { fout('email', true); ok = false; } else fout('email', false);
+    if (pc.length < 4) { fout('postcode', true); ok = false; } else fout('postcode', false);
+    if (!privacy) { fout('privacy', true); ok = false; } else fout('privacy', false);
+    if (!ok) return;
+    const btn = document.getElementById('lpf-submit');
+    const oud = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Bezig met verzenden...';
+    try {
+      const r = await fetch('https://formspree.io/f/xjgzdzww', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Laadpaal aanvraag - ' + naam,
+          _template: 'table',
+          Naam: naam,
+          Telefoon: tel || 'Niet opgegeven',
+          Email: email,
+          Postcode_plaats: pc,
+          Stroomaansluiting: keuze.stroomaansluiting || 'Niet opgegeven',
+          Load_balancing_gewenst: keuze.load_balancing || 'Niet opgegeven',
+          Slimme_meter: keuze.slimme_meter || 'Niet opgegeven',
+          Kruipruimte: keuze.kruipruimte || 'Niet opgegeven',
+          Uitvoermoment: wanneer || 'Niet opgegeven',
+          Extra_informatie: extra || 'Niet opgegeven',
+          Bron: 'Laadpalen landingspagina'
+        })
+      });
+      if (!r.ok) throw new Error('mislukt');
+      form.style.display = 'none';
+      document.querySelector('.lpf-kop').style.display = 'none';
+      document.querySelector('.lpf-voortgang').style.display = 'none';
+      document.getElementById('lpf-succes').style.display = 'block';
+      try { if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Laadpaal landingspagina' }); } catch (_) {}
+      if (typeof showToast === 'function') showToast('\u2705 Aanvraag verstuurd!');
+    } catch (err) {
+      if (typeof showToast === 'function') showToast('\u26a0\ufe0f Verzenden lukte niet. Probeer het opnieuw.');
+      btn.disabled = false; btn.textContent = oud;
+    }
+  });
+})();
+</script>
+</body>
+</html>
