@@ -676,7 +676,7 @@
               <div class="hf-veld">
                 <span class="hf-groep-label">Wat wilt u laten doen?</span>
                 <div class="hf-radio-rij" role="radiogroup">
-                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_werk" value="Extra groep"><span>Extra groep</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_werk" value="Uitbreiding"><span>Uitbreiding</span></label>
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_werk" value="Kookgroep"><span>Kookgroep</span></label>
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_werk" value="Meterkast vervangen"><span>Vervangen</span></label>
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_werk" value="Weet niet"><span>Weet niet</span></label>
@@ -717,6 +717,18 @@
               <div class="hf-veld hf-verborgen" id="hf-gk-afstand-veld">
                 <label class="hf-groep-label" for="hf-gk-afstand">Geschatte afstand van de meterkast tot de keuken (waar de perilex komt)?</label>
                 <input type="text" id="hf-gk-afstand" name="hf_gk_afstand" inputmode="numeric" placeholder="bijv. 8 meter">
+              </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-extra-doel-veld">
+                <label class="hf-groep-label" for="hf-gk-extra-doel">Waar wilt u de uitbreiding voor gebruiken?</label>
+                <input type="text" id="hf-gk-extra-doel" name="hf_gk_extra_doel" placeholder="bijv. wasmachine, oven, garage, airco">
+              </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-extra-kabel-veld">
+                <span class="hf-groep-label">Is er al een kabel getrokken naar de plek van de groep?</span>
+                <div class="hf-radio-rij" role="radiogroup">
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_extra_kabel" value="Ja, kabel ligt er al"><span>Ja, ligt er al</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_extra_kabel" value="Nee, kabel moet nog getrokken worden"><span>Nee, moet nog getrokken worden</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_extra_kabel" value="Weet niet"><span>Weet niet</span></label>
+                </div>
               </div>
             </div>
 
@@ -992,38 +1004,48 @@
     });
   });
 
-  // Kookgroep vervolgvragen (meterkast): kookgroep aanwezig? + kabel getrokken? -> geen kabel: kruipruimte + afstand
+  // Meterkast vervolgvragen: Kookgroep en Extra groep
   (function(){
     var kookgroepVeld = document.getElementById('hf-gk-kookgroep-veld');
     var kabelVeld = document.getElementById('hf-gk-kabel-veld');
     var kruipVeld = document.getElementById('hf-gk-kruipruimte-veld');
     var afstandVeld = document.getElementById('hf-gk-afstand-veld');
     var afstandInput = document.getElementById('hf-gk-afstand');
+    var extraDoelVeld = document.getElementById('hf-gk-extra-doel-veld');
+    var extraDoelInput = document.getElementById('hf-gk-extra-doel');
+    var extraKabelVeld = document.getElementById('hf-gk-extra-kabel-veld');
     function wis(naam){
       document.querySelectorAll('input[name="'+naam+'"]').forEach(function(x){
         x.checked = false;
         var l = x.closest('.hf-radio-pil'); if(l) l.classList.remove('geselecteerd');
       });
     }
+    function toon(el, aan){ if(el) el.classList.toggle('hf-verborgen', !aan); }
     document.querySelectorAll('input[name="hf_gk_werk"]').forEach(function(r){
       r.addEventListener('change', function(){
-        var toon = (r.value === 'Kookgroep' && r.checked);
-        if (kookgroepVeld) kookgroepVeld.classList.toggle('hf-verborgen', !toon);
-        if (kabelVeld) kabelVeld.classList.toggle('hf-verborgen', !toon);
-        if (!toon){
+        var kook = (r.value === 'Kookgroep' && r.checked);
+        var extra = (r.value === 'Uitbreiding' && r.checked);
+        toon(kookgroepVeld, kook);
+        toon(kabelVeld, kook);
+        if (!kook){
           wis('hf_gk_kookgroep_aanwezig'); wis('hf_gk_kabel'); wis('hf_gk_kruipruimte');
-          if(kruipVeld) kruipVeld.classList.add('hf-verborgen');
-          if(afstandVeld) afstandVeld.classList.add('hf-verborgen');
+          toon(kruipVeld, false); toon(afstandVeld, false);
           if(afstandInput) afstandInput.value='';
+        }
+        toon(extraDoelVeld, extra);
+        toon(extraKabelVeld, extra);
+        if (!extra){
+          wis('hf_gk_extra_kabel');
+          if(extraDoelInput) extraDoelInput.value='';
         }
       });
     });
     document.querySelectorAll('input[name="hf_gk_kabel"]').forEach(function(r){
       r.addEventListener('change', function(){
-        var toon = (r.value === 'Nee, kabel moet nog getrokken worden' && r.checked);
-        if (kruipVeld) kruipVeld.classList.toggle('hf-verborgen', !toon);
-        if (afstandVeld) afstandVeld.classList.toggle('hf-verborgen', !toon);
-        if (!toon){ wis('hf_gk_kruipruimte'); if (afstandInput) afstandInput.value = ''; }
+        var geenKabel = (r.value === 'Nee, kabel moet nog getrokken worden' && r.checked);
+        toon(kruipVeld, geenKabel);
+        toon(afstandVeld, geenKabel);
+        if (!geenKabel){ wis('hf_gk_kruipruimte'); if (afstandInput) afstandInput.value = ''; }
       });
     });
   })();
