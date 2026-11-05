@@ -757,6 +757,26 @@
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_fase" value="weet niet"><span>Weet niet</span></label>
                 </div>
               </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-kabel-veld">
+                <span class="hf-groep-label">Is er al een kabel naar de meterkast getrokken, of een kookgroep aanwezig?</span>
+                <div class="hf-radio-rij" role="radiogroup">
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Ja, kabel/kookgroep al aanwezig"><span>Ja, al aanwezig</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Nee, kabel moet nog getrokken worden"><span>Nee, moet nog getrokken worden</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Weet niet"><span>Weet niet</span></label>
+                </div>
+              </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-kruipruimte-veld">
+                <span class="hf-groep-label">Heeft uw woning een kruipruimte?</span>
+                <div class="hf-radio-rij" role="radiogroup">
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kruipruimte" value="Ja"><span>Ja</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kruipruimte" value="Nee"><span>Nee</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kruipruimte" value="Weet niet"><span>Weet niet</span></label>
+                </div>
+              </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-afstand-veld">
+                <label class="hf-groep-label" for="hf-gk-afstand">Geschatte afstand van de meterkast tot de keuken (waar de perilex komt)?</label>
+                <input type="text" id="hf-gk-afstand" name="hf_gk_afstand" inputmode="numeric" placeholder="bijv. 8 meter">
+              </div>
             </div>
 
             <!-- Beveiliging vragen -->
@@ -1305,6 +1325,35 @@
       if(lbl) lbl.classList.add('geselecteerd');
     });
   });
+
+  // Kookgroep vervolgvragen (meterkast): kabel aanwezig? -> indien nee: kruipruimte?
+  (function(){
+    var kabelVeld = document.getElementById('hf-gk-kabel-veld');
+    var kruipVeld = document.getElementById('hf-gk-kruipruimte-veld');
+    var afstandVeld = document.getElementById('hf-gk-afstand-veld');
+    var afstandInput = document.getElementById('hf-gk-afstand');
+    function wis(naam){
+      document.querySelectorAll('input[name="'+naam+'"]').forEach(function(x){
+        x.checked = false;
+        var l = x.closest('.hf-radio-pil'); if(l) l.classList.remove('geselecteerd');
+      });
+    }
+    document.querySelectorAll('input[name="hf_gk_werk"]').forEach(function(r){
+      r.addEventListener('change', function(){
+        var toon = (r.value === 'Kookgroep' && r.checked);
+        if (kabelVeld) kabelVeld.classList.toggle('hf-verborgen', !toon);
+        if (!toon){ wis('hf_gk_kabel'); wis('hf_gk_kruipruimte'); if(kruipVeld) kruipVeld.classList.add('hf-verborgen'); if(afstandVeld) afstandVeld.classList.add('hf-verborgen'); if(afstandInput) afstandInput.value=''; }
+      });
+    });
+    document.querySelectorAll('input[name="hf_gk_kabel"]').forEach(function(r){
+      r.addEventListener('change', function(){
+        var toon = (r.value === 'Nee, kabel moet nog getrokken worden' && r.checked);
+        if (kruipVeld) kruipVeld.classList.toggle('hf-verborgen', !toon);
+        if (afstandVeld) afstandVeld.classList.toggle('hf-verborgen', !toon);
+        if (!toon){ wis('hf_gk_kruipruimte'); if (afstandInput) afstandInput.value = ''; }
+      });
+    });
+  })();
 
   // Form submit
   document.getElementById('homeFunnelForm').addEventListener('submit', function(e){
