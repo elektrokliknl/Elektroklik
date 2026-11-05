@@ -757,10 +757,18 @@
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_fase" value="weet niet"><span>Weet niet</span></label>
                 </div>
               </div>
-              <div class="hf-veld hf-verborgen" id="hf-gk-kabel-veld">
-                <span class="hf-groep-label">Is er al een kabel naar de meterkast getrokken, of een kookgroep aanwezig?</span>
+              <div class="hf-veld hf-verborgen" id="hf-gk-kookgroep-veld">
+                <span class="hf-groep-label">Is er al een aparte kookgroep in de meterkast aanwezig?</span>
                 <div class="hf-radio-rij" role="radiogroup">
-                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Ja, kabel/kookgroep al aanwezig"><span>Ja, al aanwezig</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kookgroep_aanwezig" value="Ja"><span>Ja</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kookgroep_aanwezig" value="Nee"><span>Nee</span></label>
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kookgroep_aanwezig" value="Weet niet"><span>Weet niet</span></label>
+                </div>
+              </div>
+              <div class="hf-veld hf-verborgen" id="hf-gk-kabel-veld">
+                <span class="hf-groep-label">Is er al een kabel getrokken van de meterkast naar de keuken?</span>
+                <div class="hf-radio-rij" role="radiogroup">
+                  <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Ja, kabel ligt er al"><span>Ja, ligt er al</span></label>
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Nee, kabel moet nog getrokken worden"><span>Nee, moet nog getrokken worden</span></label>
                   <label class="hf-radio-pil"><input type="radio" name="hf_gk_kabel" value="Weet niet"><span>Weet niet</span></label>
                 </div>
@@ -1326,8 +1334,9 @@
     });
   });
 
-  // Kookgroep vervolgvragen (meterkast): kabel aanwezig? -> indien nee: kruipruimte?
+  // Kookgroep vervolgvragen (meterkast): kookgroep aanwezig? + kabel getrokken? -> geen kabel: kruipruimte + afstand
   (function(){
+    var kookgroepVeld = document.getElementById('hf-gk-kookgroep-veld');
     var kabelVeld = document.getElementById('hf-gk-kabel-veld');
     var kruipVeld = document.getElementById('hf-gk-kruipruimte-veld');
     var afstandVeld = document.getElementById('hf-gk-afstand-veld');
@@ -1341,8 +1350,14 @@
     document.querySelectorAll('input[name="hf_gk_werk"]').forEach(function(r){
       r.addEventListener('change', function(){
         var toon = (r.value === 'Kookgroep' && r.checked);
+        if (kookgroepVeld) kookgroepVeld.classList.toggle('hf-verborgen', !toon);
         if (kabelVeld) kabelVeld.classList.toggle('hf-verborgen', !toon);
-        if (!toon){ wis('hf_gk_kabel'); wis('hf_gk_kruipruimte'); if(kruipVeld) kruipVeld.classList.add('hf-verborgen'); if(afstandVeld) afstandVeld.classList.add('hf-verborgen'); if(afstandInput) afstandInput.value=''; }
+        if (!toon){
+          wis('hf_gk_kookgroep_aanwezig'); wis('hf_gk_kabel'); wis('hf_gk_kruipruimte');
+          if(kruipVeld) kruipVeld.classList.add('hf-verborgen');
+          if(afstandVeld) afstandVeld.classList.add('hf-verborgen');
+          if(afstandInput) afstandInput.value='';
+        }
       });
     });
     document.querySelectorAll('input[name="hf_gk_kabel"]').forEach(function(r){
