@@ -1,4 +1,4 @@
-# Oplevering laadpaalshop ElektroKlik (versie 7 – online)
+# Oplevering laadpaalshop ElektroKlik
 
 **Status: testversie, niet gepubliceerd.** De verkoopprijzen zijn verwerkt zoals opgegeven. Publicatie gebeurt pas na uw goedkeuring.
 
@@ -91,7 +91,7 @@ Aanvragen komen in het overzicht door de **CSV-export uit Formspree te importere
 
 > **Belangrijke beperking:** dit overzicht en de later toegevoegde foto's worden bewaard **in de browser van de computer waarop u ze invoert**. De foto's die de klant bij de aanvraag meestuurt, staan in de e-mail en in Formspree.
 >
-> Wilt u een echt centraal systeem, waarin aanvragen automatisch binnenkomen en foto's online worden opgeslagen? Dan is een kleine server-koppeling nodig, bijvoorbeeld Supabase of Cloudflare (database en bestandsopslag). Daarvoor moet u zelf een account aanmaken. Dat bouw ik graag in een volgende stap.
+> Wilt u later een centraal systeem, waarin aanvragen automatisch binnenkomen en foto's online worden opgeslagen? Dan is een kleine server-koppeling nodig. Dat kan altijd nog worden toegevoegd.
 
 ---
 
@@ -126,24 +126,9 @@ Ja, iedere aanvraag komt al bij u binnen per e-mail. De configurator verstuurt v
 - Weigert Formspree de bestanden (bijvoorbeeld omdat uploads niet in uw abonnement zitten), dan wordt de aanvraag zonder foto's verstuurd. Alleen dan vraagt de bedankpagina de klant om de foto's te mailen of te WhatsAppen.
 - Controleer daarom in uw Formspree-dashboard of bestandsuploads voor dit formulier beschikbaar zijn. Doe daarna één echte testaanvraag met een foto.
 
-## 6c. Betalen met Mollie
+## 6c. Betalen
 
-**Nu:** de klant betaalt niets in de configurator. Dit is bewust zo, omdat u eerst de situatie beoordeelt en een definitieve offerte stuurt.
-
-**Werkwijze die nu al kan, zonder extra techniek:**
-
-1. De aanvraag komt binnen per e-mail. U importeert hem in `/beheer/` → Aanvragen.
-2. U beoordeelt de situatie en stuurt de definitieve offerte.
-3. Na akkoord maakt u in uw Mollie-dashboard een betaalverzoek (betaallink) aan voor het offertebedrag of een aanbetaling.
-4. U plakt de link bij de aanvraag in het beheer. Met de knop "Betaallink mailen naar de klant" opent u een kant-en-klare e-mail.
-5. U zet de status op "Betaallink verstuurd" en, na betaling, op "Betaald". Mollie meldt de betaling ook zelf per e-mail.
-
-**Volledig automatisch, met de Cloudflare Worker (optioneel, op dit moment niet in gebruik):**
-
-- De code staat in `_cloudflare/elektroklik-worker.js`. Het stappenplan staat in `_docs/INSTALLATIE-CLOUDFLARE-WORKER.md`. Zolang het server-adres in het beheer leeg is, is deze koppeling uitgeschakeld en werkt u met handmatige Mollie-betaallinks.
-- De configurator stuurt iedere aanvraag ook naar de Worker, als het server-adres is ingevuld. In het beheer haalt u alles op met **Ophalen van server**.
-- Bij een aanvraag maakt u in het beheer een betaallink, voor het volledige bedrag of een aanbetaling. De klant opent `/laadpalen/betalen/`, gaat akkoord met de offerte en betaalt via Mollie. Na de betaling staat de status in het beheer automatisch op **Betaald**.
-- De Mollie-sleutel en de beheersleutel staan alleen in Cloudflare, nooit in de website.
+De klant betaalt niets via de website. U beoordeelt eerst de situatie, stuurt een definitieve offerte en spreekt de betaling met de klant af, buiten de website om. In het beheer zet u de status daarna op "Akkoord" en "Betaald".
 
 ## 7. Tests (allemaal geslaagd)
 
@@ -151,8 +136,6 @@ Ja, iedere aanvraag komt al bij u binnen per e-mail. De configurator verstuurt v
 |---|---|
 | `_tests/pricing.test.js` (18 tests) | De vijf prijzen, load balancing altijd inbegrepen, de afstandsstaffel, meters bij meer dan 20 m, kruipruimte, graafwerk per meter, montagepaal per model, kabelhouder, de meterkastroutes, slimme meter, zakelijk verrekenen, een combinatie (€ 2.494) en ongeldige configuraties |
 | `_tests/configurator.e2e.js` | **Desktop:** volledige standaardroute met alle toeslagen, foto-upload en versturen, inclusief controle van alle velden in de aanvraag. **Mobiel:** verouderde meterkast → offerteroute zonder foto's. **Mobiel:** "Weet ik niet" met een mislukte foto-upload → automatisch opnieuw verstuurd zonder foto's |
-| `_tests/worker.test.mjs` (10 tests) | De Worker: beveiliging, CORS, opslag van aanvragen, betaallinks, Mollie-betaling en webhook, afwijkend bedrag, intrekken en de limiet tegen misbruik |
-| `_tests/betalen.e2e.js` | De hele route in de browser: aanvraag → server → beheer maakt betaallink → klant betaalt → beheer toont "Betaald" |
 | `_tests/beheer-en-foutscenarios.e2e.js` | Beheer: tabbladen, marge (inclusief inkoop load balancing) en validatie. Aanvraagregister: CSV-import, status, detail en later toegevoegde foto, bewaard na herladen. Prijswijziging tijdens het invullen. Storing bij de formulierdienst, met gegevens die bewaard blijven |
 
 Verder gecontroleerd:
@@ -172,7 +155,6 @@ Verder gecontroleerd:
 - Garantie: 2 jaar installatiegarantie van ElektroKlik volgens uw tekst. Op de laadpaal geldt de fabrieksgarantie volgens de voorwaarden van de fabrikant.
 - Cookiebalk op de hele site.
 - Uw privacyverklaring staat op `/privacyverklaring/`, met "Cookie-instellingen" in de footer.
-- In het aanvraagbeheer kunt u per aanvraag een Mollie-betaallink vastleggen en mailen, met de statussen "Betaallink verstuurd" en "Betaald".
 
 **Nog open (optioneel):**
 - Een centraal aanvraagsysteem met online opslag van foto's (zie §4).
@@ -185,4 +167,4 @@ python3 -m http.server 8765 --bind 127.0.0.1
 
 Open daarna `http://127.0.0.1:8765/laadpalen/`. Instructies voor de tests staan in `_tests/README.md`.
 
-Publiceer pas na uw goedkeuring. Gebruik eerst een testomgeving, bijvoorbeeld een aparte privé-repository met GitHub Pages, of Cloudflare Pages of Netlify.
+Publiceer pas na uw goedkeuring. Gebruik eerst een testomgeving, bijvoorbeeld een aparte privé-repository met GitHub Pages.

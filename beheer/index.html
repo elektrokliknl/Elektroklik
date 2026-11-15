@@ -103,7 +103,7 @@
         f('instellingen.whatsappLink', 'WhatsApp-link') + f('instellingen.email', 'E-mailadres') +
         f('instellingen.formEndpoint', 'Formulier-adres (Formspree)', 'text', 'Hier komen de aanvragen binnen.') +
         f('instellingen.gtmContainerId', 'Google Tag Manager-ID', 'text', 'Bijv. GTM-ABC1234. Leeg = niet laden.') +
-        f('instellingen.btwPercentage', 'Btw-percentage', 'number') + f('instellingen.privacyUrl', 'Adres van uw privacyverklaring', 'text', 'Bijv. /privacyverklaring/') + f('instellingen.workerUrl', 'Server-adres (Cloudflare Worker)', 'text', 'Bijv. https://elektroklik.uwnaam.workers.dev. Leeg = geen online betalen en geen centrale opslag.') + f('instellingen.voorwaardenUrl', 'Adres van uw algemene voorwaarden', 'text', 'Optioneel. Wordt getoond op de betaalpagina.') + '</div></div>' +
+        f('instellingen.btwPercentage', 'Btw-percentage', 'number') + f('instellingen.privacyUrl', 'Adres van uw privacyverklaring', 'text', 'Bijv. /privacyverklaring/') + '</div></div>' +
         '<div class="card"><h2>Standaardinstallatie</h2><p class="hint">Eén regel per punt. Tekst tussen [VIERKANTE HAKEN IN HOOFDLETTERS] wordt op de site als gele placeholder getoond.</p><div class="grid">' +
         f('standaardInstallatie.inbegrepen', 'Inbegrepen', 'lines') + f('standaardInstallatie.nietInbegrepen', 'Mogelijk extra', 'lines') + '</div></div>';
     }
@@ -164,7 +164,6 @@
         '<button class="btn light" type="button" id="regExport">Exporteer overzicht (CSV)</button>' +
         '<button class="btn light" type="button" id="regBackup">Back-up (JSON)</button>' +
         '<label class="btn light" style="display:inline-block">Back-up terugzetten<input type="file" id="regRestore" accept=".json,application/json" hidden></label></p>' +
-        (CFG.instellingen.workerUrl ? '<div class="sub" style="margin-top:0;border-top:0;padding-top:0"><h3>Server (Cloudflare Worker)</h3><p class="hint">Met de server komen aanvragen automatisch binnen (zonder foto’s) en kunt u online betaallinks aanmaken.</p><p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input type="password" id="srvKey" placeholder="Beheersleutel (ADMIN_KEY)" style="max-width:320px" autocomplete="off"><button class="btn" type="button" id="srvSync">Ophalen van server</button><button class="btn light" type="button" id="srvTest">Verbinding testen</button></p><p id="srvStatus" class="hint"></p></div>' : '<p class="hint">Tip: vul bij Algemeen het server-adres in om aanvragen automatisch op te halen en online betaallinks te maken.</p>') +
         '<div id="regPlak" hidden><textarea id="regPlakIn" placeholder="Plak hier het veld “Configuratie (technisch)” uit de e-mail"></textarea><p><button class="btn" type="button" id="regPlakGo">Toevoegen</button></p></div>' +
         '<p style="margin:10px 0"><input type="search" id="regZoek" placeholder="Zoek op naam, aanvraagnummer, plaats of laadpaal" style="max-width:420px"> <select id="regFilter" style="max-width:220px;display:inline-block"><option value="">Alle statussen</option>' + STATUSSEN.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select></p>' +
         '<div id="regLijst"></div><div id="regDetail"></div></div>';
@@ -178,7 +177,7 @@
 
 
   /* ===================== Aanvraagregister ===================== */
-  var STATUSSEN = ['Nieuw', 'In behandeling', 'Wacht op foto’s', 'Offerte verstuurd', 'Akkoord', 'Betaallink verstuurd', 'Betaald', 'Ingepland', 'Geïnstalleerd', 'Geannuleerd'];
+  var STATUSSEN = ['Nieuw', 'In behandeling', 'Wacht op foto’s', 'Offerte verstuurd', 'Akkoord', 'Betaald', 'Ingepland', 'Geïnstalleerd', 'Geannuleerd'];
   var REG = (function () {
     var KEY = 'ek_register_v1', data = { items: {} }, open = null;
     function laad() { try { data = JSON.parse(localStorage.getItem(KEY) || '{"items":{}}'); } catch (e) { data = { items: {} }; } }
@@ -224,7 +223,7 @@
     }
     function voegToe(a) {
       var bestaand = data.items[a.ref];
-      data.items[a.ref] = Object.assign({ status: 'Nieuw', notities: '' }, bestaand || {}, a, bestaand ? { status: bestaand.status, notities: bestaand.notities, betaallink: bestaand.betaallink } : {});
+      data.items[a.ref] = Object.assign({ status: 'Nieuw', notities: '' }, bestaand || {}, a, bestaand ? { status: bestaand.status, notities: bestaand.notities } : {});
     }
     /* --- weergave --- */
     function label(v, id) { var k = EKPricing.keuze(CFG, v, id); return k ? k.label : (id || '–'); }
@@ -262,11 +261,6 @@
         '<div class="full"><h3 style="margin-top:12px">Technische bijzonderheden</h3><ul>' + (t.intern || []).concat(a.velden && a.velden['Nog te controleren'] ? [a.velden['Nog te controleren']] : []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<label class="full">Status<select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
         '<label class="full">Interne notities<textarea id="regNotitie">' + esc(a.notities || '') + '</textarea></label>' +
-        (CFG.instellingen.workerUrl ? '<div class="full"><h3 style="margin-top:12px">Online betaling (Mollie)</h3><p class="hint">Maak een betaallink voor het definitieve offertebedrag. De klant geeft op de betaalpagina akkoord en betaalt direct. Het bedrag staat vast op de server en kan door de klant niet worden gewijzigd.</p>' +
-          '<div class="grid"><label>Bedrag incl. btw (€)<input type="number" id="payBedrag" min="1" step="0.01" value="' + esc(t.route === 'offerte' ? '' : t.totaal) + '"></label><label>Soort<select id="paySoort"><option value="volledig">Volledige betaling</option><option value="aanbetaling">Aanbetaling</option></select></label><label>Geldig (dagen)<input type="number" id="payDagen" min="1" max="180" value="30"></label><label class="full">Omschrijving<input type="text" id="payOms" value="' + esc('Laadpaal ' + (p ? p.naam : '') + ' inclusief installatie') + '"></label></div>' +
-          '<p><button class="btn" type="button" id="payMaak">Betaallink aanmaken</button></p>' + offertesHtml(a) + '</div>' : '') +
-        '<label class="full">Mollie-betaallink (handmatig)<small>Maak in uw Mollie-dashboard een betaalverzoek aan voor het offertebedrag en plak de link hier. Zo ziet u per aanvraag welke link verstuurd is.</small><input type="url" id="regBetaallink" placeholder="https://payment-links.mollie.com/…" value="' + esc(a.betaallink || '') + '"></label>' +
-        (a.betaallink ? '<p class="full"><a class="btn light" href="mailto:' + esc(a.email) + '?subject=' + encodeURIComponent('Betaallink voor uw laadpaal – ' + a.ref) + '&body=' + encodeURIComponent('Beste ' + (a.naam || '') + ',\n\nHartelijk dank voor uw aanvraag. Via onderstaande link kunt u onze offerte accepteren en eenvoudig en veilig betalen, bijvoorbeeld met iDEAL:\n' + a.betaallink + '\n\nMet vriendelijke groet,\nElektroKlik') + '">Betaallink mailen naar de klant</a></p>' : '') +
         '<div class="full"><h3 style="margin-top:12px">Foto’s</h3><p class="hint">Foto’s die met de aanvraag zijn verstuurd, staan in de e-mail en in Formspree. Foto’s die de klant later per e-mail of WhatsApp stuurt, voegt u hier toe.</p>' +
         '<p><select id="regFotoSoort" style="max-width:260px;display:inline-block"><option value="meterkast">Meterkast</option><option value="kabelroute">Kabelroute</option><option value="locatie">Laadpaallocatie</option><option value="overig">Overig</option></select> <label class="btn" style="display:inline-block">Foto’s toevoegen<input type="file" id="regFoto" accept="image/*,.heic,.heif,.pdf" multiple hidden></label></p><div id="regFotos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div></div></div>';
       toonFotos(ref);
@@ -277,39 +271,6 @@
         var el = $('#regFotos'); if (!el) return;
         el.innerHTML = l.length ? l.map(function (f) { var u = URL.createObjectURL(f.blob); return '<figure style="margin:0;width:150px"><a href="' + u + '" download="' + esc(ref + '-' + f.naam) + '">' + (/^image\//.test(f.blob.type) ? '<img src="' + u + '" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">' : '📄 ' + esc(f.naam)) + '</a><figcaption style="font-size:.8rem">' + esc(f.soort) + ' · ' + esc(f.datum.slice(0, 10)) + ' <button type="button" class="btn light" style="padding:2px 6px" data-fotowis="' + f.id + '">✕</button></figcaption></figure>'; }).join('') : '<p class="hint">Nog geen later ontvangen foto’s.</p>';
       }).catch(function () { $('#regFotos').innerHTML = '<p class="bad">Foto’s opslaan wordt in deze browser niet ondersteund.</p>'; });
-    }
-    function offertesHtml(a) {
-      if (!a.offertes || !a.offertes.length) return '';
-      var lab = { open: 'Nog niet betaald', gestart: 'Betaling gestart', betaald: 'Betaald', controleren: 'Controleren', ingetrokken: 'Ingetrokken' };
-      return '<table><thead><tr><th>Betaallink</th><th class="num">Bedrag</th><th>Status</th><th></th></tr></thead><tbody>' + a.offertes.map(function (o) {
-        return '<tr><td><a href="../laadpalen/betalen/?t=' + esc(o.token) + '" target="_blank" rel="noopener">' + esc(o.omschrijving) + '</a><br><small>' + esc((o.aangemaakt || '').slice(0, 10)) + (o.soort === 'aanbetaling' ? ' · aanbetaling' : '') + '</small></td><td class="num">' + eur(o.bedrag) + '</td><td class="' + (o.status === 'betaald' ? 'ok' : (o.status === 'controleren' ? 'bad' : '')) + '">' + esc(lab[o.status] || o.status) + '</td><td>' + (o.status !== 'betaald' && o.status !== 'ingetrokken' ? '<button class="btn light" type="button" data-intrek="' + esc(o.token) + '">Intrekken</button>' : '') + '</td></tr>';
-      }).join('') + '</tbody></table>';
-    }
-    function srvKey() { var el = $('#srvKey'); var k = el && el.value ? el.value : ''; try { if (k) sessionStorage.setItem('ek_admin_key', k); else k = sessionStorage.getItem('ek_admin_key') || ''; } catch (e) {} return k; }
-    function srv(pad, opts) {
-      var k = srvKey(); if (!k) return Promise.reject(new Error('Vul eerst de beheersleutel in (tabblad Aanvragen).'));
-      opts = opts || {}; opts.headers = Object.assign({ Authorization: 'Bearer ' + k }, opts.headers || {});
-      return fetch(CFG.instellingen.workerUrl.replace(/\/+$/, '') + pad, opts).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { if (!r.ok) throw new Error(d.fout || ('Server antwoordde met ' + r.status)); return d; }); });
-    }
-    function sync() {
-      var st = $('#srvStatus'); if (st) st.textContent = 'Bezig met ophalen…';
-      return Promise.all([srv('/admin/aanvragen'), srv('/admin/offertes')]).then(function (res) {
-        res[0].aanvragen.forEach(function (x) {
-          var k = x.klant || {};
-          voegToe({ ref: x.ref, datum: (x.ontvangen || '').replace('T', ' ').slice(0, 16), naam: k.naam, email: k.email, telefoon: k.telefoon, adres: k.adres, bron: 'server',
-            tech: { ref: x.ref, route: x.route, staat: x.staat, totaal: x.totaal, regels: x.regels, intern: x.intern, versie: x.versie, klant: k },
-            velden: Object.assign({}, (data.items[x.ref] || {}).velden || {}, { 'Opmerkingen klant': x.opmerkingen, 'Foto’s': x.fotos }) });
-        });
-        var perRef = {};
-        res[1].offertes.forEach(function (o) { (perRef[o.ref] = perRef[o.ref] || []).push(o); });
-        Object.keys(perRef).forEach(function (ref) {
-          var a = data.items[ref]; if (!a) return;
-          a.offertes = perRef[ref].sort(function (x, y) { return String(x.aangemaakt).localeCompare(String(y.aangemaakt)); });
-          if (a.offertes.some(function (o) { return o.status === 'betaald'; }) && ['Ingepland', 'Geïnstalleerd', 'Betaald'].indexOf(a.status) === -1) a.status = 'Betaald';
-        });
-        bewaar(); lijst(); if (open) detail(open);
-        if (st) st.textContent = res[0].aanvragen.length + ' aanvragen en ' + res[1].offertes.length + ' betaallinks opgehaald (' + new Date().toLocaleTimeString('nl-NL') + ').';
-      }).catch(function (e) { if (st) st.textContent = 'Ophalen mislukt: ' + e.message; });
     }
     function exportCsv() {
       var kop = ['Aanvraagnummer', 'Datum', 'Status', 'Naam', 'E-mail', 'Telefoon', 'Adres', 'Laadpaal', 'Route', 'Prijsindicatie', 'gclid', 'Notities'];
@@ -322,7 +283,6 @@
     var gebonden = false;
     function init() {
       laad(); lijst();
-      try { if (CFG.instellingen.workerUrl && sessionStorage.getItem('ek_admin_key')) sync(); } catch (e) {}
       if (gebonden) return; gebonden = true;
       document.addEventListener('change', function (e) {
         var t = e.target;
@@ -335,7 +295,6 @@
       document.addEventListener('input', function (e) {
         if (e.target.id === 'regZoek') lijst();
         if (e.target.id === 'regNotitie' && open) { data.items[open].notities = e.target.value; bewaar(); }
-        if (e.target.id === 'regBetaallink' && open) { data.items[open].betaallink = e.target.value.trim(); bewaar(); }
       });
       document.addEventListener('click', function (e) {
         var o = e.target.closest('[data-open]'); if (o) detail(o.getAttribute('data-open'));
@@ -344,23 +303,10 @@
         if (e.target.id === 'regPlakOpen') $('#regPlak').hidden = !$('#regPlak').hidden;
         if (e.target.id === 'regPlakGo') { try { var tech = JSON.parse($('#regPlakIn').value); if (!tech.ref) throw 0; voegToe({ ref: tech.ref, datum: new Date().toISOString().slice(0, 16), naam: tech.klant && tech.klant.naam, email: tech.klant && tech.klant.email, telefoon: tech.klant && tech.klant.telefoon, adres: tech.klant && tech.klant.adres, tech: tech, velden: {}, bron: 'handmatig' }); bewaar(); lijst(); $('#regPlakIn').value = ''; } catch (er) { alert('Plak het volledige veld “Configuratie (technisch)” uit de e-mail.'); } }
         if (e.target.id === 'regExport') exportCsv();
-        if (e.target.id === 'srvSync') sync();
-        if (e.target.id === 'srvTest') srv('/admin/check').then(function () { $('#srvStatus').textContent = 'Verbinding in orde.'; }, function (er) { $('#srvStatus').textContent = 'Geen verbinding: ' + er.message; });
-        var it = e.target.closest('[data-intrek]');
-        if (it && open && confirm('Deze betaallink intrekken? De klant kan er dan niet meer mee betalen.')) srv('/admin/offerte/' + it.getAttribute('data-intrek'), { method: 'DELETE' }).then(sync, function (er) { alert(er.message); });
-        if (e.target.id === 'payMaak' && open) {
-          var a = data.items[open];
-          var body = { ref: a.ref, bedrag: Number($('#payBedrag').value), soort: $('#paySoort').value, omschrijving: $('#payOms').value, geldigDagen: Number($('#payDagen').value), naam: a.naam, email: a.email };
-          if (!(body.bedrag >= 1)) { alert('Vul een geldig bedrag in.'); return; }
-          if (!confirm('Betaallink aanmaken voor ' + eur(body.bedrag) + '?')) return;
-          srv('/admin/offerte', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(function (d) {
-            a.offertes = (a.offertes || []).concat([d.offerte]); a.betaallink = d.betaalUrl; bewaar(); detail(open);
-          }, function (er) { alert('Aanmaken mislukt: ' + er.message); });
-        }
         if (e.target.id === 'regBackup') download('aanvragen-backup.json', JSON.stringify(data, null, 1), 'application/json');
       });
     }
-    return { init: init, sync: sync, _csv: csv, _uitRij: uitRij };
+    return { init: init, _csv: csv, _uitRij: uitRij };
   })();
 
   function margeTabel() {

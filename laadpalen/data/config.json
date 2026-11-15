@@ -20,9 +20,7 @@
     "reactietermijn": "binnen 1 werkdag",
     "installatieTermijn": "gemiddeld binnen 3 weken",
     "installatieDuur": "gemiddeld 4 tot 8 uur",
-    "privacyUrl": "/privacyverklaring/",
-    "workerUrl": "",
-    "voorwaardenUrl": ""
+    "privacyUrl": "/privacyverklaring/"
   },
   "kosten": {
     "_uitleg": "Interne kostprijsgegevens voor de margeberekening in /beheer/. Bedragen exclusief btw. Worden NOOIT aan klanten getoond.",

@@ -465,16 +465,6 @@
     if (metBestanden) FILES.forEach(function (f, i) { if (f.file) fd.append('upload', f.file, (REF + '-' + f.soort + '-' + (i + 1) + '-' + f.file.name).slice(0, 90)); });
     return fd;
   }
-  /* Kopie van de aanvraag naar de ElektroKlik-server (Cloudflare Worker), zodat niets verloren gaat. */
-  function naarServer(cfg, r) {
-    var u = cfg.instellingen.workerUrl; if (!u) return;
-    var data = JSON.stringify({ ref: REF, route: r.route, staat: S, totaal: r.totaal, regels: r.regels, intern: r.intern, versie: cfg.versie,
-      klant: { naam: G.voornaam.trim() + ' ' + G.achternaam.trim(), email: G.email.trim(), telefoon: G.telefoon.trim(), adres: G.straat.trim() + ' ' + G.huisnummer.trim() + ', ' + G.postcode.trim().toUpperCase() + ' ' + G.plaats.trim() },
-      opmerkingen: G.opmerkingen.trim(), fotos: FILES.map(function (f) { return f.soort; }).join(', '), _gotcha: ($('f-gotcha') || {}).value || '' });
-    var doel = u.replace(/\/+$/, '') + '/aanvraag';
-    try { if (navigator.sendBeacon && navigator.sendBeacon(doel, new Blob([data], { type: 'text/plain' }))) return; } catch (e) {}
-    try { fetch(doel, { method: 'POST', body: data, headers: { 'Content-Type': 'text/plain' }, keepalive: true }).catch(function () {}); } catch (e) {}
-  }
   function post(cfg, fd) {
     return fetch(cfg.instellingen.formEndpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } }).then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res; });
   }
@@ -484,7 +474,6 @@
       try { localStorage.setItem('ek_laatste_aanvraag', JSON.stringify({ referentie: REF, datum: new Date().toISOString(), naam: G.voornaam + ' ' + G.achternaam, email: G.email, product: S.product, type: r.route, regels: r.regels, totaal: r.totaal, fotos: FILES.length, foutUpload: foutUpload, status: status })); } catch (e) {}
     };
     bewaarAanvraag('versturen');
-    naarServer(cfg, r);
     return post(cfg, bouwFormData(cfg, r, metFotos))
       .catch(function (e) { if (!metFotos) throw e; foutUpload = true; return post(cfg, bouwFormData(cfg, r, false)); })
       .then(function () { bewaarAanvraag('verstuurd'); verzonden = true; wis(); location.href = EK.base + 'bedankt/'; })

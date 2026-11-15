@@ -9,5 +9,4 @@ Deze map begint met een underscore, zodat GitHub Pages hem niet publiceert.
 4. Beheer, prijswijziging tijdens bestellen en storingen: `node _tests/beheer-en-foutscenarios.e2e.js`
 
 De e2e-tests onderscheppen het verzenden naar Formspree. Er worden dus geen echte aanvragen verstuurd.
-5. Cloudflare Worker (zonder browser): `node _tests/worker.test.mjs`
-6. Volledige betaalroute in de browser: `node _tests/betalen.e2e.js`
+
