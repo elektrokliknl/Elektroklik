@@ -267,7 +267,7 @@
     var fotos = (p.afbeeldingen && p.afbeeldingen.length) ? p.afbeeldingen : (p.afbeelding ? [p.afbeelding] : []);
     var main = document.getElementById('galleryMain');
     var toon = function (i) {
-      main.innerHTML = '<img src="' + EK.esc(EK.imgUrl(fotos[i])) + '" alt="' + EK.esc((p.afbeeldingAlt || p.naam) + (i ? ' (foto ' + (i + 1) + ')' : '')) + '">';
+      main.innerHTML = '<img' + (/\/werk\//.test(fotos[i]) ? ' class="cover"' : '') + ' src="' + EK.esc(EK.imgUrl(fotos[i])) + '" alt="' + EK.esc((p.afbeeldingAlt || p.naam) + (/\/werk\//.test(fotos[i]) ? ', geïnstalleerd door ElektroKlik' : (i ? ' (foto ' + (i + 1) + ')' : ''))) + '">';
       document.querySelectorAll('#galleryThumbs button').forEach(function (b, j) { b.setAttribute('aria-current', String(j === i)); });
     };
     if (fotos.length) {

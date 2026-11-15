@@ -541,3 +541,7 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 .incl-cols li { break-inside: avoid; margin-bottom: .45rem; }
 @media (max-width: 760px) { .incl-cols { columns: 1; } }
 @media (max-width: 640px) { .page-band { padding: 88px 0 44px; } .pcard-media { height: 220px; } .pcard-media img { max-height: 185px; } }
+/* Mobiel: fotobijschrift en prijslabel in de hero niet over elkaar */
+@media (max-width: 900px) { .hero-media figcaption { top: 12px; bottom: auto; left: 12px; } }
+/* Verborgen elementen altijd verbergen (ook als een andere regel display instelt) */
+[hidden] { display: none !important; }
