@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+  <script id="ek-consent-default">
+    /* Cookietoestemming (Google Consent Mode v2): standaard geen analytische of advertentiecookies */
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    try { if (localStorage.getItem('ek_consent_v1') === 'granted') gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' }); } catch (e) {}
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Elektricien | Bel of App ElektroKlik – Amersfoort e.o.</title>
@@ -38,7 +45,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1869941847011402');
+    try{if(localStorage.getItem('ek_consent_v1')!=='granted')fbq('consent','revoke');}catch(e){fbq('consent','revoke');}fbq('init', '1869941847011402');
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
@@ -52,6 +59,7 @@
     <a class="logo" href="../"><img src="../logo.png" alt="ElektroKlik elektricien en elektrotechniek" class="site-logo-img"></a>
     <ul class="nav-links">
       <li><a href="../" id="nav-home">Home</a></li>
+      <li><a href="../laadpalen/" id="nav-laadpalen" class="nav-laadpalen">Laadpalen</a></li>
       <li><a href="../diensten/" id="nav-diensten">Diensten</a></li>
       <li><a href="../over-ons/" id="nav-overons">Over Ons</a></li>
       <li><a href="../contact/" id="nav-contact" class="active">Contact</a></li>
@@ -63,8 +71,8 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
   <a href="../" onclick="toggleMobileNav()">Home</a>
-  <a href="../diensten/" onclick="toggleMobileNav()">Diensten</a>
   <a href="../laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
+  <a href="../diensten/" onclick="toggleMobileNav()">Diensten</a>
   <a href="../meterkasten-en-elektra/" onclick="toggleMobileNav()">Meterkasten en elektra</a>
   <a href="../alarm-en-camerasystemen/" onclick="toggleMobileNav()">Alarm- en camerasystemen</a>
   <a href="../over-ons/" onclick="toggleMobileNav()">Over Ons</a>
@@ -85,7 +93,7 @@
       <div class="contact-details">
         <a class="contact-item" href="mailto:info@elektroklik.nl"><div>📧</div><span><strong>E-mail</strong>info@elektroklik.nl</span></a>
         <a class="contact-item" href="tel:+31658856729"><div>📞</div><span><strong>Telefoon</strong>+31 6 58 85 67 29</span></a>
-        <a class="contact-item" href="https://wa.me/31658856729" target="_blank"><div>💬</div><span><strong>WhatsApp</strong>App ons direct</span></a>
+        <a class="contact-item" href="https://wa.me/31850600572" target="_blank"><div>💬</div><span><strong>WhatsApp</strong>App ons direct</span></a>
         <div class="contact-item"><div>🕐</div><span><strong>Bereikbaarheid</strong>Ma–Vr 07:00–19:00 · Weekend op afspraak</span></div>
       </div>
     </div>
@@ -115,16 +123,17 @@
     <div class="footer-brand">
       <img src="../logo.png" alt="ElektroKlik elektricien" class="site-logo-img">
       <p>Professionele elektrotechnische werkzaamheden voor particulieren en bedrijven. Heldere communicatie, vakkundige uitvoering en maatwerk voor iedere klant.</p>
-      <div class="social-links"><a href="https://www.facebook.com/people/ElektroKliknl/61563486633011/" aria-label="Facebook">f</a><a href="https://www.linkedin.com/in/elektro-klik-503481358/" aria-label="LinkedIn">in</a><a href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp">💬</a></div>
+      <div class="social-links"><a href="https://www.facebook.com/people/ElektroKliknl/61563486633011/" aria-label="Facebook">f</a><a href="https://www.linkedin.com/in/elektro-klik-503481358/" aria-label="LinkedIn">in</a><a href="https://wa.me/31850600572" target="_blank" aria-label="WhatsApp">💬</a></div>
     </div>
     <div class="footer-col"><h4>Navigatie</h4><a href="../">Home</a><a href="../diensten/">Diensten</a><a href="../over-ons/">Over Ons</a><a href="../contact/">Contact</a><a href="../offerte/">Offerte aanvragen</a></div>
     <div class="footer-col"><h4>Diensten</h4><a href="../laadpalen/">Laadpalen</a><a href="../meterkasten-en-elektra/">Meterkasten en elektra</a><a href="../alarm-en-camerasystemen/">Alarm- en camerasystemen</a></div>
-    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31658856729">+31 6 58 85 67 29</a><a href="https://wa.me/31658856729" target="_blank">WhatsApp</a><a href="../contact/">Contactformulier</a></div>
+    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31658856729">+31 6 58 85 67 29</a><a href="https://wa.me/31850600572" target="_blank">WhatsApp</a><a href="../contact/">Contactformulier</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap &amp; Kwaliteit</span></div>
+  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. · <a href="../privacyverklaring/" style="color:inherit">Privacyverklaring</a> · <a href="#cookies" onclick="window.ekCookieInstellingen &amp;&amp; window.ekCookieInstellingen(); return false;" style="color:inherit">Cookie-instellingen</a> ⚡ Vakmanschap &amp; Kwaliteit</span></div>
 </footer>
-<a class="whatsapp-btn" href="https://wa.me/31658856729" target="_blank" aria-label="WhatsApp ElektroKlik">💬</a>
+<a class="whatsapp-btn" href="https://wa.me/31850600572" target="_blank" aria-label="WhatsApp ElektroKlik">💬</a>
 <div class="toast" id="toast"></div>
 <script src="../script.js"></script>
+<script src="../consent.js" defer></script>
 </body>
 </html>

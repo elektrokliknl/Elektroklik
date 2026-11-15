@@ -1,0 +1,657 @@
+{
+  "versie": "2026-11-15.5",
+  "laatstGewijzigd": "2026-11-15",
+  "instellingen": {
+    "prijzenGoedgekeurd": true,
+    "conceptLabel": "Voorbeeldprijs – nog niet definitief",
+    "btwPercentage": 21,
+    "telefoon": "085 060 05 72",
+    "telefoonLink": "+31850600572",
+    "whatsappLink": "https://wa.me/31850600572",
+    "email": "info@elektroklik.nl",
+    "formEndpoint": "https://formspree.io/f/xjgzdzww",
+    "gtmContainerId": "",
+    "ga4MeasurementId": "G-84ZN73CE1T",
+    "googleAdsId": "AW-18199719989",
+    "reviewScore": "5,0",
+    "reviewBronnen": "Google, Zoofy en Trustoo",
+    "reviewAantalGoogle": "",
+    "googleReviewsUrl": "",
+    "reactietermijn": "binnen 1 werkdag",
+    "installatieTermijn": "gemiddeld binnen 3 weken",
+    "installatieDuur": "gemiddeld 4 tot 8 uur",
+    "privacyUrl": "/privacyverklaring/"
+  },
+  "kosten": {
+    "_uitleg": "Interne kostprijsgegevens voor de margeberekening in /beheer/. Bedragen exclusief btw. Worden NOOIT aan klanten getoond.",
+    "uurtarief": 0,
+    "reistijdUren": 0,
+    "reiskosten": 0
+  },
+  "standaardInstallatie": {
+    "titel": "Standaardinstallatie",
+    "inbegrepen": [
+      "Montage van de laadpaal op een stevige buitenmuur of in de garage",
+      "Tot 10 meter installatiekabel vanaf de meterkast, netjes weggewerkt",
+      "Een aparte groep met aardlekautomaat in de meterkast (bij voldoende ruimte)",
+      "Load balancing, inclusief de benodigde hardware of licentie voor uw laadpaal",
+      "Aansluiten, testen en in bedrijf stellen volgens NEN 1010",
+      "Uitleg over de bediening en de app van de fabrikant",
+      "Voorrijkosten binnen ons werkgebied"
+    ],
+    "nietInbegrepen": [
+      "Kabellengte boven de 10 meter (wordt berekend in de configurator)",
+      "Extra werk als er geen toegankelijke kruipruimte is",
+      "Graafwerk (per meter, wordt berekend in de configurator)",
+      "Een montagepaal, als er geen geschikte muur is",
+      "Uitbreiden of vervangen van de meterkast (na beoordeling, altijd vooraf met u afgestemd)",
+      "Verzwaren van de aansluiting bij de netbeheerder",
+      "Laadkabel (optioneel te bestellen in de configurator; veel auto’s worden met een laadkabel geleverd)",
+      "Abonnementskosten van een laadpasprovider of verrekenpartij"
+    ],
+    "kosten": {
+      "arbeidsuren": 0,
+      "materiaal": 0
+    }
+  },
+  "producten": [
+    {
+      "id": "easee-up",
+      "slug": "easee-charge-up",
+      "merk": "Easee",
+      "naam": "Easee Charge Up",
+      "positionering": "Compact & Slim",
+      "kort": "Slim en compact thuisladen.",
+      "vanafprijs": 1450,
+      "afbeelding": "assets/img/easee-voorkant.webp",
+      "afbeeldingAlt": "Easee Charge Up laadpaal, vooraanzicht",
+      "kleur": "#1f2329",
+      "voordelen": [
+        "Compact ontwerp dat rustig oogt aan de gevel",
+        "Bediening en inzicht via de Easee-app",
+        "Ingebouwde wifi en 4G-verbinding",
+        "Fabrieksgarantie van 5 jaar volgens Easee"
+      ],
+      "geschiktVoor": [
+        "Particulieren die eenvoudig en slim thuis willen laden",
+        "Woningen met een 1-fase- of 3-faseaansluiting",
+        "Wie geen MID-gecertificeerde meting nodig heeft"
+      ],
+      "minderGeschiktVoor": [
+        "Zakelijke verrekening van laadkosten met de werkgever: de Charge Up is volgens Easee niet MID-gecertificeerd. Kies hiervoor de Easee Charge Max."
+      ],
+      "specs": {
+        "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase)",
+        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
+        "connectiviteit": "Wifi en 4G",
+        "rfid": "Wordt bevestigd in uw offerte",
+        "mid": "Nee",
+        "loadBalancing": "Inbegrepen: Easee Equalizer P1 op uw slimme meter",
+        "app": "Easee-app",
+        "garantie": "5 jaar fabrieksgarantie (volgens Easee)",
+        "display": "Nee"
+      },
+      "midGecertificeerd": false,
+      "loadBalancingAccessoire": "Easee Equalizer P1",
+      "bronnen": [
+        "https://download.easee.com/m/30676799dd62b5c8/original/-NL-Charge-Up-Productsheet.pdf",
+        "https://download.easee.com/m/c642ab2efc4420/original/-FR-Charge-Up-Productsheet.pdf",
+        "https://support.easee.com/hc/en-gb/articles/36392150474385-Key-Differences-Between-Easee-Chargers-Which-One-is-Right-for-You"
+      ],
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0,
+        "materiaal": 0
+      },
+      "afbeeldingen": [
+        "assets/img/easee-voorkant.webp",
+        "assets/img/easee-zijaanzicht.webp"
+      ]
+    },
+    {
+      "id": "easee-max",
+      "slug": "easee-charge-max",
+      "merk": "Easee",
+      "naam": "Easee Charge Max",
+      "positionering": "Compact & Zakelijk",
+      "kort": "Slim thuisladen met MID-gecertificeerde energiemeting.",
+      "vanafprijs": 1600,
+      "afbeelding": "assets/img/easee-voorkant-2.webp",
+      "afbeeldingAlt": "Easee Charge Max laadpaal, vooraanzicht",
+      "kleur": "#1f2329",
+      "voordelen": [
+        "MID-gecertificeerde energiemeter (klasse B)",
+        "RFID-toegangscontrole",
+        "Ingebouwde wifi en 4G (eSIM)",
+        "Fabrieksgarantie van 5 jaar volgens Easee"
+      ],
+      "geschiktVoor": [
+        "Zakelijke rijders die laadkosten willen verrekenen",
+        "Wie het gemak van Easee wil, met een MID-meter",
+        "Woningen met een 1-fase- of 3-faseaansluiting"
+      ],
+      "minderGeschiktVoor": [],
+      "specs": {
+        "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase)",
+        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
+        "connectiviteit": "Wifi en 4G (ingebouwde eSIM)",
+        "rfid": "Ja, RFID-lezer",
+        "mid": "Ja, MID klasse B (±1%)",
+        "loadBalancing": "Inbegrepen: Easee Equalizer P1 op uw slimme meter",
+        "app": "Easee-app",
+        "garantie": "5 jaar fabrieksgarantie (volgens Easee)",
+        "display": "Nee"
+      },
+      "midGecertificeerd": true,
+      "loadBalancingAccessoire": "Easee Equalizer P1",
+      "bronnen": [
+        "https://download.easee.com/m/499a69b4633e91df/original/-NL-Charge-Max-Productsheet.pdf",
+        "https://download.easee.com/m/974b7439f28780f/original/-NL-Charge-Max-brochure.pdf",
+        "https://support.easee.com/hc/en-gb/articles/36392150474385-Key-Differences-Between-Easee-Chargers-Which-One-is-Right-for-You"
+      ],
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0,
+        "materiaal": 0
+      },
+      "afbeeldingen": [
+        "assets/img/easee-voorkant-2.webp"
+      ]
+    },
+    {
+      "id": "zaptec",
+      "slug": "zaptec-go-2",
+      "merk": "Zaptec",
+      "naam": "Zaptec Go 2",
+      "positionering": "Premium & Toekomstgericht",
+      "kort": "Een premium laadpaal met een strak ontwerp, moderne slimme functies en een MID-gecertificeerde energiemeter.",
+      "vanafprijs": 1750,
+      "afbeelding": "assets/img/zaptec-go-2-voorkant.webp",
+      "afbeeldingAlt": "Zaptec Go 2 laadpaal, vooraanzicht",
+      "kleur": "#2b2f36",
+      "voordelen": [
+        "Strak, premium ontwerp",
+        "MID-gecertificeerde energiemeter (klasse B)",
+        "Wifi, 4G en Bluetooth",
+        "Geschikt voor binnen en buiten (IP54, IK10)"
+      ],
+      "geschiktVoor": [
+        "Particulieren die een premium, toekomstgerichte laadpaal willen",
+        "Wie laadkosten zakelijk wil verrekenen (MID-meting)",
+        "Woningen met een 1-fase- of 3-faseaansluiting"
+      ],
+      "minderGeschiktVoor": [],
+      "specs": {
+        "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase)",
+        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
+        "connectiviteit": "Wifi, 4G (LTE) en Bluetooth",
+        "rfid": "Ja, RFID-lezer",
+        "mid": "Ja, MID klasse B",
+        "loadBalancing": "Inbegrepen: Zaptec Sense P1 op uw slimme meter (DSMR 5.0 of hoger)",
+        "app": "Zaptec-app",
+        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Zaptec",
+        "display": "Nee, lichtring"
+      },
+      "midGecertificeerd": true,
+      "loadBalancingAccessoire": "Zaptec Sense P1",
+      "bronnen": [
+        "https://www.zaptec.com/charging-solutions/home-charging/zaptec-go-2",
+        "https://www.zaptec.com/zaptec-sense"
+      ],
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0,
+        "materiaal": 0
+      },
+      "afbeeldingen": [
+        "assets/img/zaptec-go-2-voorkant.webp",
+        "assets/img/zaptec-go-2-zijaanzicht.webp"
+      ]
+    },
+    {
+      "id": "alfen-s",
+      "slug": "alfen-eve-single-s-line",
+      "merk": "Alfen",
+      "naam": "Alfen Eve Single S-line",
+      "positionering": "Betrouwbaar & Nederlands",
+      "kort": "Een compacte, robuuste laadpaal van de Nederlandse fabrikant Alfen, met een MID-gecertificeerde energiemeter en slimme thuisintegratie.",
+      "vanafprijs": 1899,
+      "afbeelding": "assets/img/alfen-eve-single-s-line.webp",
+      "afbeeldingAlt": "Alfen Eve Single S-line laadpaal, wit, met statusled en Type 2-contactdoos",
+      "kleur": "#e9edf1",
+      "voordelen": [
+        "Ontwikkeld door de Nederlandse fabrikant Alfen",
+        "MID-gecertificeerde energiemeter",
+        "Compact, met duidelijke statusled",
+        "Active Load Balancing inbegrepen"
+      ],
+      "geschiktVoor": [
+        "Wie kiest voor betrouwbaarheid en een Nederlands merk",
+        "Zakelijke rijders die laadkosten willen verrekenen",
+        "Thuisladen tot 11 kW"
+      ],
+      "minderGeschiktVoor": [],
+      "specs": {
+        "maxVermogen": "Tot 11 kW (3-fase) of 7,4 kW (1-fase), afhankelijk van uitvoering",
+        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
+        "connectiviteit": "Afhankelijk van uitvoering",
+        "rfid": "Afhankelijk van uitvoering (plug & charge of RFID)",
+        "mid": "Ja, MID-gecertificeerde energiemeter",
+        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing (licentie) met aansluiting op uw slimme meter",
+        "app": "Statusled; beheer via backoffice of laadpasprovider (OCPP)",
+        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
+        "display": "Nee, statusled"
+      },
+      "midGecertificeerd": true,
+      "loadBalancingAccessoire": "Alfen Active Load Balancing",
+      "bronnen": [
+        "https://knowledge.alfen.com/products/eve-single-s-line",
+        "https://eu-assets.contentstack.com/v3/assets/blt08d332658a89f766/blta4f9411e56ab5073/6a38defe58a7df05454b278a/Eve_Single_Datasheet_EN_.pdf"
+      ],
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0,
+        "materiaal": 0
+      },
+      "afbeeldingen": [
+        "assets/img/alfen-eve-single-s-line.webp"
+      ]
+    },
+    {
+      "id": "alfen-pro",
+      "slug": "alfen-eve-single-pro-line",
+      "merk": "Alfen",
+      "naam": "Alfen Eve Single Pro-line",
+      "positionering": "Professioneel & Uitgebreid",
+      "kort": "De uitgebreide Alfen voor thuis én zakelijk gebruik, met display, RFID-lezer en MID-gecertificeerde meter. Koppelbaar aan een backoffice.",
+      "vanafprijs": 2149,
+      "afbeelding": "assets/img/alfen-eve-single-pro-line.webp",
+      "afbeeldingAlt": "Alfen Eve Single Pro-line laadpaal, wit, met kleurendisplay, RFID-lezer en Type 2-contactdoos",
+      "kleur": "#e9edf1",
+      "voordelen": [
+        "Ontwikkeld door de Nederlandse fabrikant Alfen",
+        "Kleurendisplay en RFID-lezer",
+        "MID-gecertificeerde energiemeter",
+        "Active Load Balancing inbegrepen"
+      ],
+      "geschiktVoor": [
+        "Zakelijke rijders en ondernemers",
+        "Wie maximale instelmogelijkheden wil",
+        "Laden tot 22 kW op een 3-faseaansluiting (afhankelijk van uitvoering)"
+      ],
+      "minderGeschiktVoor": [],
+      "specs": {
+        "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase), afhankelijk van uitvoering",
+        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
+        "connectiviteit": "Afhankelijk van uitvoering (o.a. 4G-varianten)",
+        "rfid": "Ja, RFID-lezer",
+        "mid": "Ja, MID-gecertificeerde energiemeter",
+        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing (licentie) met aansluiting op uw slimme meter",
+        "app": "Display op de laadpaal; beheer via backoffice of laadpasprovider (OCPP)",
+        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
+        "display": "Ja, kleurendisplay"
+      },
+      "midGecertificeerd": true,
+      "loadBalancingAccessoire": "Alfen Active Load Balancing",
+      "bronnen": [
+        "https://alfen.com/nl-nl/ev-oplaadpunten/thuis/eve-single-pro-line",
+        "https://eu-assets.contentstack.com/v3/assets/blt08d332658a89f766/blta4f9411e56ab5073/6a38defe58a7df05454b278a/Eve_Single_Datasheet_EN_.pdf"
+      ],
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0,
+        "materiaal": 0
+      },
+      "afbeeldingen": [
+        "assets/img/alfen-eve-single-pro-line.webp"
+      ]
+    }
+  ],
+  "regels": {
+    "meterkast": {
+      "vraag": "Welke situatie is op u van toepassing?",
+      "keuzes": [
+        {
+          "id": "geschikt",
+          "label": "Mijn meterkast is geschikt en heeft voldoende vrije ruimte.",
+          "prijs": 0
+        },
+        {
+          "id": "geschikt-vol",
+          "label": "Mijn meterkast is geschikt, maar heeft geen vrije ruimte voor een extra groep.",
+          "prijs": 0,
+          "intern": "Aanvullende uitbreidingskast mogelijk nodig",
+          "beoordeling": "Wij controleren of uitbreiding van uw meterkast veilig mogelijk is. Eventuele meerkosten bevestigen wij altijd vooraf."
+        },
+        {
+          "id": "verouderd",
+          "label": "Mijn meterkast is verouderd of niet geschikt.",
+          "prijs": 0,
+          "route": "offerte"
+        },
+        {
+          "id": "onbekend",
+          "label": "Ik weet niet zeker of mijn meterkast geschikt is.",
+          "prijs": 0,
+          "route": "offerte"
+        }
+      ]
+    },
+    "locatie": {
+      "vraag": "Waar wilt u uw laadpaal laten installeren?",
+      "keuzes": [
+        {
+          "id": "buitenmuur",
+          "label": "Aan de buitenmuur",
+          "uitleg": "Bijvoorbeeld naast de voordeur of bij de oprit.",
+          "prijs": 0
+        },
+        {
+          "id": "garage",
+          "label": "Binnen in de garage",
+          "uitleg": "In een aangebouwde of vrijstaande garage.",
+          "prijs": 0
+        },
+        {
+          "id": "paal",
+          "label": "Op een vrijstaande montagepaal",
+          "uitleg": "Als er geen muur in de buurt van de parkeerplek is.",
+          "prijs": 0,
+          "voegtToe": "montagepaal"
+        },
+        {
+          "id": "anders",
+          "label": "Andere situatie",
+          "uitleg": "Bijvoorbeeld een carport of gedeelde parkeerplaats.",
+          "prijs": 0,
+          "beoordeling": "De montagesituatie wordt door ElektroKlik beoordeeld."
+        }
+      ]
+    },
+    "afstand": {
+      "vraag": "Hoe ver is de meterkast van de gewenste laadpaalplek?",
+      "keuzes": [
+        {
+          "id": "0-5",
+          "label": "Tot 5 meter",
+          "prijs": 0
+        },
+        {
+          "id": "5-10",
+          "label": "5 tot 10 meter",
+          "prijs": 0
+        },
+        {
+          "id": "10-20",
+          "label": "10 tot 20 meter",
+          "prijs": 90,
+          "regelLabel": "Langere kabelroute (10 tot 20 meter)"
+        },
+        {
+          "id": "20+",
+          "label": "Meer dan 20 meter",
+          "prijs": 200,
+          "regelLabel": "Lange kabelroute (meer dan 20 meter)",
+          "vraagtMeters": true,
+          "beoordeling": "Bij een kabelroute van meer dan 20 meter controleren wij de kabellengte en -dikte."
+        },
+        {
+          "id": "onbekend",
+          "label": "Weet ik niet",
+          "prijs": 0,
+          "beoordeling": "De lengte van de kabelroute moet nog worden bepaald."
+        }
+      ]
+    },
+    "kruipruimte": {
+      "vraag": "Is er een toegankelijke kruipruimte aanwezig?",
+      "keuzes": [
+        {
+          "id": "ja",
+          "label": "Ja",
+          "prijs": 0
+        },
+        {
+          "id": "nee",
+          "label": "Nee",
+          "prijs": 35,
+          "regelLabel": "Geen toegankelijke kruipruimte"
+        },
+        {
+          "id": "onbekend",
+          "label": "Weet ik niet",
+          "prijs": 0,
+          "beoordeling": "Wij beoordelen hoe de kabel het beste naar de laadpaal kan lopen."
+        }
+      ]
+    },
+    "graafwerk": {
+      "vraag": "Zijn graafwerkzaamheden nodig?",
+      "prijsPerMeter": 25,
+      "keuzes": [
+        {
+          "id": "nee",
+          "label": "Nee",
+          "prijs": 0
+        },
+        {
+          "id": "ja",
+          "label": "Ja",
+          "prijs": 0,
+          "vraagtMeters": true,
+          "regelLabel": "Graafwerk"
+        },
+        {
+          "id": "onbekend",
+          "label": "Weet ik niet",
+          "prijs": 0,
+          "beoordeling": "Wij beoordelen of er graafwerk nodig is."
+        }
+      ]
+    },
+    "fase": {
+      "vraag": "Heeft u een 1-fase- of 3-faseaansluiting?",
+      "keuzes": [
+        {
+          "id": "1",
+          "label": "1-fase",
+          "prijs": 0
+        },
+        {
+          "id": "3",
+          "label": "3-fase",
+          "prijs": 0
+        },
+        {
+          "id": "onbekend",
+          "label": "Weet ik niet",
+          "prijs": 0,
+          "beoordeling": "Uw type aansluiting moet nog worden vastgesteld."
+        }
+      ]
+    },
+    "slimmeMeter": {
+      "vraag": "Heeft u een slimme meter?",
+      "keuzes": [
+        {
+          "id": "ja",
+          "label": "Ja",
+          "prijs": 0
+        },
+        {
+          "id": "nee",
+          "label": "Nee",
+          "prijs": 0,
+          "beoordeling": "Voor de inbegrepen load balancing is een slimme meter met P1-poort nodig. Wij bespreken de mogelijkheden met u."
+        },
+        {
+          "id": "onbekend",
+          "label": "Weet ik niet",
+          "prijs": 0,
+          "beoordeling": "Wij controleren of uw meter geschikt is voor load balancing."
+        }
+      ]
+    },
+    "zonnepanelen": {
+      "vraag": "Heeft u zonnepanelen?",
+      "keuzes": [
+        {
+          "id": "ja",
+          "label": "Ja",
+          "prijs": 0
+        },
+        {
+          "id": "nee",
+          "label": "Nee",
+          "prijs": 0
+        },
+        {
+          "id": "gepland",
+          "label": "Binnenkort",
+          "prijs": 0
+        }
+      ]
+    },
+    "zakelijk": {
+      "vraag": "Wilt u laadkosten zakelijk verrekenen?",
+      "keuzes": [
+        {
+          "id": "nee",
+          "label": "Nee",
+          "prijs": 0
+        },
+        {
+          "id": "ja",
+          "label": "Ja",
+          "prijs": 0
+        }
+      ]
+    },
+    "loadBalancing": {
+      "labelPerProduct": {
+        "easee-up": "Easee Equalizer P1",
+        "easee-max": "Easee Equalizer P1",
+        "zaptec": "Zaptec Sense P1",
+        "alfen-s": "Alfen Active Load Balancing (licentie)",
+        "alfen-pro": "Alfen Active Load Balancing (licentie)"
+      },
+      "kosten": {
+        "easee-up": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "easee-max": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "zaptec": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "alfen-s": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "alfen-pro": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        }
+      }
+    },
+    "montagepaal": {
+      "label": "Montagepaal inclusief plaatsing",
+      "prijsPerProduct": {
+        "easee-up": 329,
+        "easee-max": 329,
+        "zaptec": 359,
+        "alfen-s": 409,
+        "alfen-pro": 409
+      },
+      "kosten": {
+        "easee-up": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "easee-max": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "zaptec": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "alfen-s": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        },
+        "alfen-pro": {
+          "inkoop": 0,
+          "arbeidsuren": 0
+        }
+      }
+    }
+  },
+  "opties": [
+    {
+      "id": "kabelhouder",
+      "label": "Kabelhouder voor aan de muur",
+      "uitleg": "Houdt uw laadkabel netjes opgeborgen.",
+      "prijs": 50,
+      "vereist": {
+        "locatieNiet": [
+          "paal"
+        ]
+      },
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0
+      }
+    },
+    {
+      "id": "kabel1",
+      "label": "Laadkabel Type 2, 1-fase 32 A (7,4 kW), 5 meter",
+      "kort": "1-fase laadkabel, 5 meter",
+      "uitleg": "Geschikt voor laden op 1 fase, tot 7,4 kW.",
+      "prijs": 140,
+      "groep": "kabel",
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0
+      }
+    },
+    {
+      "id": "kabel3",
+      "label": "Laadkabel Type 2, 3-fase 32 A (22 kW), 5 meter",
+      "kort": "3-fase laadkabel, 5 meter",
+      "uitleg": "Geschikt voor laden op 3 fasen, tot 22 kW.",
+      "prijs": 175,
+      "groep": "kabel",
+      "kosten": {
+        "inkoop": 0,
+        "arbeidsuren": 0
+      }
+    }
+  ],
+  "meterkastVoorbeelden": {
+    "geschikt": [
+      {
+        "afbeelding": "assets/img/meterkast-geschikt-1.webp",
+        "alt": "Moderne witte groepenkast met aardlekautomaten en vrije ruimte"
+      },
+      {
+        "afbeelding": "assets/img/meterkast-geschikt-2.webp",
+        "alt": "Moderne zwarte groepenkast met automaten, aardlekschakelaar en vrije plekken"
+      }
+    ],
+    "beoordelen": [
+      {
+        "afbeelding": "assets/img/meterkast-beoordelen-1.webp",
+        "alt": "Oudere groepenkast met enkele groepen en een losse aardlekschakelaar"
+      },
+      {
+        "afbeelding": "assets/img/meterkast-beoordelen-2.webp",
+        "alt": "Verouderde meterkast met schroefstoppen"
+      }
+    ]
+  }
+}
