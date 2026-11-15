@@ -545,3 +545,6 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 @media (max-width: 900px) { .hero-media figcaption { top: 12px; bottom: auto; left: 12px; } }
 /* Verborgen elementen altijd verbergen (ook als een andere regel display instelt) */
 [hidden] { display: none !important; }
+/* Hero: bijschrift boven, prijs onder (laadpaal blijft vrij), op alle schermen */
+.hero-media figcaption { top: 14px; bottom: auto; left: 14px; }
+.hero-price-chip { top: auto; bottom: 22px; }
