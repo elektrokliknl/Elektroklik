@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Beheer laadpaalshop | ElektroKlik</title>
+<link rel="icon" href="../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --p: #0b7f75; --ink: #0f1b2d; --mut: #5b6b80; --line: #e3e8ef; --bg: #f5f7fa; --warn: #8a4b00; --warnbg: #fff7e8; --err: #c62828; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 'DM Sans', system-ui, sans-serif; color: #334155; background: var(--bg); }
+  header { background: #0a1628; color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  header h1 { font: 800 1.15rem 'Exo 2', sans-serif; margin: 0; }
+  header .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  h2 { font: 800 1.25rem 'Exo 2', sans-serif; color: var(--ink); margin: 0 0 4px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 18px; }
+  .card > p.hint { margin: 0 0 14px; color: var(--mut); font-size: .9rem; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tabs button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font: 600 .92rem 'DM Sans'; cursor: pointer; }
+  .tabs button[aria-selected=true] { background: var(--p); color: #fff; border-color: var(--p); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px 16px; }
+  label { display: block; font-weight: 600; font-size: .86rem; color: var(--ink); }
+  label small { display: block; font-weight: 400; color: var(--mut); }
+  input, textarea, select { width: 100%; margin-top: 4px; padding: 9px 10px; border: 1.5px solid #cfd8e3; border-radius: 8px; font: inherit; background: #fff; color: var(--ink); }
+  input:focus, textarea:focus { outline: none; border-color: var(--p); box-shadow: 0 0 0 3px rgba(11,127,117,.15); }
+  input[type=number] { max-width: 160px; }
+  input[type=checkbox] { width: 20px; height: 20px; vertical-align: middle; margin: 0 6px 0 0; accent-color: var(--p); }
+  textarea { min-height: 90px; }
+  .full { grid-column: 1 / -1; }
+  .btn { border: 0; border-radius: 10px; padding: 10px 16px; font: 700 .92rem 'DM Sans'; cursor: pointer; background: var(--p); color: #fff; }
+  .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+  .btn.light { background: #fff; color: var(--ink); border: 1px solid #cfd8e3; }
+  .sub { border-top: 1px dashed var(--line); margin-top: 16px; padding-top: 14px; }
+  .sub h3 { font-size: 1rem; margin: 0 0 10px; color: var(--ink); }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { color: var(--mut); font-weight: 600; }
+  td.num { text-align: right; white-space: nowrap; }
+  .ok { color: var(--p); font-weight: 700; } .bad { color: var(--err); font-weight: 700; }
+  .banner { border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: .92rem; }
+  .banner.warn { background: var(--warnbg); border: 1px solid #f3d199; color: var(--warn); }
+  .banner.err { background: #fdecec; border: 1px solid #f5c2c2; color: var(--err); }
+  .banner.ok { background: #e6f5f3; border: 1px solid #bfe3de; color: #0a5d56; }
+  .dirty { display: none; background: #f5a04a; color: #0a1628; border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: .8rem; }
+  .dirty.show { display: inline-block; }
+  [hidden] { display: none !important; }
+  code { background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ElektroKlik · Beheer laadpaalshop <span class="dirty" id="dirty">Niet-opgeslagen wijzigingen</span></h1>
+  <div class="acts">
+    <button class="btn ghost" id="btnPreview" type="button">Bekijk de shop</button>
+    <button class="btn light" id="btnDownload" type="button">Download config.json</button>
+    <button class="btn" id="btnPublish" type="button">Publiceren…</button>
+  </div>
+</header>
+<main>
+  <div id="status"></div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="panels"></div>
+</main>
+<script src="../laadpalen/assets/pricing.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CFG = null, ORIG = '';
+  var $ = function (s) { return document.querySelector(s); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var eur = function (n) { return '€ ' + (Math.round(Number(n) * 100) / 100).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+
+  /* --- Pad-gebaseerde binding: data-path="producten.0.vanafprijs" --- */
+  function get(path) { return path.split('.').reduce(function (o, k) { return o == null ? o : o[k]; }, CFG); }
+  function set(path, val) {
+    var ks = path.split('.'), o = CFG;
+    for (var i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+    o[ks[ks.length - 1]] = val;
+  }
+  function f(path, label, type, hint, cls) {
+    var v = get(path);
+    if (type === 'lines') return '<label class="' + (cls || 'full') + '">' + label + (hint ? '<small>' + hint + '</small>' : '') + '<textarea data-path="' + path + '" data-type="lines">' + esc((v || []).join('\n')) + '</textarea></label>';
+    if (type === 'textarea') return '<label class="' + (cls || 'full') + '">' + label + (hint ? '<small>' + hint + '</small>' : '') + '<textarea data-path="' + path + '">' + esc(v) + '</textarea></label>';
+    if (type === 'bool') return '<label class="' + (cls || '') + '"><input type="checkbox" data-path="' + path + '" data-type="bool"' + (v ? ' checked' : '') + '>' + label + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+    return '<label class="' + (cls || '') + '">' + label + (hint ? '<small>' + hint + '</small>' : '') + '<input type="' + (type === 'number' ? 'number" step="1" min="0' : 'text') + '" data-path="' + path + '"' + (type === 'number' ? ' data-type="number"' : '') + ' value="' + esc(v) + '"></label>';
+  }
+
+  var TABS = [
+    ['aanvragen', 'Aanvragen'], ['algemeen', 'Algemeen'], ['producten', 'Producten'], ['prijsregels', 'Installatie en toeslagen'],
+    ['opties', 'Extra opties'], ['marge', 'Kosten en marge'], ['test', 'Prijs testen']
+  ];
+
+  function paneel(id) {
+    var h = '';
+    if (id === 'algemeen') {
+      h += '<div class="card"><h2>Algemene instellingen</h2><p class="hint">Contactgegevens, het formulier-adres en de status van de prijzen.</p><div class="grid">' +
+        f('instellingen.prijzenGoedgekeurd', 'Prijzen zijn goedgekeurd en definitief', 'bool', 'Uit = op de site staat overal “Voorbeeldprijs” en een testbanner.', 'full') +
+        f('instellingen.conceptLabel', 'Tekst bij voorbeeldprijzen') +
+        f('instellingen.telefoon', 'Telefoonnummer (zichtbaar)') + f('instellingen.telefoonLink', 'Telefoonnummer (link, met +31)') +
+        f('instellingen.whatsappLink', 'WhatsApp-link') + f('instellingen.email', 'E-mailadres') +
+        f('instellingen.formEndpoint', 'Formulier-adres (Formspree)', 'text', 'Hier komen de aanvragen binnen.') +
+        f('instellingen.gtmContainerId', 'Google Tag Manager-ID', 'text', 'Bijv. GTM-ABC1234. Leeg = niet laden.') +
+        f('instellingen.btwPercentage', 'Btw-percentage', 'number') + f('instellingen.privacyUrl', 'Adres van uw privacyverklaring', 'text', 'Bijv. /privacyverklaring/') + f('instellingen.workerUrl', 'Server-adres (Cloudflare Worker)', 'text', 'Bijv. https://elektroklik.uwnaam.workers.dev. Leeg = geen online betalen en geen centrale opslag.') + f('instellingen.voorwaardenUrl', 'Adres van uw algemene voorwaarden', 'text', 'Optioneel. Wordt getoond op de betaalpagina.') + '</div></div>' +
+        '<div class="card"><h2>Standaardinstallatie</h2><p class="hint">Eén regel per punt. Tekst tussen [VIERKANTE HAKEN IN HOOFDLETTERS] wordt op de site als gele placeholder getoond.</p><div class="grid">' +
+        f('standaardInstallatie.inbegrepen', 'Inbegrepen', 'lines') + f('standaardInstallatie.nietInbegrepen', 'Mogelijk extra', 'lines') + '</div></div>';
+    }
+    if (id === 'producten') {
+      CFG.producten.forEach(function (p, i) {
+        var b = 'producten.' + i + '.';
+        h += '<div class="card"><h2>' + esc(p.naam) + '</h2><div class="grid">' +
+          f(b + 'naam', 'Productnaam') + f(b + 'merk', 'Merk') + f(b + 'positionering', 'Positionering') +
+          f(b + 'vanafprijs', 'Vanafprijs incl. standaardinstallatie en btw (€)', 'number') +
+          f(b + 'afbeelding', 'Productfoto', 'text', 'Pad of URL, bijv. assets/img/zaptec-go-2.jpg (map /laadpalen/). Leeg = illustratie.') +
+          f(b + 'afbeeldingAlt', 'Omschrijving foto (voor blinden en Google)') +
+          f(b + 'midGecertificeerd', 'Heeft een MID-gecertificeerde meter', 'bool', 'Bepaalt of zakelijke verrekening kan worden gekozen.', 'full') +
+          f(b + 'kort', 'Korte omschrijving', 'textarea') +
+          f(b + 'voordelen', 'Belangrijkste voordelen (één per regel)', 'lines') +
+          f(b + 'geschiktVoor', 'Geschikt voor (één per regel)', 'lines') +
+          f(b + 'minderGeschiktVoor', 'Minder geschikt voor (één per regel)', 'lines') +
+          '</div><div class="sub"><h3>Specificaties</h3><div class="grid">' +
+          Object.keys(p.specs).map(function (k) { return f(b + 'specs.' + k, k); }).join('') +
+          f(b + 'bronnen', 'Bronnen (één URL per regel)', 'lines') + '</div></div></div>';
+      });
+    }
+    if (id === 'prijsregels') {
+      h += '<div class="card"><h2>Toeslagen per keuze</h2><p class="hint">Bedragen inclusief btw. De klant ziet bij deze technische vragen geen losse bedragen, alleen de bijgewerkte totaalprijs. Een beoordelingstekst verschijnt bij “Wat wij nog controleren” en in de aanvraag.</p>';
+      EKPricing.VRAGEN.forEach(function (v) {
+        var r = CFG.regels[v];
+        h += '<div class="sub"><h3>' + esc(r.vraag) + '</h3><table><thead><tr><th>Keuze</th><th>Toeslag (€)</th><th>Beoordelingstekst (leeg = geen beoordeling)</th></tr></thead><tbody>' +
+          r.keuzes.map(function (k, i) {
+            var b = 'regels.' + v + '.keuzes.' + i + '.';
+            var extra = k.route === 'offerte' ? ' <small style="color:var(--warn)">(→ offerteroute)</small>' : '';
+            return '<tr><td>' + esc(k.label) + extra + '</td><td><input type="number" min="0" data-type="number" data-path="' + b + 'prijs" value="' + esc(k.prijs) + '"></td><td><input type="text" data-path="' + b + 'beoordeling" value="' + esc(k.beoordeling || '') + '"></td></tr>';
+          }).join('') + '</tbody></table>' + (v === 'graafwerk' ? '<div class="grid" style="margin-top:10px">' + f('regels.graafwerk.prijsPerMeter', 'Graafwerk: prijs per meter (€)', 'number') + '</div>' : '') + '</div>';
+      });
+      h += '</div><div class="card"><h2>Per laadpaal</h2><p class="hint">Load balancing is bij alle laadpalen inbegrepen in de prijs. Hier legt u vast welke hardware of licentie daarvoor wordt geplaatst.</p><table><thead><tr><th>Onderdeel</th>' + CFG.producten.map(function (p) { return '<th>' + esc(p.naam) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        '<tr><td>Montagepaal (€)</td>' + CFG.producten.map(function (p) { return '<td><input type="number" min="0" data-type="number" data-path="regels.montagepaal.prijsPerProduct.' + p.id + '" value="' + esc(CFG.regels.montagepaal.prijsPerProduct[p.id]) + '"></td>'; }).join('') + '</tr>' +
+        '<tr><td>Inbegrepen load balancing</td>' + CFG.producten.map(function (p) { return '<td><input type="text" data-path="regels.loadBalancing.labelPerProduct.' + p.id + '" value="' + esc(CFG.regels.loadBalancing.labelPerProduct[p.id]) + '"></td>'; }).join('') + '</tr></tbody></table></div>';
+    }
+    if (id === 'opties') {
+      h += '<div class="card"><h2>Extra opties</h2><p class="hint">Bedragen inclusief btw.</p>';
+      CFG.opties.forEach(function (o, i) {
+        var b = 'opties.' + i + '.';
+        h += '<div class="sub"><h3>' + esc(o.label) + '</h3><div class="grid">' + f(b + 'label', 'Naam') + f(b + 'prijs', 'Prijs (€)', 'number') + f(b + 'uitleg', 'Uitleg voor de klant', 'textarea') + '</div></div>';
+      });
+      h += '</div>';
+    }
+    if (id === 'marge') {
+      h += '<div class="card"><h2>Kosten en marge</h2><p class="hint">Alleen voor intern gebruik: deze bedragen (exclusief btw) worden nooit aan klanten getoond.</p><div class="grid">' +
+        f('kosten.uurtarief', 'Interne kosten per arbeidsuur (€ excl.)', 'number') + f('kosten.reistijdUren', 'Reistijd per klus (uren)', 'number') + f('kosten.reiskosten', 'Reiskosten per klus (€ excl.)', 'number') +
+        f('standaardInstallatie.kosten.arbeidsuren', 'Arbeidsuren standaardinstallatie', 'number') + f('standaardInstallatie.kosten.materiaal', 'Materiaal standaardinstallatie (€ excl.)', 'number') + '</div>' +
+        '<div class="sub"><h3>Inkoop per laadpaal</h3><div class="grid">' + CFG.producten.map(function (p, i) { return f('producten.' + i + '.kosten.inkoop', esc(p.naam) + ': laadpaal (€ excl.)', 'number') + f('regels.loadBalancing.kosten.' + p.id + '.inkoop', esc(p.naam) + ': load balancing (€ excl.)', 'number'); }).join('') + '</div></div>' +
+        '<div class="sub"><h3>Uitkomst bij de standaardprijs</h3><div id="margeTabel"></div></div></div>';
+    }
+    if (id === 'aanvragen') {
+      h += '<div class="card"><h2>Aanvragen</h2>' +
+        '<p class="hint">Aanvragen komen binnen via Formspree (per e-mail en in het <a href="https://formspree.io/forms" target="_blank" rel="noopener">Formspree-dashboard</a>). Exporteer daar de inzendingen als CSV en importeer ze hier. U kunt per aanvraag de status bijhouden, notities maken en later ontvangen foto’s toevoegen.</p>' +
+        '<div class="banner warn">Dit overzicht wordt bewaard in <b>deze browser op deze computer</b>. Gebruik “Exporteer overzicht” als back-up of om het op een andere computer te openen. Voor een centraal systeem met automatische opslag is een kleine server-koppeling nodig (zie het opleverdocument).</div>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" style="display:inline-block">CSV uit Formspree importeren<input type="file" id="regCsv" accept=".csv,text/csv" hidden></label>' +
+        '<button class="btn light" type="button" id="regPlakOpen">Eén aanvraag plakken</button>' +
+        '<button class="btn light" type="button" id="regExport">Exporteer overzicht (CSV)</button>' +
+        '<button class="btn light" type="button" id="regBackup">Back-up (JSON)</button>' +
+        '<label class="btn light" style="display:inline-block">Back-up terugzetten<input type="file" id="regRestore" accept=".json,application/json" hidden></label></p>' +
+        (CFG.instellingen.workerUrl ? '<div class="sub" style="margin-top:0;border-top:0;padding-top:0"><h3>Server (Cloudflare Worker)</h3><p class="hint">Met de server komen aanvragen automatisch binnen (zonder foto’s) en kunt u online betaallinks aanmaken.</p><p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input type="password" id="srvKey" placeholder="Beheersleutel (ADMIN_KEY)" style="max-width:320px" autocomplete="off"><button class="btn" type="button" id="srvSync">Ophalen van server</button><button class="btn light" type="button" id="srvTest">Verbinding testen</button></p><p id="srvStatus" class="hint"></p></div>' : '<p class="hint">Tip: vul bij Algemeen het server-adres in om aanvragen automatisch op te halen en online betaallinks te maken.</p>') +
+        '<div id="regPlak" hidden><textarea id="regPlakIn" placeholder="Plak hier het veld “Configuratie (technisch)” uit de e-mail"></textarea><p><button class="btn" type="button" id="regPlakGo">Toevoegen</button></p></div>' +
+        '<p style="margin:10px 0"><input type="search" id="regZoek" placeholder="Zoek op naam, aanvraagnummer, plaats of laadpaal" style="max-width:420px"> <select id="regFilter" style="max-width:220px;display:inline-block"><option value="">Alle statussen</option>' + STATUSSEN.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select></p>' +
+        '<div id="regLijst"></div><div id="regDetail"></div></div>';
+    }
+    if (id === 'test') {
+      h += '<div class="card"><h2>Prijs testen</h2><p class="hint">Plak het veld “Configuratie (technisch)” uit een aanvraag om de prijs met de huidige instellingen na te rekenen, of open de configurator.</p>' +
+        '<textarea id="testIn" placeholder=\'{"ref":"EK-…","staat":{…}}\'></textarea><p><button class="btn" type="button" id="testGo">Reken na</button> <a class="btn light" href="../laadpalen/samenstellen/" target="_blank" style="text-decoration:none;display:inline-block">Open de configurator</a></p><div id="testOut"></div></div>';
+    }
+    return h;
+  }
+
+
+  /* ===================== Aanvraagregister ===================== */
+  var STATUSSEN = ['Nieuw', 'In behandeling', 'Wacht op foto’s', 'Offerte verstuurd', 'Akkoord', 'Betaallink verstuurd', 'Betaald', 'Ingepland', 'Geïnstalleerd', 'Geannuleerd'];
+  var REG = (function () {
+    var KEY = 'ek_register_v1', data = { items: {} }, open = null;
+    function laad() { try { data = JSON.parse(localStorage.getItem(KEY) || '{"items":{}}'); } catch (e) { data = { items: {} }; } }
+    function bewaar() { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { alert('Opslaan in deze browser is niet gelukt.'); } }
+    /* --- foto's in IndexedDB --- */
+    function db() {
+      return new Promise(function (res, rej) {
+        var r = indexedDB.open('ek_beheer', 1);
+        r.onupgradeneeded = function () { r.result.createObjectStore('fotos', { keyPath: 'id', autoIncrement: true }).createIndex('ref', 'ref'); };
+        r.onsuccess = function () { res(r.result); }; r.onerror = function () { rej(r.error); };
+      });
+    }
+    function fotos(ref) { return db().then(function (d) { return new Promise(function (res) { var out = [], q = d.transaction('fotos').objectStore('fotos').index('ref').openCursor(IDBKeyRange.only(ref)); q.onsuccess = function () { var c = q.result; if (c) { out.push(c.value); c.continue(); } else res(out); }; }); }); }
+    function fotoBewaar(ref, file, soort) { return db().then(function (d) { return new Promise(function (res, rej) { var t = d.transaction('fotos', 'readwrite'); t.objectStore('fotos').add({ ref: ref, naam: file.name, soort: soort, blob: file, datum: new Date().toISOString() }); t.oncomplete = res; t.onerror = function () { rej(t.error); }; }); }); }
+    function fotoWis(id) { return db().then(function (d) { return new Promise(function (res) { var t = d.transaction('fotos', 'readwrite'); t.objectStore('fotos').delete(id); t.oncomplete = res; }); }); }
+    /* --- CSV --- */
+    function csv(text) {
+      var rows = [], row = [], cel = '', q = false;
+      for (var i = 0; i < text.length; i++) {
+        var ch = text[i];
+        if (q) { if (ch === '"') { if (text[i + 1] === '"') { cel += '"'; i++; } else q = false; } else cel += ch; }
+        else if (ch === '"') q = true;
+        else if (ch === ',' || ch === ';') { row.push(cel); cel = ''; }
+        else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(cel); rows.push(row); row = []; cel = ''; }
+        else cel += ch;
+      }
+      if (cel || row.length) { row.push(cel); rows.push(row); }
+      var kop = rows.shift() || [];
+      return rows.filter(function (r) { return r.some(function (c) { return c.trim(); }); }).map(function (r) { var o = {}; kop.forEach(function (k, i) { o[k.trim()] = r[i] || ''; }); return o; });
+    }
+    function kolom(o, re) { for (var k in o) if (re.test(k) && o[k]) return o[k]; return ''; }
+    function uitRij(o) {
+      var tech = null, t = kolom(o, /configuratie.*technisch/i);
+      try { tech = t ? JSON.parse(t) : null; } catch (e) { tech = null; }
+      var ref = (tech && tech.ref) || kolom(o, /^(aanvraagnummer|referentie)$/i);
+      if (!ref) return null;
+      return {
+        ref: ref, datum: kolom(o, /submitted|created|date|datum/i) || '', bron: 'csv',
+        naam: (tech && tech.klant && tech.klant.naam) || kolom(o, /^naam$/i), email: (tech && tech.klant && tech.klant.email) || kolom(o, /e-?mail/i),
+        telefoon: (tech && tech.klant && tech.klant.telefoon) || kolom(o, /telefoon/i), adres: (tech && tech.klant && tech.klant.adres) || kolom(o, /installatieadres/i),
+        tech: tech, velden: o
+      };
+    }
+    function voegToe(a) {
+      var bestaand = data.items[a.ref];
+      data.items[a.ref] = Object.assign({ status: 'Nieuw', notities: '' }, bestaand || {}, a, bestaand ? { status: bestaand.status, notities: bestaand.notities, betaallink: bestaand.betaallink } : {});
+    }
+    /* --- weergave --- */
+    function label(v, id) { var k = EKPricing.keuze(CFG, v, id); return k ? k.label : (id || '–'); }
+    function lijst() {
+      var el = $('#regLijst'); if (!el) return;
+      var z = ($('#regZoek').value || '').toLowerCase(), fs = $('#regFilter').value;
+      var items = Object.keys(data.items).map(function (k) { return data.items[k]; })
+        .filter(function (a) { return (!fs || a.status === fs) && (!z || JSON.stringify([a.ref, a.naam, a.adres, a.tech && a.tech.staat && a.tech.staat.product]).toLowerCase().indexOf(z) > -1); })
+        .sort(function (a, b) { return String(b.datum || b.ref).localeCompare(String(a.datum || a.ref)); });
+      if (!items.length) { el.innerHTML = '<p class="hint">Nog geen aanvragen in dit overzicht. Importeer de CSV-export uit Formspree.</p>'; return; }
+      el.innerHTML = '<table><thead><tr><th>Aanvraag</th><th>Klant</th><th>Laadpaal</th><th>Route</th><th class="num">Prijsindicatie</th><th>Status</th><th></th></tr></thead><tbody>' + items.map(function (a) {
+        var st = a.tech && a.tech.staat || {}, p = EKPricing.product(CFG, st.product);
+        return '<tr><td><b>' + esc(a.ref) + '</b><br><small>' + esc(String(a.datum).slice(0, 16)) + '</small></td><td>' + esc(a.naam) + '<br><small>' + esc(a.adres) + '</small></td><td>' + esc(p ? p.naam : (a.velden && a.velden.Laadpaal) || '–') + '</td><td>' + (a.tech && a.tech.route === 'offerte' ? 'Offerte (meterkast)' : 'Standaard') + '</td><td class="num">' + (a.tech && a.tech.route !== 'offerte' ? eur(a.tech.totaal) : '–') + '</td>' +
+          '<td><select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td><td><button class="btn light" type="button" data-open="' + esc(a.ref) + '">Details</button></td></tr>';
+      }).join('') + '</tbody></table>';
+    }
+    function detail(ref) {
+      open = ref; var a = data.items[ref], el = $('#regDetail'); if (!a) { el.innerHTML = ''; return; }
+      var t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product);
+      var r = function (k, v) { return '<tr><th>' + k + '</th><td>' + esc(v == null || v === '' ? '–' : v) + '</td></tr>'; };
+      var rows = r('Aanvraagnummer', a.ref) + r('Datum', a.datum) + r('Naam', a.naam) + r('E-mail', a.email) + r('Telefoon', a.telefoon) + r('Installatieadres', a.adres) +
+        r('Laadpaal', p ? p.naam : (a.velden && a.velden.Laadpaal)) + r('Route', t.route === 'offerte' ? 'Vrijblijvende offerte (meterkast verouderd of onbekend)' : 'Standaard') +
+        r('Meterkast', label('meterkast', st.meterkast)) + r('Kabelafstand', label('afstand', st.afstand) + (st.afstandMeters ? ' (circa ' + st.afstandMeters + ' m)' : '')) +
+        r('Kruipruimte', label('kruipruimte', st.kruipruimte)) + r('Graafwerk', label('graafwerk', st.graafwerk) + (st.graafMeters ? ' (circa ' + st.graafMeters + ' m)' : '')) +
+        r('Montagepaal', st.locatie === 'paal' ? 'Ja' : (st.locatie ? 'Nee (' + label('locatie', st.locatie) + ')' : '–')) + r('Kabelhouder', (st.opties || []).indexOf('kabelhouder') > -1 ? 'Ja' : 'Nee') + r('Laadkabel', ((st.opties || []).filter(function (id) { return /^kabel\d/.test(id); }).map(function (id) { var o = EKPricing.optie(CFG, id); return o ? o.label : id; })[0]) || 'Nee') +
+        r('Aansluiting', label('fase', st.fase)) + r('Slimme meter', label('slimmeMeter', st.slimmeMeter)) + r('Zonnepanelen', label('zonnepanelen', st.zonnepanelen)) + r('Zakelijk verrekenen', label('zakelijk', st.zakelijk)) +
+        r('Berekende totaalprijs', t.route === 'offerte' ? 'Offerte op maat' : eur(t.totaal)) + r('Prijsconfiguratie', t.versie) +
+        r('Opmerkingen klant', a.velden && a.velden['Opmerkingen klant']) + r('Foto’s bij aanvraag', a.velden && (a.velden['Foto’s'] || a.velden["Foto's"]));
+      var toeslagen = (t.regels || []).map(function (x) { return '<tr><td>' + esc(x.label) + '</td><td class="num">' + eur(x.bedrag) + '</td></tr>'; }).join('');
+      var nu = t.staat ? EKPricing.bereken(CFG, t.staat) : null;
+      el.innerHTML = '<div class="sub"><h3>Aanvraag ' + esc(a.ref) + ' <button class="btn light" type="button" data-sluit>Sluiten</button></h3>' +
+        '<div class="grid"><div class="full"><table>' + rows + '</table></div>' +
+        '<div class="full"><h3 style="margin-top:12px">Prijsopbouw en interne toeslagen</h3><table>' + (toeslagen || '<tr><td>Geen (offerteroute)</td></tr>') + '</table>' +
+        (nu && nu.route === 'standaard' && nu.totaal !== t.totaal ? '<p class="bad">Let op: met de huidige prijzen zou dit ' + eur(nu.totaal) + ' zijn.</p>' : '') + '</div>' +
+        '<div class="full"><h3 style="margin-top:12px">Technische bijzonderheden</h3><ul>' + (t.intern || []).concat(a.velden && a.velden['Nog te controleren'] ? [a.velden['Nog te controleren']] : []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
+        '<label class="full">Status<select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
+        '<label class="full">Interne notities<textarea id="regNotitie">' + esc(a.notities || '') + '</textarea></label>' +
+        (CFG.instellingen.workerUrl ? '<div class="full"><h3 style="margin-top:12px">Online betaling (Mollie)</h3><p class="hint">Maak een betaallink voor het definitieve offertebedrag. De klant geeft op de betaalpagina akkoord en betaalt direct. Het bedrag staat vast op de server en kan door de klant niet worden gewijzigd.</p>' +
+          '<div class="grid"><label>Bedrag incl. btw (€)<input type="number" id="payBedrag" min="1" step="0.01" value="' + esc(t.route === 'offerte' ? '' : t.totaal) + '"></label><label>Soort<select id="paySoort"><option value="volledig">Volledige betaling</option><option value="aanbetaling">Aanbetaling</option></select></label><label>Geldig (dagen)<input type="number" id="payDagen" min="1" max="180" value="30"></label><label class="full">Omschrijving<input type="text" id="payOms" value="' + esc('Laadpaal ' + (p ? p.naam : '') + ' inclusief installatie') + '"></label></div>' +
+          '<p><button class="btn" type="button" id="payMaak">Betaallink aanmaken</button></p>' + offertesHtml(a) + '</div>' : '') +
+        '<label class="full">Mollie-betaallink (handmatig)<small>Maak in uw Mollie-dashboard een betaalverzoek aan voor het offertebedrag en plak de link hier. Zo ziet u per aanvraag welke link verstuurd is.</small><input type="url" id="regBetaallink" placeholder="https://payment-links.mollie.com/…" value="' + esc(a.betaallink || '') + '"></label>' +
+        (a.betaallink ? '<p class="full"><a class="btn light" href="mailto:' + esc(a.email) + '?subject=' + encodeURIComponent('Betaallink voor uw laadpaal – ' + a.ref) + '&body=' + encodeURIComponent('Beste ' + (a.naam || '') + ',\n\nHartelijk dank voor uw aanvraag. Via onderstaande link kunt u onze offerte accepteren en eenvoudig en veilig betalen, bijvoorbeeld met iDEAL:\n' + a.betaallink + '\n\nMet vriendelijke groet,\nElektroKlik') + '">Betaallink mailen naar de klant</a></p>' : '') +
+        '<div class="full"><h3 style="margin-top:12px">Foto’s</h3><p class="hint">Foto’s die met de aanvraag zijn verstuurd, staan in de e-mail en in Formspree. Foto’s die de klant later per e-mail of WhatsApp stuurt, voegt u hier toe.</p>' +
+        '<p><select id="regFotoSoort" style="max-width:260px;display:inline-block"><option value="meterkast">Meterkast</option><option value="kabelroute">Kabelroute</option><option value="locatie">Laadpaallocatie</option><option value="overig">Overig</option></select> <label class="btn" style="display:inline-block">Foto’s toevoegen<input type="file" id="regFoto" accept="image/*,.heic,.heif,.pdf" multiple hidden></label></p><div id="regFotos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div></div></div>';
+      toonFotos(ref);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function toonFotos(ref) {
+      fotos(ref).then(function (l) {
+        var el = $('#regFotos'); if (!el) return;
+        el.innerHTML = l.length ? l.map(function (f) { var u = URL.createObjectURL(f.blob); return '<figure style="margin:0;width:150px"><a href="' + u + '" download="' + esc(ref + '-' + f.naam) + '">' + (/^image\//.test(f.blob.type) ? '<img src="' + u + '" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">' : '📄 ' + esc(f.naam)) + '</a><figcaption style="font-size:.8rem">' + esc(f.soort) + ' · ' + esc(f.datum.slice(0, 10)) + ' <button type="button" class="btn light" style="padding:2px 6px" data-fotowis="' + f.id + '">✕</button></figcaption></figure>'; }).join('') : '<p class="hint">Nog geen later ontvangen foto’s.</p>';
+      }).catch(function () { $('#regFotos').innerHTML = '<p class="bad">Foto’s opslaan wordt in deze browser niet ondersteund.</p>'; });
+    }
+    function offertesHtml(a) {
+      if (!a.offertes || !a.offertes.length) return '';
+      var lab = { open: 'Nog niet betaald', gestart: 'Betaling gestart', betaald: 'Betaald', controleren: 'Controleren', ingetrokken: 'Ingetrokken' };
+      return '<table><thead><tr><th>Betaallink</th><th class="num">Bedrag</th><th>Status</th><th></th></tr></thead><tbody>' + a.offertes.map(function (o) {
+        return '<tr><td><a href="../laadpalen/betalen/?t=' + esc(o.token) + '" target="_blank" rel="noopener">' + esc(o.omschrijving) + '</a><br><small>' + esc((o.aangemaakt || '').slice(0, 10)) + (o.soort === 'aanbetaling' ? ' · aanbetaling' : '') + '</small></td><td class="num">' + eur(o.bedrag) + '</td><td class="' + (o.status === 'betaald' ? 'ok' : (o.status === 'controleren' ? 'bad' : '')) + '">' + esc(lab[o.status] || o.status) + '</td><td>' + (o.status !== 'betaald' && o.status !== 'ingetrokken' ? '<button class="btn light" type="button" data-intrek="' + esc(o.token) + '">Intrekken</button>' : '') + '</td></tr>';
+      }).join('') + '</tbody></table>';
+    }
+    function srvKey() { var el = $('#srvKey'); var k = el && el.value ? el.value : ''; try { if (k) sessionStorage.setItem('ek_admin_key', k); else k = sessionStorage.getItem('ek_admin_key') || ''; } catch (e) {} return k; }
+    function srv(pad, opts) {
+      var k = srvKey(); if (!k) return Promise.reject(new Error('Vul eerst de beheersleutel in (tabblad Aanvragen).'));
+      opts = opts || {}; opts.headers = Object.assign({ Authorization: 'Bearer ' + k }, opts.headers || {});
+      return fetch(CFG.instellingen.workerUrl.replace(/\/+$/, '') + pad, opts).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { if (!r.ok) throw new Error(d.fout || ('Server antwoordde met ' + r.status)); return d; }); });
+    }
+    function sync() {
+      var st = $('#srvStatus'); if (st) st.textContent = 'Bezig met ophalen…';
+      return Promise.all([srv('/admin/aanvragen'), srv('/admin/offertes')]).then(function (res) {
+        res[0].aanvragen.forEach(function (x) {
+          var k = x.klant || {};
+          voegToe({ ref: x.ref, datum: (x.ontvangen || '').replace('T', ' ').slice(0, 16), naam: k.naam, email: k.email, telefoon: k.telefoon, adres: k.adres, bron: 'server',
+            tech: { ref: x.ref, route: x.route, staat: x.staat, totaal: x.totaal, regels: x.regels, intern: x.intern, versie: x.versie, klant: k },
+            velden: Object.assign({}, (data.items[x.ref] || {}).velden || {}, { 'Opmerkingen klant': x.opmerkingen, 'Foto’s': x.fotos }) });
+        });
+        var perRef = {};
+        res[1].offertes.forEach(function (o) { (perRef[o.ref] = perRef[o.ref] || []).push(o); });
+        Object.keys(perRef).forEach(function (ref) {
+          var a = data.items[ref]; if (!a) return;
+          a.offertes = perRef[ref].sort(function (x, y) { return String(x.aangemaakt).localeCompare(String(y.aangemaakt)); });
+          if (a.offertes.some(function (o) { return o.status === 'betaald'; }) && ['Ingepland', 'Geïnstalleerd', 'Betaald'].indexOf(a.status) === -1) a.status = 'Betaald';
+        });
+        bewaar(); lijst(); if (open) detail(open);
+        if (st) st.textContent = res[0].aanvragen.length + ' aanvragen en ' + res[1].offertes.length + ' betaallinks opgehaald (' + new Date().toLocaleTimeString('nl-NL') + ').';
+      }).catch(function (e) { if (st) st.textContent = 'Ophalen mislukt: ' + e.message; });
+    }
+    function exportCsv() {
+      var kop = ['Aanvraagnummer', 'Datum', 'Status', 'Naam', 'E-mail', 'Telefoon', 'Adres', 'Laadpaal', 'Route', 'Prijsindicatie', 'gclid', 'Notities'];
+      var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
+      var rows = Object.keys(data.items).map(function (k) { var a = data.items[k], t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product), ids = {}; try { ids = JSON.parse((a.velden || {})['Advertentie-ID’s'] || '{}'); } catch (e) {}
+        return [a.ref, a.datum, a.status, a.naam, a.email, a.telefoon, a.adres, p ? p.naam : '', t.route, t.totaal, ids.gclid || '', a.notities].map(q).join(';'); });
+      download('aanvragen-elektroklik.csv', '﻿' + kop.join(';') + '\n' + rows.join('\n'), 'text/csv');
+    }
+    function download(naam, inhoud, type) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([inhoud], { type: type })); a.download = naam; a.click(); }
+    var gebonden = false;
+    function init() {
+      laad(); lijst();
+      try { if (CFG.instellingen.workerUrl && sessionStorage.getItem('ek_admin_key')) sync(); } catch (e) {}
+      if (gebonden) return; gebonden = true;
+      document.addEventListener('change', function (e) {
+        var t = e.target;
+        if (t.id === 'regCsv' && t.files[0]) { t.files[0].text().then(function (txt) { var n = 0; csv(txt).forEach(function (o) { var a = uitRij(o); if (a) { voegToe(a); n++; } }); bewaar(); lijst(); alert(n + ' aanvragen geïmporteerd of bijgewerkt. Statussen en notities blijven behouden.'); t.value = ''; }); }
+        if (t.id === 'regRestore' && t.files[0]) { t.files[0].text().then(function (txt) { try { var d = JSON.parse(txt); Object.keys(d.items || {}).forEach(function (k) { voegToe(d.items[k]); data.items[k].status = d.items[k].status; data.items[k].notities = d.items[k].notities; }); bewaar(); lijst(); } catch (er) { alert('Dit is geen geldige back-up.'); } t.value = ''; }); }
+        if (t.hasAttribute && t.hasAttribute('data-status')) { var ref = t.getAttribute('data-status'); data.items[ref].status = t.value; data.items[ref].statusDatum = new Date().toISOString(); bewaar(); lijst(); if (open === ref) detail(ref); }
+        if (t.id === 'regFoto' && t.files.length && open) { var soort = $('#regFotoSoort').value; Promise.all(Array.prototype.map.call(t.files, function (f) { return fotoBewaar(open, f, soort); })).then(function () { toonFotos(open); t.value = ''; }); }
+        if (t.id === 'regFilter') lijst();
+      });
+      document.addEventListener('input', function (e) {
+        if (e.target.id === 'regZoek') lijst();
+        if (e.target.id === 'regNotitie' && open) { data.items[open].notities = e.target.value; bewaar(); }
+        if (e.target.id === 'regBetaallink' && open) { data.items[open].betaallink = e.target.value.trim(); bewaar(); }
+      });
+      document.addEventListener('click', function (e) {
+        var o = e.target.closest('[data-open]'); if (o) detail(o.getAttribute('data-open'));
+        if (e.target.closest('[data-sluit]')) { open = null; $('#regDetail').innerHTML = ''; }
+        var fw = e.target.closest('[data-fotowis]'); if (fw && confirm('Deze foto verwijderen?')) fotoWis(Number(fw.getAttribute('data-fotowis'))).then(function () { toonFotos(open); });
+        if (e.target.id === 'regPlakOpen') $('#regPlak').hidden = !$('#regPlak').hidden;
+        if (e.target.id === 'regPlakGo') { try { var tech = JSON.parse($('#regPlakIn').value); if (!tech.ref) throw 0; voegToe({ ref: tech.ref, datum: new Date().toISOString().slice(0, 16), naam: tech.klant && tech.klant.naam, email: tech.klant && tech.klant.email, telefoon: tech.klant && tech.klant.telefoon, adres: tech.klant && tech.klant.adres, tech: tech, velden: {}, bron: 'handmatig' }); bewaar(); lijst(); $('#regPlakIn').value = ''; } catch (er) { alert('Plak het volledige veld “Configuratie (technisch)” uit de e-mail.'); } }
+        if (e.target.id === 'regExport') exportCsv();
+        if (e.target.id === 'srvSync') sync();
+        if (e.target.id === 'srvTest') srv('/admin/check').then(function () { $('#srvStatus').textContent = 'Verbinding in orde.'; }, function (er) { $('#srvStatus').textContent = 'Geen verbinding: ' + er.message; });
+        var it = e.target.closest('[data-intrek]');
+        if (it && open && confirm('Deze betaallink intrekken? De klant kan er dan niet meer mee betalen.')) srv('/admin/offerte/' + it.getAttribute('data-intrek'), { method: 'DELETE' }).then(sync, function (er) { alert(er.message); });
+        if (e.target.id === 'payMaak' && open) {
+          var a = data.items[open];
+          var body = { ref: a.ref, bedrag: Number($('#payBedrag').value), soort: $('#paySoort').value, omschrijving: $('#payOms').value, geldigDagen: Number($('#payDagen').value), naam: a.naam, email: a.email };
+          if (!(body.bedrag >= 1)) { alert('Vul een geldig bedrag in.'); return; }
+          if (!confirm('Betaallink aanmaken voor ' + eur(body.bedrag) + '?')) return;
+          srv('/admin/offerte', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(function (d) {
+            a.offertes = (a.offertes || []).concat([d.offerte]); a.betaallink = d.betaalUrl; bewaar(); detail(open);
+          }, function (er) { alert('Aanmaken mislukt: ' + er.message); });
+        }
+        if (e.target.id === 'regBackup') download('aanvragen-backup.json', JSON.stringify(data, null, 1), 'application/json');
+      });
+    }
+    return { init: init, sync: sync, _csv: csv, _uitRij: uitRij };
+  })();
+
+  function margeTabel() {
+    var el = $('#margeTabel'); if (!el) return;
+    var k = CFG.kosten, si = CFG.standaardInstallatie.kosten, btw = 1 + CFG.instellingen.btwPercentage / 100;
+    el.innerHTML = '<table><thead><tr><th>Laadpaal</th><th class="num">Prijs incl. btw</th><th class="num">Omzet excl. btw</th><th class="num">Kosten</th><th class="num">Marge</th><th class="num">Marge %</th></tr></thead><tbody>' +
+      CFG.producten.map(function (p) {
+        var excl = p.vanafprijs / btw;
+        var lbk = ((CFG.regels.loadBalancing.kosten || {})[p.id] || {}).inkoop || 0;
+        var kost = Number(p.kosten.inkoop || 0) + Number(lbk) + Number(si.materiaal || 0) + (Number(si.arbeidsuren || 0) + Number(k.reistijdUren || 0)) * Number(k.uurtarief || 0) + Number(k.reiskosten || 0);
+        var m = excl - kost, pct = excl ? m / excl * 100 : 0;
+        return '<tr><td>' + esc(p.naam) + '</td><td class="num">' + eur(p.vanafprijs) + '</td><td class="num">' + eur(excl) + '</td><td class="num">' + (kost ? eur(kost) : '<i>nog niet ingevuld</i>') + '</td><td class="num ' + (m < 0 ? 'bad' : 'ok') + '">' + eur(m) + '</td><td class="num">' + (kost ? pct.toFixed(1) + '%' : '–') + '</td></tr>';
+      }).join('') + '</tbody></table><p class="hint" style="font-size:.85rem;color:var(--mut)">Kosten = inkoop laadpaal + inkoop load balancing + materiaal + (arbeidsuren + reistijd) × uurtarief + reiskosten.</p>';
+  }
+
+  function valideer() {
+    var fouten = EKPricing.valideerConfig(CFG);
+    var s = $('#status');
+    var h = '';
+    if (fouten.length) h += '<div class="banner err"><b>Er zijn fouten. Publiceren is geblokkeerd tot deze zijn opgelost:</b><ul>' + fouten.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+    if (!CFG.instellingen.prijzenGoedgekeurd) h += '<div class="banner warn">De prijzen staan op <b>voorbeeld</b>. Op de website staat een testbanner en bij iedere prijs “' + esc(CFG.instellingen.conceptLabel) + '”.</div>';
+    s.innerHTML = h;
+    $('#btnPublish').disabled = !!fouten.length;
+    return fouten;
+  }
+
+  function markeer() { $('#dirty').classList.toggle('show', JSON.stringify(CFG) !== ORIG); valideer(); margeTabel(); }
+
+  function toonTab(id) {
+    document.querySelectorAll('#tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === id)); });
+    $('#panels').innerHTML = paneel(id);
+    margeTabel();
+    if (id === 'aanvragen') REG.init();
+    if (id === 'test') $('#testGo').addEventListener('click', function () {
+      try {
+        var o = JSON.parse($('#testIn').value); var st = o.staat || o;
+        var r = EKPricing.bereken(CFG, st);
+        $('#testOut').innerHTML = '<table>' + r.regels.map(function (x) { return '<tr><td>' + esc(x.label) + '</td><td class="num">' + eur(x.bedrag) + '</td></tr>'; }).join('') + '<tr><th>Totaal incl. btw</th><th class="num">' + eur(r.totaal) + '</th></tr></table>' +
+          (o.totaal !== undefined ? '<p class="' + (o.totaal === r.totaal ? 'ok' : 'bad') + '">Bedrag in de aanvraag: ' + eur(o.totaal) + (o.totaal === r.totaal ? ' (gelijk)' : ' (wijkt af: de prijzen zijn sindsdien gewijzigd)') + '</p>' : '');
+      } catch (e) { $('#testOut').innerHTML = '<p class="bad">Dit is geen geldige configuratie.</p>'; }
+    });
+  }
+
+  document.addEventListener('input', function (e) {
+    var el = e.target, path = el.getAttribute('data-path'); if (!path) return;
+    var t = el.getAttribute('data-type'), v;
+    if (t === 'bool') v = el.checked;
+    else if (t === 'number') v = el.value === '' ? '' : Number(el.value);
+    else if (t === 'lines') v = el.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+    else v = el.value;
+    if (path.slice(-12) === '.beoordeling' && v === '') { var ks = path.split('.'); var o = get(ks.slice(0, -1).join('.')); delete o.beoordeling; }
+    else set(path, v);
+    markeer();
+  });
+  document.addEventListener('change', function (e) { if (e.target.getAttribute('data-type') === 'bool') e.target.dispatchEvent(new Event('input', { bubbles: true })); });
+
+  function bestand() {
+    CFG.laatstGewijzigd = new Date().toISOString().slice(0, 10);
+    CFG.versie = CFG.laatstGewijzigd + '.' + Date.now().toString(36);
+    return JSON.stringify(CFG, null, 2) + '\n';
+  }
+
+  $('#btnDownload').addEventListener('click', function () {
+    if (valideer().length) return alert('Los eerst de fouten op.');
+    var blob = new Blob([bestand()], { type: 'application/json' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'config.json'; a.click();
+    alert('config.json is gedownload. Vervang hiermee het bestand laadpalen/data/config.json in uw website (bijvoorbeeld via GitHub → Upload files).');
+  });
+  $('#btnPreview').addEventListener('click', function () { window.open('../laadpalen/', '_blank'); });
+
+  /* Publiceren via de GitHub API (token blijft alleen in deze browsersessie) */
+  $('#btnPublish').addEventListener('click', function () {
+    if (valideer().length) return;
+    var ss = function (k, d) { try { return sessionStorage.getItem(k) || d; } catch (e) { return d; } };
+    var repo = prompt('GitHub-repository (eigenaar/naam):', ss('ek_repo', ''));
+    if (!repo) return;
+    var branch = prompt('Branch (gebruik eerst een test-branch, bijv. "staging"):', ss('ek_branch', 'staging'));
+    if (!branch) return;
+    var token = ss('ek_token', '') || prompt('Persoonlijk GitHub-token (fine-grained, alleen “Contents: read & write” op deze repository). Het token wordt alleen in deze browsersessie bewaard.');
+    if (!token) return;
+    try { sessionStorage.setItem('ek_repo', repo); sessionStorage.setItem('ek_branch', branch); sessionStorage.setItem('ek_token', token); } catch (e) {}
+    var url = 'https://api.github.com/repos/' + repo + '/contents/laadpalen/data/config.json';
+    var hdr = { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json' };
+    var inhoud = bestand();
+    fetch(url + '?ref=' + encodeURIComponent(branch), { headers: hdr }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (cur) {
+      return fetch(url, { method: 'PUT', headers: hdr, body: JSON.stringify({ message: 'Laadpaalshop: prijzen/inhoud bijgewerkt via beheer', content: btoa(unescape(encodeURIComponent(inhoud))), branch: branch, sha: cur.sha }) });
+    }).then(function (r) {
+      if (!r.ok) throw new Error('GitHub antwoordde met ' + r.status);
+      ORIG = JSON.stringify(CFG); markeer();
+      $('#status').insertAdjacentHTML('afterbegin', '<div class="banner ok">Gepubliceerd naar <b>' + esc(branch) + '</b>. Het kan een paar minuten duren voordat de wijziging zichtbaar is.</div>');
+    }).catch(function (e) {
+      try { sessionStorage.removeItem('ek_token'); } catch (x) {}
+      alert('Publiceren is niet gelukt: ' + e.message + '. Controleer de repository, de branch en het token. U kunt ook “Download config.json” gebruiken.');
+    });
+  });
+
+  window.addEventListener('beforeunload', function (e) { if (JSON.stringify(CFG) !== ORIG) { e.preventDefault(); e.returnValue = ''; } });
+
+  fetch('../laadpalen/data/config.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (c) {
+    CFG = c; ORIG = JSON.stringify(c);
+    $('#tabs').innerHTML = TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join('');
+    $('#tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (b) toonTab(b.dataset.tab); });
+    toonTab('aanvragen'); valideer();
+  }).catch(function () { $('#status').innerHTML = '<div class="banner err">De configuratie kon niet worden geladen.</div>'; });
+})();
+</script>
+</body>
+</html>

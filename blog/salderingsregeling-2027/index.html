@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+  <script id="ek-consent-default">
+    /* Cookietoestemming (Google Consent Mode v2): standaard geen analytische of advertentiecookies */
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    try { if (localStorage.getItem('ek_consent_v1') === 'granted') gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' }); } catch (e) {}
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Einde salderingsregeling 2027: wat betekent het + thuisbatterij | ElektroKlik</title>
@@ -29,7 +36,7 @@
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','1869941847011402');fbq('track','PageView');
+    try{if(localStorage.getItem('ek_consent_v1')!=='granted')fbq('consent','revoke');}catch(e){fbq('consent','revoke');}fbq('init','1869941847011402');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
   <style>
@@ -67,6 +74,7 @@
     <a class="logo" href="../../"><img src="../../logo.png" alt="ElektroKlik elektricien Amersfoort" class="site-logo-img"></a>
     <ul class="nav-links">
       <li><a href="../../" id="nav-home">Home</a></li>
+      <li><a href="../../laadpalen/" id="nav-laadpalen" class="nav-laadpalen">Laadpalen</a></li>
       <li><a href="../../diensten/" id="nav-diensten">Diensten</a></li>
       <li><a href="../../blog/" id="nav-blog" class="active">Blog</a></li>
       <li><a href="../../over-ons/" id="nav-overons">Over Ons</a></li>
@@ -79,6 +87,7 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
   <a href="../../" onclick="toggleMobileNav()">Home</a>
+  <a href="../../laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
   <a href="../../diensten/" onclick="toggleMobileNav()">Diensten</a>
   <a href="../../blog/" onclick="toggleMobileNav()">Blog</a>
   <a href="../../thuisbatterij/" onclick="toggleMobileNav()">Thuisbatterij</a>
@@ -172,11 +181,12 @@
     <div class="footer-col"><h4>Diensten</h4><a href="../../laadpalen/">Laadpalen</a><a href="../../meterkasten-en-elektra/">Meterkasten en elektra</a><a href="../../thuisbatterij/">Thuisbatterij</a><a href="../../alarm-en-camerasystemen/">Alarm- en camerasystemen</a></div>
     <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31850600572">085 060 05 72</a><a href="https://wa.me/31850600572" target="_blank">WhatsApp</a><a href="../../contact/">Contactformulier</a></div>
   </div>
-  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap &amp; Kwaliteit</span></div>
+  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. · <a href="../../privacyverklaring/" style="color:inherit">Privacyverklaring</a> · <a href="#cookies" onclick="window.ekCookieInstellingen &amp;&amp; window.ekCookieInstellingen(); return false;" style="color:inherit">Cookie-instellingen</a> ⚡ Vakmanschap &amp; Kwaliteit</span></div>
 </footer>
 
 <a class="whatsapp-btn" href="https://wa.me/31850600572" target="_blank" aria-label="WhatsApp ElektroKlik">💬</a>
 <div class="toast" id="toast"></div>
 <script src="../../script.js"></script>
+<script src="../../consent.js" defer></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /beheer/
+Disallow: /laadpalen/bedankt/
+Disallow: /laadpalen/betalen/
 
 Sitemap: https://elektroklik.nl/sitemap.xml

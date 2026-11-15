@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+  <script id="ek-consent-default">
+    /* Cookietoestemming (Google Consent Mode v2): standaard geen analytische of advertentiecookies */
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    try { if (localStorage.getItem('ek_consent_v1') === 'granted') gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' }); } catch (e) {}
+  </script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-84ZN73CE1T">
 </script>
@@ -94,7 +101,7 @@
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','1869941847011402');fbq('track','PageView');
+    try{if(localStorage.getItem('ek_consent_v1')!=='granted')fbq('consent','revoke');}catch(e){fbq('consent','revoke');}fbq('init','1869941847011402');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
   <!-- Google Ads -->
@@ -509,6 +516,7 @@
     <a class="logo" href="./"><img src="logo.png" alt="ElektroKlik elektricien Amersfoort" class="site-logo-img"></a>
     <ul class="nav-links">
       <li><a href="./" id="nav-home" class="active">Home</a></li>
+      <li><a href="laadpalen/" id="nav-laadpalen" class="nav-laadpalen">Laadpalen</a></li>
       <li><a href="diensten/" id="nav-diensten">Diensten</a></li>
       <li><a href="blog/" id="nav-blog">Blog</a></li>
       <li><a href="over-ons/" id="nav-overons">Over Ons</a></li>
@@ -521,10 +529,10 @@
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" onclick="toggleMobileNav()">✕</button>
   <a href="./" onclick="toggleMobileNav()">Home</a>
+  <a href="laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
   <a href="diensten/" onclick="toggleMobileNav()">Diensten</a>
   <a href="blog/" onclick="toggleMobileNav()">Blog</a>
   <a href="thuisbatterij/" onclick="toggleMobileNav()">Thuisbatterij</a>
-  <a href="laadpalen/" onclick="toggleMobileNav()">Laadpalen</a>
   <a href="meterkasten-en-elektra/" onclick="toggleMobileNav()">Meterkasten en elektra</a>
   <a href="alarm-en-camerasystemen/" onclick="toggleMobileNav()">Alarm- en camerasystemen</a>
   <a href="over-ons/" onclick="toggleMobileNav()">Over Ons</a>
@@ -694,6 +702,7 @@
             </div>
 
             <div id="hf-vragen-laadpaal" class="hf-verborgen">
+              <p style="font-size:.8rem;color:#0f172a;background:#e6faf6;border:1px solid #b5ece2;border-radius:8px;padding:8px 10px;margin-bottom:12px;">Liever direct uw prijs zien? <a href="laadpalen/samenstellen/" style="color:#0b7f75;font-weight:700;">Stel uw laadpaal online samen</a>, inclusief installatie.</p>
               <div class="hf-veld">
                 <span class="hf-groep-label">Stroomaansluiting?</span>
                 <div class="hf-radio-rij" role="radiogroup">
@@ -892,7 +901,7 @@
             </div>
             <div class="hf-cb-label">
               <input type="checkbox" id="hf-privacy" name="privacy">
-              <span>Ik ga akkoord met de <a href="privacy.html" target="_blank" rel="noopener">privacyverklaring</a>.</span>
+              <span>Ik ga akkoord met de <a href="privacyverklaring/" target="_blank" rel="noopener">privacyverklaring</a>.</span>
             </div>
             <span class="hf-fout" id="hf-fout-privacy" style="margin-bottom:8px;">Ga akkoord met de privacyverklaring.</span>
             <button type="submit" class="hf-btn verstuur" id="hf-submit">
@@ -928,6 +937,29 @@
   </div>
 </section>
 
+<!-- LAADPAALSHOP -->
+<section class="content-section" style="padding-bottom:0" aria-label="Laadpaal inclusief installatie">
+  <div class="lp-teaser" style="padding-left:0;padding-right:0">
+    <div class="lp-teaser-card">
+      <img src="img/werk/laadpaal-hero.jpg" alt="Easee-laadpaal met kabelhouder, door ElektroKlik gemonteerd op een buitenmuur" loading="lazy" width="660" height="614">
+      <div class="lp-teaser-body">
+        <span class="k">Nieuw: laadpaal online samenstellen</span>
+        <h2>Laadpaal inclusief installatie</h2>
+        <p>Kies uw laadpaal, bekijk direct uw persoonlijke prijsindicatie en laat alles professioneel installeren door ElektroKlik.</p>
+        <div class="brands"><span>Easee</span><span>Zaptec</span><span>Alfen</span></div>
+        <p class="from"><b id="lpTeaserPrijs">€ 1.450,-</b>vanaf, inclusief professionele installatie, load balancing en btw <span id="lpTeaserConcept" hidden style="font-size:.75rem;font-weight:700;color:#8a4b00;background:#fff7e8;border:1px solid #f3d199;border-radius:6px;padding:.1rem .4rem">Voorbeeldprijs</span></p>
+        <div class="ctas"><a class="a1" href="laadpalen/">Bekijk onze laadpalen</a><a class="a2" href="laadpalen/samenstellen/">Stel uw laadpaal samen</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  fetch('laadpalen/data/config.json').then(function (r) { return r.json(); }).then(function (c) {
+    var min = Math.min.apply(null, c.producten.map(function (p) { return p.vanafprijs; }));
+    document.getElementById('lpTeaserPrijs').textContent = '€ ' + min.toLocaleString('nl-NL') + ',-';
+    document.getElementById('lpTeaserConcept').hidden = !!c.instellingen.prijzenGoedgekeurd;
+  }).catch(function () {});
+</script>
 <!-- DIENSTEN -->
 <section class="content-section" aria-label="Diensten van ElektroKlik">
   <div class="section-header">
@@ -1201,7 +1233,7 @@
   <div class="footer-feiten">
     <p>ElektroKlik is een gecertificeerd elektrotechnisch bedrijf uit Amersfoort en werkt volgens NEN 1010 voor particulieren en bedrijven in Amersfoort, Leusden, Soest, Nijkerk, Hoevelaken, Baarn, Bunschoten en de rest van Midden-Nederland. Wij installeren laadpalen (met load balancing), vervangen en breiden meterkasten uit, sluiten perilex en kookgroepen aan, installeren thuisbatterijen, alarm- en camerasystemen en video-deurbellen, en verhelpen elektra storingen. Beoordeeld met een 5,0 op Google, Zoofy en Trustoo. Bereikbaar op 085 060 05 72 en via info@elektroklik.nl. Offerte aanvragen kan op elektroklik.nl/offerte.</p>
   </div>
-  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. ⚡ Vakmanschap &amp; Kwaliteit</span></div>
+  <div class="footer-bottom"><span>© 2026 ElektroKlik. Alle rechten voorbehouden. · <a href="privacyverklaring/" style="color:inherit">Privacyverklaring</a> · <a href="#cookies" onclick="window.ekCookieInstellingen &amp;&amp; window.ekCookieInstellingen(); return false;" style="color:inherit">Cookie-instellingen</a> ⚡ Vakmanschap &amp; Kwaliteit</span></div>
 </footer>
 
 <a class="whatsapp-btn" href="https://wa.me/31850600572" target="_blank" aria-label="WhatsApp ElektroKlik">💬</a>
@@ -1437,5 +1469,6 @@
   hfToon(1, true);
 })();
 </script>
+<script src="consent.js" defer></script>
 </body>
 </html>

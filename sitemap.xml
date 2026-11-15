@@ -2,7 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://elektroklik.nl/</loc><lastmod>2026-08-25</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://elektroklik.nl/diensten/</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://elektroklik.nl/laadpalen/</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/easee-charge-up/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/easee-charge-max/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/alfen-eve-single-s-line/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/alfen-eve-single-pro-line/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/garantie/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/zaptec-go-2/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/vergelijken/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://elektroklik.nl/laadpalen/samenstellen/</loc><lastmod>2026-11-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://elektroklik.nl/meterkasten-en-elektra/</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://elektroklik.nl/alarm-en-camerasystemen/</loc><lastmod>2026-06-09</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://elektroklik.nl/thuisbatterij/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.95</priority></url>
@@ -13,4 +21,5 @@
   <url><loc>https://elektroklik.nl/blog/perilex-aansluiten-kosten/</loc><lastmod>2026-07-09</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://elektroklik.nl/blog/video-deurbel-installeren/</loc><lastmod>2026-07-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://elektroklik.nl/blog/salderingsregeling-2027/</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://elektroklik.nl/privacyverklaring/</loc><lastmod>2026-11-15</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
