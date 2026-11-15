@@ -61,16 +61,16 @@ t('laadkabel 1-fase € 140 of 3-fase € 175, nooit twee tegelijk', () => {
   assert.strictEqual(tot({ opties: ['kabel1', 'kabel3'] }), 1625);
   assert.ok(P.bereken(config, { ...basis, opties: ['kabel3'] }).regels.find(x => x.id === 'kabel3').groep === 'zichtbaar');
 });
-t('meterkast vol: door, geen toeslag, wel interne markering', () => {
+t('meterkast vol: door, € 25 toeslag en interne markering', () => {
   const r = P.bereken(config, { ...basis, meterkast: 'geschikt-vol' });
-  assert.strictEqual(r.route, 'standaard'); assert.strictEqual(r.totaal, 1450);
+  assert.strictEqual(r.route, 'standaard'); assert.strictEqual(r.totaal, 1475);
   assert.ok(r.intern.some(x => /uitbreidingskast/.test(x))); assert.ok(r.beoordeling.length === 1);
 });
-t('meterkast verouderd/onbekend: offerteroute', () => {
-  for (const m of ['verouderd', 'onbekend']) {
-    const r = P.bereken(config, { product: 'zaptec', meterkast: m });
-    assert.strictEqual(r.route, 'offerte'); assert.ok(r.compleet);
-  }
+t('meterkast verouderd: offerteroute; weet ik niet: verder met beoordeling', () => {
+  const r = P.bereken(config, { product: 'zaptec', meterkast: 'verouderd' });
+  assert.strictEqual(r.route, 'offerte'); assert.ok(r.compleet);
+  const o = P.bereken(config, { ...basis, meterkast: 'onbekend' });
+  assert.strictEqual(o.route, 'standaard'); assert.strictEqual(o.totaal, 1450); assert.ok(o.beoordeling.length === 1);
 });
 t('slimme meter nee/onbekend = beoordeling (load balancing)', () => {
   assert.ok(P.bereken(config, { ...basis, slimmeMeter: 'nee' }).beoordeling.length === 1);

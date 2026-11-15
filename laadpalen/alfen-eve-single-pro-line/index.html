@@ -103,7 +103,7 @@
      "name": "Heb ik voor de Alfen een abonnement nodig?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Voor gewoon thuisladen in de regel niet. Wilt u de laadpaal op afstand beheren of laadkosten verrekenen, dan koppelt u hem aan een backoffice of laadpasprovider. Daaraan kunnen kosten verbonden zijn. Wij vermelden die vooraf."
+      "text": "Voor thuisladen in de regel niet. Wilt u de laadpaal op afstand beheren of laadkosten verrekenen, dan koppelt u hem aan een backoffice of laadpasprovider. Daaraan kunnen kosten verbonden zijn. Wij vermelden die vooraf."
      }
     },
     {
@@ -152,7 +152,7 @@
   <a href="../../offerte/" onclick="toggleMobileNav()">Offerte aanvragen</a>
 </div>
 <main id="inhoud">
-  <div class="wrap breadcrumbs-wrap"><nav class="breadcrumbs" aria-label="Kruimelpad"><ol><li><a href="../../">Home</a></li><li><a href="../../laadpalen/">Laadpalen</a></li><li aria-current="page">Alfen Eve Single Pro-line</li></ol></nav></div>
+  <header class="page-band"><div class="wrap"><nav class="breadcrumbs" aria-label="Kruimelpad"><ol><li><a href="../../">Home</a></li><li><a href="../../laadpalen/">Laadpalen</a></li><li aria-current="page">Alfen Eve Single Pro-line</li></ol></nav></div></header>
   <div class="wrap">
     <section class="pdp-top" aria-labelledby="pdp-titel">
       <div>
@@ -200,10 +200,7 @@
 
   <section class="sec" id="installatie" aria-labelledby="i-t"><div class="wrap">
     <div class="sec-head"><span class="eyebrow">Inclusief installatie</span><h2 id="i-t">Dit is inbegrepen bij uw installatie</h2></div>
-    <div class="incl">
-      <div class="incl-box"><h3>Inbegrepen in de standaardinstallatie</h3><ul class="checks" id="inclList"></ul></div>
-      <div class="incl-box"><h3>Mogelijk extra, afhankelijk van uw situatie</h3><ul class="checks neg" id="exclList"></ul></div>
-    </div>
+    <div class="incl-box"><h3>Standaard inbegrepen</h3><ul class="checks incl-cols" id="inclList"></ul></div>
   </div></section>
 
   <section class="sec sec-white" id="opties" aria-labelledby="o-t"><div class="wrap">
@@ -224,7 +221,7 @@
     <div class="faq">
 <details><summary>Wat kost een Alfen Eve Single Pro-line inclusief installatie?</summary><div class="a"><p>De Alfen Eve Single Pro-line kost bij ElektroKlik <span data-prijs="alfen-pro" data-no-tag>€ 2.149</span> inclusief standaardinstallatie, load balancing en btw. Uw exacte prijs hangt af van uw situatie en de gekozen uitvoering.</p></div></details>
 <details><summary>Voor wie is de Pro-line bedoeld?</summary><div class="a"><p>Voor wie maximale instelmogelijkheden wil: zakelijke rijders, ondernemers en iedereen die de laadpaal wil koppelen aan een backoffice of laadpasprovider. De Pro-line heeft onder meer een kleurendisplay en een RFID-lezer.</p></div></details>
-<details><summary>Heb ik voor de Alfen een abonnement nodig?</summary><div class="a"><p>Voor gewoon thuisladen in de regel niet. Wilt u de laadpaal op afstand beheren of laadkosten verrekenen, dan koppelt u hem aan een backoffice of laadpasprovider. Daaraan kunnen kosten verbonden zijn. Wij vermelden die vooraf.</p></div></details>
+<details><summary>Heb ik voor de Alfen een abonnement nodig?</summary><div class="a"><p>Voor thuisladen in de regel niet. Wilt u de laadpaal op afstand beheren of laadkosten verrekenen, dan koppelt u hem aan een backoffice of laadpasprovider. Daaraan kunnen kosten verbonden zijn. Wij vermelden die vooraf.</p></div></details>
 <details><summary>Welke uitvoering installeert ElektroKlik?</summary><div class="a"><p>Wij adviseren de uitvoering die bij uw aansluiting en wensen past, bijvoorbeeld 1-fase of 3-fase en met of zonder 4G. Dit bespreken wij met u voordat de installatie wordt ingepland.</p></div></details>
 </div>
   </div></section>
@@ -290,7 +287,6 @@
     document.getElementById('specSource').innerHTML = 'Bron: specificaties van de fabrikant. De uitvoering kan per variant verschillen. ' + p.bronnen.map(function (b, i) { return '<a href="' + EK.esc(b) + '" target="_blank" rel="noopener">bron ' + (i + 1) + '</a>'; }).join(', ');
     document.getElementById('garantieTekst').innerHTML = EK.txt(p.specs.garantie);
     document.getElementById('inclList').innerHTML = c.standaardInstallatie.inbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('');
-    document.getElementById('exclList').innerHTML = c.standaardInstallatie.nietInbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('');
     var opt = [];
     opt.push({ l: 'Load balancing: ' + c.regels.loadBalancing.labelPerProduct[pid], u: 'Verdeelt het vermogen automatisch tussen uw woning en de laadpaal. Vereist een slimme meter met P1-poort.', p: 0 });
     opt.push({ l: c.regels.montagepaal.label, u: 'Als er geen geschikte muur bij uw parkeerplek is.', p: c.regels.montagepaal.prijsPerProduct[pid] });

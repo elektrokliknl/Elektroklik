@@ -1,5 +1,5 @@
 {
-  "versie": "2026-11-15.5",
+  "versie": "2026-11-15.6",
   "laatstGewijzigd": "2026-11-15",
   "instellingen": {
     "prijzenGoedgekeurd": true,
@@ -33,7 +33,7 @@
     "inbegrepen": [
       "Montage van de laadpaal op een stevige buitenmuur of in de garage",
       "Tot 10 meter installatiekabel vanaf de meterkast, netjes weggewerkt",
-      "Een aparte groep met aardlekautomaat in de meterkast (bij voldoende ruimte)",
+      "Een aparte beveiliging voor de laadpaal in de meterkast",
       "Load balancing, inclusief de benodigde hardware of licentie voor uw laadpaal",
       "Aansluiten, testen en in bedrijf stellen volgens NEN 1010",
       "Uitleg over de bediening en de app van de fabrikant",
@@ -318,10 +318,11 @@
         },
         {
           "id": "geschikt-vol",
-          "label": "Mijn meterkast is geschikt, maar heeft geen vrije ruimte voor een extra groep.",
-          "prijs": 0,
+          "label": "Mijn meterkast is geschikt, maar heeft geen vrije ruimte voor een extra beveiliging.",
+          "prijs": 25,
           "intern": "Aanvullende uitbreidingskast mogelijk nodig",
-          "beoordeling": "Wij controleren of uitbreiding van uw meterkast veilig mogelijk is. Eventuele meerkosten bevestigen wij altijd vooraf."
+          "beoordeling": "Wij controleren of uw meterkast veilig kan worden uitgebreid.",
+          "regelLabel": "Uitbreiding meterkast (geen vrije ruimte)"
         },
         {
           "id": "verouderd",
@@ -333,7 +334,8 @@
           "id": "onbekend",
           "label": "Ik weet niet zeker of mijn meterkast geschikt is.",
           "prijs": 0,
-          "route": "offerte"
+          "beoordeling": "Wij controleren of uw meterkast geschikt is, aan de hand van uw gegevens en eventuele foto’s.",
+          "intern": "Klant weet niet zeker of de meterkast geschikt is"
         }
       ]
     },

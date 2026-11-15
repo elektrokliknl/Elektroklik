@@ -35,6 +35,7 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 | Kabelroute tot 10 meter | € 0 | Nee, alleen de totaalprijs |
 | Kabelroute 10–20 meter | € 90 | Nee, alleen de totaalprijs |
 | Kabelroute meer dan 20 meter | € 200 + geschatte meters + controle | Nee, alleen de totaalprijs |
+| Meterkast geschikt, maar geen vrije ruimte | € 25 | Nee, alleen de totaalprijs |
 | Geen toegankelijke kruipruimte | € 35 ("Weet ik niet" = beoordeling) | Nee, alleen de totaalprijs |
 | Graafwerk | aantal meters × € 25 | Nee, alleen de totaalprijs |
 | Montagepaal Easee / Zaptec / Alfen | € 329 / € 359 / € 409 | Ja |
@@ -53,9 +54,9 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 1. **Laadpaal:** keuze uit de vijf modellen, met een optionele keuzehulp.
 2. **Meterkast:** uw vier voorbeeldfoto's, twee geschikte meterkasten (✓) en twee die beoordeeld moeten worden (✕), plus vier grote keuzevakken.
    - *Geschikt, voldoende ruimte* → verder.
-   - *Geschikt, geen vrije ruimte* → verder, intern gemarkeerd als "Aanvullende uitbreidingskast mogelijk nodig". Er komt geen automatische toeslag bij; de klant leest dat eventuele meerkosten altijd vooraf worden bevestigd.
+   - *Geschikt, geen vrije ruimte* → verder, met € 25 toeslag voor het uitbreiden van de meterkast. Intern gemarkeerd als "Aanvullende uitbreidingskast mogelijk nodig".
    - *Verouderd of niet geschikt* → melding "Wij adviseren u een vrijblijvende offerte aan te vragen." De knop wordt **"Vraag vrijblijvend een offerte aan"**.
-   - *Weet ik niet* → melding "Geen probleem. Wij helpen u graag verder…". Ook deze klant gaat naar de offerteaanvraag.
+   - *Weet ik niet* → de klant gaat verder met samenstellen. De aanvraag wordt gemarkeerd zodat u de meterkast vooraf controleert.
 3. **Plaats:** buitenmuur, garage, montagepaal (+ prijs) of anders. Daaronder de kabelhouder (€ 50); die wordt niet getoond bij een montagepaal.
 4. **Kabelroute:** afstand (bij meer dan 20 m ook het aantal meters), kruipruimte, en graafwerk (bij "Ja" het aantal meters).
 5. **Aansluiting:** 1- of 3-fase, slimme meter, zonnepanelen en zakelijk verrekenen. Wil iemand zakelijk verrekenen met een Easee Charge Up, dan ziet hij een melding met een knop om naar een model met MID-meter te wisselen.
@@ -67,7 +68,7 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
    - daaronder het blok "Heeft u op dit moment geen foto's bij de hand?" met e-mail, telefoon en de knop "Foto's later via WhatsApp versturen";
    - het aanvraagnummer staat al op deze stap, zodat de klant het kan vermelden bij foto's die hij later stuurt.
 
-**Offerteroute (4 stappen):** laadpaal → meterkast → gegevens → foto's. Het gekozen model en alle ingevulde gegevens blijven bewaard; de klant hoeft niets opnieuw in te vullen.
+**Offerteroute (4 stappen, alleen bij een verouderde meterkast):** laadpaal → meterkast → gegevens → foto's. Het gekozen model en alle ingevulde gegevens blijven bewaard; de klant hoeft niets opnieuw in te vullen.
 
 - **Betaling:** er wordt nergens direct betaald. De klant ontvangt eerst een definitieve offerte, en de bedankpagina legt dat uit. De structuur is voorbereid op online betalen later.
 - **Na het versturen:** de klant ziet het aanvraagnummer. Zijn er geen foto's meegestuurd, dan staat er opnieuw een WhatsApp-knop met het aanvraagnummer al in het bericht.
@@ -158,6 +159,16 @@ Verder gecontroleerd:
 
 **Nog open (optioneel):**
 - Een centraal aanvraagsysteem met online opslag van foto's (zie §4).
+
+## 8b. Aangepast in versie 8
+
+- Productkaarten zijn even hoog, ook bij foto's met een andere verhouding (Zaptec).
+- Het blok "Mogelijk extra, afhankelijk van uw situatie" is overal weggehaald. Overal staat nu "Standaard inbegrepen"; gekozen extra's staan apart in het prijsoverzicht.
+- "Aparte groep met aardlekautomaat" is vervangen door "aparte beveiliging in de meterkast".
+- Het woord "gewoon" is uit alle klantteksten gehaald.
+- Meterkast "Weet ik niet" → de klant gaat verder. Meterkast zonder vrije ruimte → € 25 toeslag.
+- De melding over de MID-meter eindigt nu na de knop om van laadpaal te wisselen.
+- Shoppagina's hebben een donkere paginakop onder het menu, met kruimelpad en titel. Daardoor sluit de pagina rustiger aan op het menu.
 
 ## 9. Bekijken en publiceren
 

@@ -152,7 +152,7 @@
   <a href="../../offerte/" onclick="toggleMobileNav()">Offerte aanvragen</a>
 </div>
 <main id="inhoud">
-  <div class="wrap breadcrumbs-wrap"><nav class="breadcrumbs" aria-label="Kruimelpad"><ol><li><a href="../../">Home</a></li><li><a href="../../laadpalen/">Laadpalen</a></li><li aria-current="page">Zaptec Go 2</li></ol></nav></div>
+  <header class="page-band"><div class="wrap"><nav class="breadcrumbs" aria-label="Kruimelpad"><ol><li><a href="../../">Home</a></li><li><a href="../../laadpalen/">Laadpalen</a></li><li aria-current="page">Zaptec Go 2</li></ol></nav></div></header>
   <div class="wrap">
     <section class="pdp-top" aria-labelledby="pdp-titel">
       <div>
@@ -200,10 +200,7 @@
 
   <section class="sec" id="installatie" aria-labelledby="i-t"><div class="wrap">
     <div class="sec-head"><span class="eyebrow">Inclusief installatie</span><h2 id="i-t">Dit is inbegrepen bij uw installatie</h2></div>
-    <div class="incl">
-      <div class="incl-box"><h3>Inbegrepen in de standaardinstallatie</h3><ul class="checks" id="inclList"></ul></div>
-      <div class="incl-box"><h3>Mogelijk extra, afhankelijk van uw situatie</h3><ul class="checks neg" id="exclList"></ul></div>
-    </div>
+    <div class="incl-box"><h3>Standaard inbegrepen</h3><ul class="checks incl-cols" id="inclList"></ul></div>
   </div></section>
 
   <section class="sec sec-white" id="opties" aria-labelledby="o-t"><div class="wrap">
@@ -290,7 +287,6 @@
     document.getElementById('specSource').innerHTML = 'Bron: specificaties van de fabrikant. De uitvoering kan per variant verschillen. ' + p.bronnen.map(function (b, i) { return '<a href="' + EK.esc(b) + '" target="_blank" rel="noopener">bron ' + (i + 1) + '</a>'; }).join(', ');
     document.getElementById('garantieTekst').innerHTML = EK.txt(p.specs.garantie);
     document.getElementById('inclList').innerHTML = c.standaardInstallatie.inbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('');
-    document.getElementById('exclList').innerHTML = c.standaardInstallatie.nietInbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('');
     var opt = [];
     opt.push({ l: 'Load balancing: ' + c.regels.loadBalancing.labelPerProduct[pid], u: 'Verdeelt het vermogen automatisch tussen uw woning en de laadpaal. Vereist een slimme meter met P1-poort.', p: 0 });
     opt.push({ l: c.regels.montagepaal.label, u: 'Als er geen geschikte muur bij uw parkeerplek is.', p: c.regels.montagepaal.prijsPerProduct[pid] });

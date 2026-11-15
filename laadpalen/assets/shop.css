@@ -520,3 +520,24 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 .mk-imgs .mk-img { aspect-ratio: 3/4; border-radius: 10px; overflow: hidden; }
 .mk-imgs .mk-badge { width: 34px; height: 34px; line-height: 34px; font-size: 1.15rem; top: 6px; right: 6px; }
 @media (max-width: 640px) { .mk-examples { grid-template-columns: 1fr; } }
+
+/* ===== Versie 8: paginakop en gelijke productkaarten ===== */
+.page-band { background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 100%); color: #fff; padding: 96px 0 52px; position: relative; }
+.page-band::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 26px; background: var(--ek-bg); border-radius: 26px 26px 0 0; }
+.page-band-slim { padding: 72px 0 26px; }
+.page-band .breadcrumbs { padding: 0; color: #9fb3cc; }
+.page-band .breadcrumbs a { color: #c8d8ee; }
+.page-band .breadcrumbs a:hover { color: #4fd8c9; }
+.page-band .breadcrumbs li + li::before { color: #6f84a1; }
+.page-band h1 { color: #fff; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; line-height: 1.1; margin-top: 14px; }
+.page-band .lead { color: #c8d8ee; margin-top: 8px; max-width: 680px; font-size: 1.05rem; }
+.page-band + .wrap .cfg, .page-band + .wrap .pdp-top { padding-top: 6px; }
+.page-band + .thanks { padding-top: 10px; }
+.pcard-media { aspect-ratio: auto; height: 250px; }
+.pcard-media img, .pcard-media svg { width: auto; height: auto; max-height: 210px; max-width: 78%; }
+.choice-product .pm { aspect-ratio: auto; height: 160px; }
+.choice-product .pm img, .choice-product .pm svg { width: auto; height: auto; max-height: 132px; max-width: 70%; }
+.incl-cols { columns: 2; column-gap: 32px; }
+.incl-cols li { break-inside: avoid; margin-bottom: .45rem; }
+@media (max-width: 760px) { .incl-cols { columns: 1; } }
+@media (max-width: 640px) { .page-band { padding: 88px 0 44px; } .pcard-media { height: 220px; } .pcard-media img { max-height: 185px; } }

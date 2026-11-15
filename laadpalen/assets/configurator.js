@@ -84,7 +84,7 @@
 
   /* ---------- Stappen ---------- */
   function stapLaadpaal() {
-    return '<h1 class="step-title" tabindex="-1">Kies uw laadpaal</h1><p class="step-intro">Alle prijzen zijn inclusief professionele standaardinstallatie, load balancing en 21% btw.</p>' +
+    return '<h2 class="step-title" tabindex="-1">Kies uw laadpaal</h2><p class="step-intro">Alle prijzen zijn inclusief professionele standaardinstallatie, load balancing en 21% btw.</p>' +
       '<fieldset class="cfg-q" id="q-product"><legend class="sr-only">Laadpaal</legend><div class="choice-grid cols-3">' +
       C.producten.map(function (p) {
         return '<label class="choice choice-product" data-product="' + p.id + '"><input type="radio" name="product" value="' + p.id + '"' + (S.product === p.id ? ' checked' : '') + '>' +
@@ -107,9 +107,9 @@
     var k = EKPricing.keuze(C, 'meterkast', S.meterkast);
     var melding = '';
     if (S.meterkast === 'verouderd') melding = '<div class="notice notice-warn mk-advies" role="status">' + EK.icon('warn') + '<div><b>Wij adviseren u een vrijblijvende offerte aan te vragen.</b><br>Omdat uw meterkast mogelijk aangepast of vervangen moet worden, kunnen wij niet direct een betrouwbare totaalprijs berekenen. Wij beoordelen graag uw situatie en bieden u een passende oplossing.</div></div>';
-    if (S.meterkast === 'onbekend') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div><b>Geen probleem. Wij helpen u graag verder.</b><br>U kunt vrijblijvend een offerte aanvragen, eventueel met een foto van uw meterkast.</div></div>';
-    if (S.meterkast === 'geschikt-vol') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div>U kunt gewoon verder. Wij controleren of uw meterkast veilig kan worden uitgebreid, bijvoorbeeld met een kleine uitbreidingskast. Eventuele meerkosten hoort u altijd vooraf.</div></div>';
-    return '<h2 class="step-title" tabindex="-1">Controleer uw meterkast</h2><p class="step-intro">Een laadpaal krijgt een eigen groep in de meterkast. Vergelijk uw meterkast met de voorbeelden hieronder.</p>' +
+    if (S.meterkast === 'onbekend') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div><b>Geen probleem. U kunt verder met het samenstellen.</b><br>Wij controleren uw meterkast voordat de installatie wordt ingepland. Een foto van uw meterkast aan het eind van de aanvraag helpt ons daarbij.</div></div>';
+    if (S.meterkast === 'geschikt-vol') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div>U kunt verder met het samenstellen. Voor het uitbreiden van uw meterkast rekenen wij € 25 extra; dit is verwerkt in uw prijsindicatie. Wij controleren vooraf of de uitbreiding veilig mogelijk is.</div></div>';
+    return '<h2 class="step-title" tabindex="-1">Controleer uw meterkast</h2><p class="step-intro">Een laadpaal krijgt een eigen beveiliging in de meterkast. Vergelijk uw meterkast met de voorbeelden hieronder.</p>' +
       '<div class="mk-examples">' + groep(v.geschikt, true, 'Voorbeelden van een geschikte meterkast.') + groep(v.beoordelen, false, 'Voorbeelden van een meterkast die beoordeeld moet worden.') + '</div>' +
       '<p class="price-note" style="margin:-6px 0 18px">Deze foto’s zijn alleen voorbeelden en geven geen definitieve technische goedkeuring. ElektroKlik controleert uw situatie altijd.</p>' +
       '<fieldset class="cfg-q" id="q-meterkast"><legend>' + esc(C.regels.meterkast.vraag) + '</legend><div class="choice-grid mk-choices">' +
@@ -147,7 +147,7 @@
     if (S.slimmeMeter === 'nee') waarschuwing += '<div class="notice notice-warn">' + EK.icon('warn') + '<div>De load balancing bij uw laadpaal werkt via de P1-poort van een slimme meter. Heeft u geen slimme meter, dan bespreken wij de mogelijkheden met u.</div></div>';
     if (S.zakelijk === 'ja' && p && !p.midGecertificeerd) {
       var alt = C.producten.filter(function (x) { return x.midGecertificeerd; })[0];
-      waarschuwing += '<div class="notice notice-warn">' + EK.icon('warn') + '<div>De ' + esc(p.naam) + ' heeft geen MID-gecertificeerde meter. Die is meestal nodig voor zakelijke verrekening. ' + (alt ? '<button type="button" class="btn-link" data-wissel="' + alt.id + '">Kies de ' + esc(alt.naam) + ' (' + EK.euro(alt.vanafprijs) + ')</button> of ga gewoon verder; wij adviseren u.' : '') + '</div></div>';
+      waarschuwing += '<div class="notice notice-warn">' + EK.icon('warn') + '<div>De ' + esc(p.naam) + ' heeft geen MID-gecertificeerde meter. Die is meestal nodig voor zakelijke verrekening. ' + (alt ? '<button type="button" class="btn-link" data-wissel="' + alt.id + '">Kies de ' + esc(alt.naam) + ' (' + EK.euro(alt.vanafprijs) + ')</button>' : '') + '</div></div>';
     }
     return '<h2 class="step-title" tabindex="-1">Uw aansluiting</h2><p class="step-intro">Geen technische kennis nodig: kies gerust ‘Weet ik niet’.</p>' +
       pills('fase') + kabelVraag() + pills('slimmeMeter') + pills('zonnepanelen') + pills('zakelijk') + waarschuwing +
@@ -185,7 +185,7 @@
       rij('Kabelroute', afst) + rij('Toegankelijke kruipruimte', keuzeLabel('kruipruimte', S.kruipruimte)) + rij('Graafwerk', graaf) +
       rij('Aansluiting', keuzeLabel('fase', S.fase)) + rij('Slimme meter', keuzeLabel('slimmeMeter', S.slimmeMeter)) + rij('Zonnepanelen', keuzeLabel('zonnepanelen', S.zonnepanelen)) + rij('Zakelijk verrekenen', keuzeLabel('zakelijk', S.zakelijk)) + '</dl></div>' +
       '<div class="ov-card"><h3>Prijsopbouw <span class="result-label ind">Prijsindicatie</span></h3>' + prijsTabel(r) + '</div>' +
-      '<div class="ov-card"><h3>Wat is inbegrepen</h3><div style="padding:14px 18px"><ul class="checks">' + C.standaardInstallatie.inbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('') + '</ul></div></div>' +
+      '<div class="ov-card"><h3>Wat is standaard inbegrepen</h3><div style="padding:14px 18px"><ul class="checks">' + C.standaardInstallatie.inbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('') + '</ul></div></div>' +
       '<div class="ov-card"><h3>Wat wij nog controleren</h3><div style="padding:14px 18px"><ul class="checks">' +
       ['Wij controleren uw meterkast, de kabelroute en de montageplek aan de hand van uw gegevens en eventuele foto’s.'].concat(r.beoordeling).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
       '</ul><p class="price-note" style="margin-top:10px">Kosten die nu nog niet vaststaan, zoals een eventuele uitbreiding van de meterkast, zijn niet in dit bedrag opgenomen. U ontvangt altijd eerst een definitieve offerte. Pas na uw akkoord wordt de installatie ingepland.</p></div></div>' +
@@ -222,7 +222,7 @@
     return '<h2 class="step-title" tabindex="-1">Foto’s van uw installatiesituatie</h2>' +
       '<p class="step-intro">Met enkele foto’s kunnen wij uw installatie beter voorbereiden en uw aanvraag sneller beoordelen. Het toevoegen van foto’s is niet verplicht.</p>' +
       FOTO_SOORTEN.map(uploadBlok).join('') +
-      '<div class="later-box"><h3>Heeft u op dit moment geen foto’s bij de hand?</h3><p>Geen probleem. U kunt uw aanvraag gewoon afronden en de foto’s later naar ons toesturen. Dit kan eenvoudig per e-mail of via WhatsApp. Vermeld dan uw aanvraagnummer: <span class="ref">' + esc(REF) + '</span></p>' +
+      '<div class="later-box"><h3>Heeft u op dit moment geen foto’s bij de hand?</h3><p>Geen probleem. U kunt uw aanvraag afronden en de foto’s later naar ons toesturen. Dit kan eenvoudig per e-mail of via WhatsApp. Vermeld dan uw aanvraagnummer: <span class="ref">' + esc(REF) + '</span></p>' +
       '<p><b>E-mail:</b> <a href="mailto:' + esc(C.instellingen.email) + '?subject=' + encodeURIComponent('Foto’s bij aanvraag ' + REF) + '">' + esc(C.instellingen.email) + '</a><br><b>Telefoon:</b> <a href="tel:' + esc(C.instellingen.telefoonLink) + '">' + esc(C.instellingen.telefoon) + '</a></p>' +
       '<a class="btn btn-ghost" href="' + esc(wa) + '" target="_blank" rel="noopener">' + EK.icon('chat') + ' Foto’s later via WhatsApp versturen</a></div>' +
       '<div class="notice notice-info" style="margin-top:18px">' + EK.icon('shield') + '<div>' + (offerte ? 'U vraagt een vrijblijvende offerte aan.' : 'U vraagt uw definitieve prijs aan. U betaalt nu niets.') + ' Uw gegevens worden versleuteld verzonden en alleen gebruikt voor de behandeling van uw aanvraag.</div></div>' +

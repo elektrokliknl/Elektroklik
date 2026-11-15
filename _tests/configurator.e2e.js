@@ -59,7 +59,7 @@ async function gegevens(p) {
     await p.click('#btnNext');
     const tot = await p.textContent('.price-table tr.total');
     console.log('desktop overzicht:', tot.replace(/\s+/g, ' '));
-    assert(tot.includes('2.669'), 'verwacht 1750 + 359 + 200 + 35 + 150 + 175 (3-fasekabel)');
+    assert(tot.includes('2.694'), 'verwacht 1750 + 25 (meterkast vol) + 359 + 200 + 35 + 150 + 175 (3-fasekabel)');
     assert((await p.textContent('#summary')).includes('Aanpassingen voor uw situatie'));
     assert((await p.textContent('#btnNext')).includes('Vraag uw definitieve prijs aan'));
     await p.screenshot({ path: OUT + 'desktop-overzicht.png', fullPage: true });
@@ -73,7 +73,7 @@ async function gegevens(p) {
     await p.waitForSelector('.upload-list img');
     await p.screenshot({ path: OUT + 'desktop-fotos.png', fullPage: true });
     await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); await p.waitForSelector('.ref');
-    for (const veld of ['3-fase 32 A', 'Aanvraagnummer', 'Kruipruimte', 'Graafwerk', 'circa 28 m', 'Montagepaal', 'uitbreidingskast', 'Zaptec Sense P1', 'filename=']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
+    for (const veld of ['Uitbreiding meterkast', '3-fase 32 A', 'Aanvraagnummer', 'Kruipruimte', 'Graafwerk', 'circa 28 m', 'Montagepaal', 'uitbreidingskast', 'Zaptec Sense P1', 'filename=']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
     console.log('desktop ok, aanvraag', await p.textContent('.ref'), '| errors:', st.errs.length ? st.errs : 'geen');
     await ctx.close();
   }
@@ -105,7 +105,9 @@ async function gegevens(p) {
     const { ctx, p, st } = await nieuw(b, { ...devices['Pixel 7'] }, true);
     await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=alfen-pro');
     await p.click('input[value="onbekend"] + .box');
-    assert(await p.isVisible('text=Geen probleem. Wij helpen u graag verder.'));
+    assert(await p.isVisible('text=Geen probleem. U kunt verder met het samenstellen.'));
+    assert((await p.textContent('#btnNext')).includes('Volgende stap') && (await p.textContent('#progressCount')).includes('van 8'));
+    await p.click('input[value="verouderd"] + .box');
     await p.click('#btnNext'); await gegevens(p); await p.click('#btnNext');
     await p.setInputFiles('#up-locatie', { name: 'muur.png', mimeType: 'image/png', buffer: fs.readFileSync(path.join(__dirname, '../favicon-96.png')) });
     await p.waitForSelector('.upload-list img');
