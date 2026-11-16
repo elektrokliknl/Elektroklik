@@ -638,3 +638,16 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 .hero-media img { border: 6px solid rgba(255,255,255,.9); box-shadow: 0 30px 60px rgba(0,50,40,.35); }
 .hero-media figcaption { background: rgba(6,52,47,.85); color: #fff; }
 @media (max-width: 560px) { .shop-hero .eyebrow { font-size: .7rem; letter-spacing: .08em; } }
+
+/* Bovenkant: vloeiende overgang van de donkere menubalk naar groen, met ElektroKlik-blauw als accent */
+.shop-hero {
+  background:
+    linear-gradient(180deg, #0a1628 0, rgba(10,22,40,.55) 70px, rgba(10,22,40,0) 190px),
+    radial-gradient(circle at 88% 14%, rgba(255,255,255,.18) 0, rgba(255,255,255,0) 38%),
+    linear-gradient(135deg, #0a6d7c 0%, #0e9a86 50%, #22bf83 100%);
+}
+.shop-hero h1 span { color: #05344a; }
+.hero-usps svg { color: #05344a; }
+/* Inbegrepen-kaart staat nu onder de laadpalen: geen overlap meer met de bovenkant */
+.incl-band { margin-top: 0; padding: 0 0 56px; }
+@media (max-width: 560px) { .incl-band { margin-top: 0; padding-bottom: 40px; } }
