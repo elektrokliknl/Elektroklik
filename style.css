@@ -352,3 +352,42 @@ body .hero-bg { border-radius: 0 0 50% 50% / 0 0 64px 64px; box-shadow: 0 18px 5
   body :is(.page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb)::before { border-radius: 0 0 50% 50% / 0 0 28px 28px; }
   body .hero-bg { border-radius: 0 0 50% 50% / 0 0 32px 32px; }
 }
+
+/* ===== Licht thema voor de inhoud (niet voor de laadpaalwebshop, die heeft body.shop) =====
+   Menubalk, groene bovenkant en footer blijven zoals ze zijn; alles in <main> wordt licht. */
+body:not(.shop) { background: #f5f7fa; }
+body:not(.shop) main {
+  --navy: #f5f7fa;
+  --navy-mid: #ffffff;
+  --navy-light: #eef3f7;
+  --white: #0f1b2d;
+  --text-body: #4b5b70;
+  --gray-mid: #64748b;
+  --card-bg: #ffffff;
+  --border: #e3e9f0;
+  --electric: #0b7f75;
+  --teal-light: #0e9a86;
+  background: #f5f7fa; color: #0f1b2d;
+}
+/* Kaarten: wit met een zachte schaduw */
+body:not(.shop) main :is(.service-card, .dienst-card, .form-card, .values-grid div, .milestones div, .d-card, .blog-kaart, .contact-item, .faq-item, .voordeel, .info-blok, .cta-blok, .auteur-blok, .trust-note, .feature-card, .stap, .step-card) {
+  box-shadow: 0 6px 20px rgba(15,27,45,.06);
+}
+/* Vaste witte teksten uit de pagina's leesbaar maken op een lichte achtergrond */
+body:not(.shop) main :is(.artikel strong, .prijs-tabel td:last-child, .faq-item h3, .auteur-blok strong, .blog-kaart h2 a, .d-card h2, .trust-note strong, .review-naam strong, .reviews-score .cijfer, .lp-crosslink strong) { color: #0f1b2d; }
+body:not(.shop) main .faq-question { color: #0f1b2d; }
+body:not(.shop) main .lp-crosslink { color: #0f1b2d; background: #e7f6f3; border-color: #b9e6dd; }
+body:not(.shop) main .prijs-tabel th { background: #e7f6f3; color: #0b7f75; }
+body:not(.shop) main .lp-teaser-card { box-shadow: 0 18px 50px rgba(15,27,45,.12); }
+/* De groene bovenkant houdt zijn eigen witte teksten */
+body:not(.shop) main :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) { color: #fff; }
+/* Formulieren en contactgegevens in het lichte thema */
+body:not(.shop) main :is(input, select, textarea):not([type=checkbox]):not([type=radio]) { background: #fff; border: 1.5px solid #cfd8e3; color: #0f1b2d; }
+body:not(.shop) main :is(input, textarea)::placeholder { color: #94a3b8; }
+body:not(.shop) main :is(input, select, textarea):focus { border-color: #0b7f75; box-shadow: 0 0 0 3px rgba(11,127,117,.15); }
+body:not(.shop) main .form-group label { color: #0f1b2d; }
+body:not(.shop) main .checkbox-group label { background: #fff; color: #4b5b70; }
+body:not(.shop) main .contact-item { color: #0f1b2d; }
+body:not(.shop) main .contact-item div { background: #e7f6f3; }
+/* Blogartikelen zonder groene bovenkant: tekst niet onder de menubalk laten beginnen */
+body:not(.shop) main > .artikel:first-child { padding-top: 120px; }
