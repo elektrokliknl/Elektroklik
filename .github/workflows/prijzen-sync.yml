@@ -1,7 +1,7 @@
 name: Prijzen in pagina's bijwerken
 
 # Na het publiceren van nieuwe prijzen via /beheer/ (laadpalen/data/config.json)
-# worden de vaste prijzen in de HTML en de gegevens voor Google automatisch gelijkgetrokken.
+# worden de vaste prijzen in de HTML, de gegevens voor Google en het Merchant Center-productbestand automatisch gelijkgetrokken.
 on:
   push:
     branches: [main]
@@ -24,10 +24,12 @@ jobs:
         with:
           node-version: 20
       - run: node _tools/sync-prijzen.js
+      - run: node _tools/google-feed.js
       - name: Wijzigingen vastleggen
         run: |
           if git diff --quiet; then echo "Geen wijzigingen"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "Prijzen in pagina's gelijkgetrokken met config.json"
+          git add -A
+          git commit -m "Prijzen in pagina's en Google-productbestand gelijkgetrokken met config.json"
           git push

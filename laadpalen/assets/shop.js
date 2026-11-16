@@ -136,6 +136,8 @@
       document.querySelectorAll('[data-prijs]').forEach(function (el) {
         var id = el.getAttribute('data-prijs');
         var v = id === 'min' ? Math.min.apply(null, c.producten.map(function (p) { return p.vanafprijs; })) : (EKPricing.product(c, id) || {}).vanafprijs;
+        var kab = el.getAttribute('data-kabel'); // gekozen kabellengte op de productpagina
+        if (kab && EKPricing.product(c, id)) v = EKPricing.productPrijs(EKPricing.product(c, id), kab);
         if (v) el.innerHTML = EK.euro(v) + (el.hasAttribute('data-no-tag') ? '' : EK.conceptTag());
       });
       document.querySelectorAll('[data-concept-only]').forEach(function (el) { el.hidden = !!c.instellingen.prijzenGoedgekeurd; });

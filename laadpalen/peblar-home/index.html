@@ -340,10 +340,12 @@
     var kk = document.getElementById('pdpKabel');
     if (kk && p.kabelVarianten) kk.addEventListener('change', function (e) {
       var v = EKPricing.kabelVariant(p, e.target.value);
-      document.getElementById('pdpPrijs').textContent = EK.euro(v.prijs);
+      var pe = document.getElementById('pdpPrijs'); pe.setAttribute('data-kabel', v.id); pe.textContent = EK.euro(v.prijs);
       document.getElementById('pdpCta').href = '../samenstellen/?laadpaal=' + pid + '&kabel=' + encodeURIComponent(v.id);
-      EK.track('kabellengte_keuze', { laadpaal: pid, lengte: v.id, bron: 'productpagina' });
+      if (e.isTrusted) EK.track('kabellengte_keuze', { laadpaal: pid, lengte: v.id, bron: 'productpagina' });
     });
+    var qk = new URLSearchParams(location.search).get('kabel');
+    if (kk && qk) { var r = kk.querySelector('input[value="' + qk.replace(/[^\w-]/g, '') + '"]'); if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); } }
     var opt = [];
     opt.push({ l: 'Load balancing: ' + c.regels.loadBalancing.labelPerProduct[pid], u: 'Verdeelt het vermogen automatisch tussen uw woning en de laadpaal. Vereist een slimme meter met P1-poort.', p: 0 });
     opt.push({ l: c.regels.montagepaal.label, u: 'Als er geen geschikte muur bij uw parkeerplek is.', p: c.regels.montagepaal.prijsPerProduct[pid] });

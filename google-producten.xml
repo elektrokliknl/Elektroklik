@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Automatisch gemaakt uit laadpalen/data/config.json door _tools/google-feed.js. Niet met de hand aanpassen. -->
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>ElektroKlik laadpalen inclusief installatie</title>
+    <link>https://elektroklik.nl/laadpalen/</link>
+    <description>Laadpalen van ElektroKlik, inclusief professionele standaardinstallatie, load balancing en btw.</description>
+    <item>
+      <g:id>EK-easee-up</g:id>
+      <g:title>Easee Charge Up laadpaal inclusief installatie</g:title>
+      <g:description>Slim en compact thuisladen. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/easee-charge-up/</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/easee-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/easee-zijaanzicht.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1450.00 EUR</g:price>
+      <g:brand>Easee</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-easee-max</g:id>
+      <g:title>Easee Charge Max laadpaal inclusief installatie</g:title>
+      <g:description>Slim thuisladen met MID-gecertificeerde energiemeting. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/easee-charge-max/</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/easee-voorkant-2.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1600.00 EUR</g:price>
+      <g:brand>Easee</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-zaptec</g:id>
+      <g:title>Zaptec Go 2 laadpaal inclusief installatie</g:title>
+      <g:description>Een premium laadpaal met een strak ontwerp, moderne slimme functies en een MID-gecertificeerde energiemeter. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/zaptec-go-2/</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/zaptec-go-2-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/zaptec-go-2-zijaanzicht.webp</g:additional_image_link>
+      <g:additional_image_link>https://elektroklik.nl/img/werk/werk-laadpaal-zaptec.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1750.00 EUR</g:price>
+      <g:brand>Zaptec</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-peblar-home-5m</g:id>
+      <g:title>Peblar Home laadpaal inclusief installatie – vaste laadkabel 5 meter</g:title>
+      <g:description>De Peblar Home is een slimme, in Nederland ontwikkelde laadpaal voor thuis. Dankzij de vaste laadkabel, dynamische load balancing en ondersteuning voor laden met zonne-energie laadt u eenvoudig en efficiënt. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving. Met vaste laadkabel 5 meter.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/peblar-home/</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-zijaanzicht.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1475.00 EUR</g:price>
+      <g:brand>Peblar</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:item_group_id>EK-peblar-home</g:item_group_id>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-peblar-home-7-5m</g:id>
+      <g:title>Peblar Home laadpaal inclusief installatie – vaste laadkabel 7,5 meter</g:title>
+      <g:description>De Peblar Home is een slimme, in Nederland ontwikkelde laadpaal voor thuis. Dankzij de vaste laadkabel, dynamische load balancing en ondersteuning voor laden met zonne-energie laadt u eenvoudig en efficiënt. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving. Met vaste laadkabel 7,5 meter.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/peblar-home/?kabel=7-5m</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-zijaanzicht.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1535.00 EUR</g:price>
+      <g:brand>Peblar</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:item_group_id>EK-peblar-home</g:item_group_id>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-peblar-business-5m</g:id>
+      <g:title>Peblar Business laadpaal inclusief installatie – vaste laadkabel 5 meter</g:title>
+      <g:description>De Peblar Business combineert krachtig en slim laden met een MID-gecertificeerde energiemeter. Ideaal voor zakelijke rijders die hun laadkosten nauwkeurig willen registreren en verrekenen. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving. Met vaste laadkabel 5 meter.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/peblar-business/</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-zijaanzicht.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1785.00 EUR</g:price>
+      <g:brand>Peblar</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:item_group_id>EK-peblar-business</g:item_group_id>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>EK-peblar-business-7-5m</g:id>
+      <g:title>Peblar Business laadpaal inclusief installatie – vaste laadkabel 7,5 meter</g:title>
+      <g:description>De Peblar Business combineert krachtig en slim laden met een MID-gecertificeerde energiemeter. Ideaal voor zakelijke rijders die hun laadkosten nauwkeurig willen registreren en verrekenen. Inclusief professionele standaardinstallatie en load balancing, geïnstalleerd door ElektroKlik in Amersfoort en omgeving. Met vaste laadkabel 7,5 meter.</g:description>
+      <g:link>https://elektroklik.nl/laadpalen/peblar-business/?kabel=7-5m</g:link>
+      <g:image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-voorkant.webp</g:image_link>
+      <g:additional_image_link>https://elektroklik.nl/laadpalen/assets/img/peblar-zijaanzicht.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>1850.00 EUR</g:price>
+      <g:brand>Peblar</g:brand>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Laadpalen &gt; Laadpaal inclusief installatie</g:product_type>
+      <g:item_group_id>EK-peblar-business</g:item_group_id>
+      <g:shipping><g:country>NL</g:country><g:price>0.00 EUR</g:price></g:shipping>
+    </item>
+  </channel>
+</rss>

@@ -13,4 +13,5 @@ De e2e-tests onderscheppen het verzenden naar Formspree. Er worden dus geen echt
 
 
 ## Prijzen in de pagina's
+`node _tools/google-feed.js --check` controleert het productbestand voor Google Merchant Center (/google-producten.xml).
 `node _tools/sync-prijzen.js --check` controleert of de vaste prijzen in de HTML (productpagina's, blog, gegevens voor Google) gelijk lopen met `laadpalen/data/config.json`. Na publiceren via /beheer/ werkt de GitHub Action `prijzen-sync` dit automatisch bij.
