@@ -110,7 +110,7 @@
     if (S.meterkast === 'onbekend') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div><b>Geen probleem. U kunt verder met het samenstellen.</b><br>Wij controleren uw meterkast voordat de installatie wordt ingepland. Een foto van uw meterkast aan het eind van de aanvraag helpt ons daarbij.</div></div>';
     if (S.meterkast === 'geschikt-vol') melding = '<div class="notice notice-info mk-advies" role="status">' + EK.icon('info') + '<div>U kunt verder met het samenstellen. Voor het uitbreiden van uw meterkast rekenen wij € 25 extra; dit is verwerkt in uw prijsindicatie. Wij controleren vooraf of de uitbreiding veilig mogelijk is.</div></div>';
     return '<h2 class="step-title" tabindex="-1">Controleer uw meterkast</h2><p class="step-intro">Een laadpaal krijgt een eigen beveiliging in de meterkast. Vergelijk uw meterkast met de voorbeelden hieronder.</p>' +
-      '<div class="mk-examples">' + groep(v.geschikt, true, 'Voorbeelden van een geschikte meterkast.') + groep(v.beoordelen, false, 'Voorbeelden van een meterkast die beoordeeld moet worden.') + '</div>' +
+      '<div class="mk-examples">' + groep(v.geschikt, true, 'Voorbeelden van een geschikte meterkast.') + groep(v.beoordelen, false, 'Voorbeelden van een verouderde meterkast. Deze moet eerst vernieuwd worden voordat er een laadpaal op kan.') + '</div>' +
       '<p class="price-note" style="margin:-6px 0 18px">Deze foto’s zijn alleen voorbeelden en geven geen definitieve technische goedkeuring. ElektroKlik controleert uw situatie altijd.</p>' +
       '<fieldset class="cfg-q" id="q-meterkast"><legend>' + esc(C.regels.meterkast.vraag) + '</legend><div class="choice-grid mk-choices">' +
       C.regels.meterkast.keuzes.map(function (x) {
