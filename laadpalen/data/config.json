@@ -262,7 +262,7 @@
         "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
       "midGecertificeerd": false,
-      "loadBalancingAccessoire": "Peblar dynamische load balancing",
+      "loadBalancingAccessoire": "Dynamische load balancing",
       "bronnen": [
         "https://peblar.com/chargers/home"
       ],
@@ -327,7 +327,7 @@
         "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
       "midGecertificeerd": true,
-      "loadBalancingAccessoire": "Peblar dynamische load balancing",
+      "loadBalancingAccessoire": "Dynamische load balancing",
       "bronnen": [
         "https://peblar.com/chargers/business"
       ],
@@ -569,8 +569,8 @@
         "easee-up": "Easee Equalizer P1",
         "easee-max": "Easee Equalizer P1",
         "zaptec": "Zaptec Sense P1",
-        "peblar-home": "Peblar dynamische load balancing",
-        "peblar-business": "Peblar dynamische load balancing"
+        "peblar-home": "Dynamische load balancing",
+        "peblar-business": "Dynamische load balancing"
       },
       "kosten": {
         "easee-up": {
