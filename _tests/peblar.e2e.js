@@ -57,7 +57,7 @@ const totaal = async p => (await p.textContent('#summary .summary-total b')).rep
     for (const [k, v] of Object.entries({ voornaam: 'Test', achternaam: 'Klant', email: 'test@voorbeeld.nl', telefoon: '06 12345678', postcode: '3811 AB', huisnummer: '12', straat: 'Teststraat', plaats: 'Amersfoort' })) await p.fill('#f-' + k, v);
     await p.check('#f-akkoord'); await p.click('#btnNext');
     await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); await p.waitForSelector('.ref');
-    for (const veld of ['Peblar Business met vaste laadkabel 7,5 meter', 'Vaste laadkabel 7,5 meter', 'Peblar dynamische load balancing', '1.940']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
+    for (const veld of ['Peblar Business met vaste laadkabel 7,5 meter', 'Vaste laadkabel 7,5 meter', 'Dynamische load balancing', '1.940']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
     assert((await p.textContent('#thanksBody')).includes('vaste laadkabel 7,5 meter'), 'bedankpagina toont kabellengte');
     console.log('configurator Peblar ok | fouten:', st.errs.length ? st.errs : 'geen');
     await ctx.close();

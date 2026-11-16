@@ -22,8 +22,8 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 | Easee Charge Up | € 1.450 | Easee Equalizer P1 | Uw Easee-foto's (vooraanzicht en zijaanzicht) |
 | Easee Charge Max | € 1.600 | Easee Equalizer P1 | Uw Easee-foto met de strepen aan de zijkanten (door u bevestigd) |
 | Zaptec Go 2 | € 1.750 | Zaptec Sense P1 | Uw foto's |
-| Peblar Home | € 1.475 (5 m) / € 1.535 (7,5 m) | Peblar dynamische load balancing | Officiële Peblar-foto's (voor- en zijaanzicht), vaste laadkabel |
-| Peblar Business | € 1.785 (5 m) / € 1.850 (7,5 m) | Peblar dynamische load balancing | Zelfde foto's als Peblar Home, MID-meter |
+| Peblar Home | € 1.475 (5 m) / € 1.535 (7,5 m) | Dynamische load balancing | Officiële Peblar-foto's (voor- en zijaanzicht), vaste laadkabel |
+| Peblar Business | € 1.785 (5 m) / € 1.850 (7,5 m) | Dynamische load balancing | Zelfde foto's als Peblar Home, MID-meter |
 
 - Load balancing kan nergens meer apart worden gekozen of uitgezet. Het staat overal als inbegrepen vermeld.
 - Voor load balancing via de P1-poort is een slimme meter nodig. Daarom staat de vraag **"Heeft u een slimme meter?"** in de configurator. Bij "Nee" of "Weet ik niet" wordt de aanvraag gemarkeerd voor controle.
