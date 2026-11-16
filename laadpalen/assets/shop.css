@@ -651,3 +651,14 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 /* Inbegrepen-kaart staat nu onder de laadpalen: geen overlap meer met de bovenkant */
 .incl-band { margin-top: 0; padding: 0 0 56px; }
 @media (max-width: 560px) { .incl-band { margin-top: 0; padding-bottom: 40px; } }
+
+/* Donkere kopbalk op de overige laadpaalpagina's: zelfde groene stijl */
+.page-band {
+  background:
+    linear-gradient(180deg, #0a1628 0, rgba(10,22,40,.55) 60px, rgba(10,22,40,0) 160px),
+    radial-gradient(circle at 88% 14%, rgba(255,255,255,.16) 0, rgba(255,255,255,0) 38%),
+    linear-gradient(135deg, #0a6d7c 0%, #0e9a86 50%, #22bf83 100%);
+}
+.page-band .breadcrumbs, .page-band .breadcrumbs span { color: rgba(255,255,255,.85); }
+.page-band .breadcrumbs a { color: #fff; }
+.page-band p, .page-band .lead { color: rgba(255,255,255,.93); }

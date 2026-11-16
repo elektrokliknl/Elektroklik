@@ -281,3 +281,55 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); }
 @media (max-width: 600px) {
   .artikel .prijs-tabel td:last-child { white-space: normal; }
 }
+
+/* ===== Frisse groene bovenkant op alle pagina's (zelfde stijl als de laadpalenpagina) ===== */
+:root {
+  --ek-hero-bg:
+    linear-gradient(180deg, #0a1628 0, rgba(10,22,40,.55) 70px, rgba(10,22,40,0) 190px),
+    radial-gradient(circle at 88% 14%, rgba(255,255,255,.18) 0, rgba(255,255,255,0) 38%),
+    linear-gradient(135deg, #0a6d7c 0%, #0e9a86 50%, #22bf83 100%);
+  --ek-hero-accent: #05344a;
+}
+/* Volledige breedte, ook bij bovenkanten met een smalle tekstkolom */
+html { overflow-x: clip; }
+body .hero-bg { background: var(--ek-hero-bg); }
+body .page-hero, body .dienst-hero { background: var(--ek-hero-bg); border-bottom: 0; }
+body .diensten-hero, body .offerte-hero, body .page-hero-tb {
+  border-image: linear-gradient(135deg, #0a6d7c 0%, #0e9a86 50%, #22bf83 100%) fill 0 / / 0 100vw;
+  position: relative; padding-bottom: 56px;
+}
+body .diensten-hero::before, body .offerte-hero::before, body .page-hero-tb::before {
+  content: ""; position: absolute; top: 0; height: 190px; left: -100vw; right: -100vw; pointer-events: none;
+  background: linear-gradient(180deg, #0a1628 0, rgba(10,22,40,.55) 70px, rgba(10,22,40,0) 190px);
+}
+body .diensten-hero > *, body .offerte-hero > *, body .page-hero-tb > * { position: relative; }
+body .offerte-hero { margin-bottom: 40px; }
+/* Teksten in de bovenkant */
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) h1 { color: #fff; }
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) h1 :is(span, em) { color: var(--ek-hero-accent); }
+body :is(.hero-sub, .page-hero p, .dienst-hero p, .diensten-hero p, .offerte-hero p, .page-hero-tb p) { color: rgba(255,255,255,.93); }
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) .section-label,
+body .hero-badge { color: #fff; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.3); display: inline-flex; padding: .35rem .85rem; border-radius: 999px; letter-spacing: 2px; }
+body .hero-badge span { background: #d9f99d; }
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) a:not([class]) { color: #fff; }
+/* Knoppen in de bovenkant */
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) .btn-primary { background: #fff; color: #0a6e63; box-shadow: 0 10px 24px rgba(0,50,40,.25); }
+body :is(.hero, .page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb) .btn-secondary { color: #fff; border-color: rgba(255,255,255,.75); }
+/* Cijferblokken op de homepage */
+body .hero .stat-card { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.28); }
+body .hero .stat-number { color: #fff; }
+body .hero .stat-label { color: rgba(255,255,255,.88); }
+body .page-hero-tb h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -1px; line-height: 1.12; margin-top: .4rem; }
+/* Zachte, ronde overgang van de groene bovenkant naar de rest van de pagina */
+body .page-hero, body .dienst-hero { position: relative; padding-bottom: 96px; }
+body :is(.page-hero, .dienst-hero, .diensten-hero, .offerte-hero, .page-hero-tb)::after {
+  content: ""; position: absolute; bottom: -1px; height: 40px; background: var(--navy); border-radius: 40px 40px 0 0; pointer-events: none;
+  left: 0; right: 0;
+}
+body :is(.diensten-hero, .offerte-hero, .page-hero-tb)::after { left: -100vw; right: -100vw; border-radius: 0; background: linear-gradient(180deg, rgba(10,22,40,0), var(--navy)); height: 40px; }
+body :is(.diensten-hero, .offerte-hero, .page-hero-tb) { padding-bottom: 72px; }
+body .offerte-hero .offerte-trust span { color: #fff; font-weight: 600; }
+/* Ronde overgang ook bij de smalle bovenkanten, over de volle breedte */
+body :is(.diensten-hero, .offerte-hero, .page-hero-tb)::after {
+  left: calc(50% - 50vw); right: auto; width: 100vw; background: var(--navy); border-radius: 40px 40px 0 0; height: 40px;
+}
