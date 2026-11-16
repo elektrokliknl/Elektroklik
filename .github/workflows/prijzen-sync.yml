@@ -1,0 +1,33 @@
+name: Prijzen in pagina's bijwerken
+
+# Na het publiceren van nieuwe prijzen via /beheer/ (laadpalen/data/config.json)
+# worden de vaste prijzen in de HTML en de gegevens voor Google automatisch gelijkgetrokken.
+on:
+  push:
+    branches: [main]
+    paths: ['laadpalen/data/config.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prijzen-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node _tools/sync-prijzen.js
+      - name: Wijzigingen vastleggen
+        run: |
+          if git diff --quiet; then echo "Geen wijzigingen"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Prijzen in pagina's gelijkgetrokken met config.json"
+          git push

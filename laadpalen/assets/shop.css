@@ -548,3 +548,15 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 /* Hero: bijschrift boven, prijs onder (laadpaal blijft vrij), op alle schermen */
 .hero-media figcaption { top: 14px; bottom: auto; left: 14px; }
 .hero-price-chip { top: auto; bottom: 22px; }
+
+/* Werkgebied en kennislinks */
+.wg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.wg-regio { background: #fff; border: 1px solid var(--ek-line); border-radius: var(--ek-radius); padding: 18px 20px; }
+.wg-regio h3 { font-size: 1rem; margin-bottom: .35rem; }
+.wg-regio p { color: var(--ek-muted); font-size: .95rem; line-height: 1.6; }
+.sec-white .wg-regio { background: var(--ek-bg, #f6f8fb); }
+.usp-link { display: block; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+.usp-link:hover, .usp-link:focus-visible { border-color: var(--ek-primary); transform: translateY(-2px); }
+.usp-link h3 { color: var(--ek-primary); }
+@media (max-width: 860px) { .wg-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .wg-grid { grid-template-columns: 1fr; } }
