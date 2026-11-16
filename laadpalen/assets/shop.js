@@ -129,7 +129,7 @@
       '<div class="price-block"><div class="price-from">Inclusief professionele standaardinstallatie en load balancing</div>' +
       '<div class="price-big">' + EK.euro(p.vanafprijs) + EK.conceptTag() + '</div>' +
       EK.kabelNote(p) + '<div class="price-note">Inclusief 21% btw</div>' +
-      '<a class="pcard-incl" href="' + BASE + '#inbegrepen">' + EK.icon('check') + ' Standaardinstallatie inbegrepen: bekijk wat erin zit</a>' +
+      '<a class="pcard-incl" href="' + BASE + '#inbegrepen">' + EK.icon('check') + ' Standaardinstallatie inbegrepen: bekijk wat is inbegrepen</a>' +
       '<div class="pcard-ctas"><a class="btn btn-ghost" href="' + EK.productUrl(p) + '" data-track="bekijk_laadpaal">Bekijk laadpaal</a>' +
       '<a class="btn btn-main" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Stel samen</a></div>' +
       '</div></div></article>';
