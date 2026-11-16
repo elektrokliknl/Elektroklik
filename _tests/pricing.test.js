@@ -12,7 +12,7 @@ t('config is geldig', () => assert.deepStrictEqual(P.valideerConfig(config), [])
 t('opgegeven verkoopprijzen (incl. installatie en load balancing)', () => {
   assert.strictEqual(tot({}), 1450);
   assert.strictEqual(tot({ product: 'easee-max' }), 1600);
-  assert.strictEqual(tot({ product: 'zaptec' }), 1750);
+  assert.strictEqual(tot({ product: 'zaptec' }), 1650);
   assert.strictEqual(tot({ product: 'peblar-home' }), 1475);
   assert.strictEqual(tot({ product: 'peblar-business' }), 1785);
   assert.ok(config.instellingen.prijzenGoedgekeurd);
@@ -48,7 +48,7 @@ t('graafwerk: meters × 25', () => {
 });
 t('montagepaal per product', () => {
   assert.strictEqual(tot({ locatie: 'paal' }), 1450 + 329);
-  assert.strictEqual(tot({ product: 'zaptec', locatie: 'paal' }), 1750 + 359);
+  assert.strictEqual(tot({ product: 'zaptec', locatie: 'paal' }), 1650 + 359);
   assert.strictEqual(tot({ product: 'peblar-business', locatie: 'paal' }), 1785 + 409);
 });
 t('kabelhouder € 50, niet bij montagepaal', () => {
@@ -82,7 +82,7 @@ t('zakelijk met Easee Charge Up = beoordeling, met MID niet', () => {
 });
 t('combinatie: Zaptec, paal, 28 m, geen kruipruimte, 6 m graven, zonder kabelhouder', () => {
   const r = P.bereken(config, { ...basis, product: 'zaptec', locatie: 'paal', afstand: '20+', afstandMeters: 28, kruipruimte: 'nee', graafwerk: 'ja', graafMeters: 6 });
-  assert.strictEqual(r.totaal, 1750 + 359 + 200 + 35 + 150);
+  assert.strictEqual(r.totaal, 1650 + 359 + 200 + 35 + 150);
   assert.strictEqual(r.situatieTotaal, 200 + 35 + 150);
   assert.strictEqual(r.btw, Math.round(r.totaal * 21 / 121 * 100) / 100);
 });
@@ -119,7 +119,7 @@ t('Peblar: losse laadkabel verborgen, kabelhouder en toeslagen blijven', () => {
   assert.strictEqual(tot({ product: 'peblar-home', kabelLengte: '7-5m', opties: ['kabel1', 'kabelhouder'] }), 1535 + 50);
   assert.ok(P.beschikbareOpties(config, { ...basis, product: 'peblar-home' }).filter(o => o.optie.groep === 'kabel').every(o => o.verborgen));
   assert.strictEqual(tot({ product: 'peblar-home', kabelLengte: '7-5m', afstand: '10-20', kruipruimte: 'nee' }), 1535 + 90 + 35);
-  assert.strictEqual(tot({ product: 'zaptec', kabelLengte: '7-5m', opties: ['kabel3'] }), 1750 + 175, 'Zaptec ongewijzigd');
+  assert.strictEqual(tot({ product: 'zaptec', kabelLengte: '7-5m', opties: ['kabel3'] }), 1650 + 175, 'Zaptec ongewijzigd');
 });
 t('Peblar: vanafprijs moet gelijk zijn aan de laagste kabelprijs', () => {
   const k = JSON.parse(JSON.stringify(config)); k.producten.find(p => p.id === 'peblar-home').kabelVarianten[0].prijs = 1499;

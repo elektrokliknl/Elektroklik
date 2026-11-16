@@ -1,5 +1,5 @@
 {
-  "versie": "2026-11-17.1",
+  "versie": "2026-11-17.2",
   "laatstGewijzigd": "2026-11-15",
   "instellingen": {
     "prijzenGoedgekeurd": true,
@@ -165,7 +165,7 @@
       "naam": "Zaptec Go 2",
       "positionering": "Premium & Toekomstgericht",
       "kort": "Een premium laadpaal met een strak ontwerp, moderne slimme functies en een MID-gecertificeerde energiemeter.",
-      "vanafprijs": 1750,
+      "vanafprijs": 1650,
       "afbeelding": "assets/img/zaptec-go-2-voorkant.webp",
       "afbeeldingAlt": "Zaptec Go 2 laadpaal, vooraanzicht",
       "kleur": "#2b2f36",

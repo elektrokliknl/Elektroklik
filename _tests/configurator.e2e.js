@@ -59,7 +59,7 @@ async function gegevens(p) {
     await p.click('#btnNext');
     const tot = await p.textContent('.price-table tr.total');
     console.log('desktop overzicht:', tot.replace(/\s+/g, ' '));
-    assert(tot.includes('2.694'), 'verwacht 1750 + 25 (meterkast vol) + 359 + 200 + 35 + 150 + 175 (3-fasekabel)');
+    assert(tot.includes('2.594'), 'verwacht 1650 + 25 (meterkast vol) + 359 + 200 + 35 + 150 + 175 (3-fasekabel)');
     assert((await p.textContent('#summary')).includes('Aanpassingen voor uw situatie'));
     assert((await p.textContent('#btnNext')).includes('Vraag uw definitieve prijs aan'));
     await p.screenshot({ path: OUT + 'desktop-overzicht.png', fullPage: true });

@@ -38,7 +38,7 @@ const totaal = async p => (await p.textContent('#summary .summary-total b')).rep
     }
     await p.click('label[data-product=zaptec] .box');
     assert(!(await p.isVisible('#q-kabelLengte')), 'kabelkeuze verdwijnt bij Zaptec');
-    assert.strictEqual(await totaal(p), '€1.750,-');
+    assert.strictEqual(await totaal(p), '€1.650,-');
     // Peblar Business 7,5 m door de hele standaardroute
     await p.click('label[data-product=peblar-business] .box');
     await p.click('#q-kabelLengte input[value="7-5m"] + .box');
