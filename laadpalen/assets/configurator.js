@@ -203,7 +203,7 @@
   function stapGegevens() {
     var offerte = EKPricing.route(C, S) === 'offerte';
     return '<h2 class="step-title" tabindex="-1">' + (offerte ? 'Vraag vrijblijvend een offerte aan' : 'Uw gegevens') + '</h2>' +
-      '<p class="step-intro">' + (offerte ? 'Laat uw gegevens achter. Wij beoordelen uw meterkast en sturen u een passende offerte voor de ' + esc(EKPricing.product(C, S.product).naam) + '. U zit nergens aan vast.' : 'U heeft geen account nodig. U betaalt nu niets. Na uw akkoord op de offerte betaalt u 30% aanbetaling. De rest betaalt u na de installatie.') + '</p>' +
+      '<p class="step-intro">' + (offerte ? 'Laat uw gegevens achter. Wij beoordelen uw meterkast en sturen u een passende offerte voor de ' + esc(EKPricing.product(C, S.product).naam) + '.' : 'U heeft geen account nodig. U betaalt nu niets. Na uw akkoord op de offerte betaalt u 30% aanbetaling. De rest betaalt u na de installatie.') + '</p>' +
       '<div class="form-grid">' +
       veld('voornaam', 'Voornaam', 'text', { ac: 'given-name' }) + veld('achternaam', 'Achternaam', 'text', { ac: 'family-name' }) +
       veld('email', 'E-mailadres', 'email', { ac: 'email', im: 'email', hint: 'Hier sturen wij de bevestiging en de offerte naartoe.' }) +
