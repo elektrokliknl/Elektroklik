@@ -88,6 +88,25 @@
     if (!p.kabelVarianten || !p.kabelVarianten.length) return '';
     return '<div class="price-note">Met vaste laadkabel van ' + EK.esc(p.kabelVarianten[0].kort) + p.kabelVarianten.slice(1).map(function (v) { return '; ' + EK.esc(v.kort) + ': ' + EK.euro(v.prijs); }).join('') + '</div>';
   };
+  /* Standaard inbegrepen: tegels met pictogram, gevuld vanuit config.json */
+  EK.inclIcoon = function (t) {
+    t = t.toLowerCase();
+    if (/montage|muur|garage/.test(t)) return 'home';
+    if (/kabel/.test(t)) return 'cable';
+    if (/beveiliging|meterkast/.test(t)) return 'shield';
+    if (/load balancing/.test(t)) return 'bolt';
+    if (/test|normen|bedrijf/.test(t)) return 'check';
+    if (/uitleg|app/.test(t)) return 'phone';
+    if (/voorrij/.test(t)) return 'euro';
+    return 'check';
+  };
+  EK.inclTegels = function (lijst) {
+    return lijst.map(function (x) { return '<li><span class="ic">' + EK.icon(EK.inclIcoon(x)) + '</span><span>' + EK.txt(x) + '</span></li>'; }).join('');
+  };
+  EK.renderInbegrepen = function (el) {
+    if (!el) return;
+    EK.loadConfig().then(function (c) { el.innerHTML = EK.inclTegels(c.standaardInstallatie.inbegrepen); });
+  };
   EK.productUrl = function (p) { return BASE + p.slug + '/'; };
   EK.configUrl = function (pid) { return BASE + 'samenstellen/' + (pid ? '?laadpaal=' + encodeURIComponent(pid) : ''); };
 
@@ -110,6 +129,7 @@
       '<div class="price-block"><div class="price-from">Inclusief professionele standaardinstallatie en load balancing</div>' +
       '<div class="price-big">' + EK.euro(p.vanafprijs) + EK.conceptTag() + '</div>' +
       EK.kabelNote(p) + '<div class="price-note">Inclusief 21% btw</div>' +
+      '<a class="pcard-incl" href="' + BASE + '#inbegrepen">' + EK.icon('check') + ' Standaardinstallatie inbegrepen: bekijk wat erin zit</a>' +
       '<div class="pcard-ctas"><a class="btn btn-ghost" href="' + EK.productUrl(p) + '" data-track="bekijk_laadpaal">Bekijk laadpaal</a>' +
       '<a class="btn btn-main" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Stel samen</a></div>' +
       '</div></div></article>';
