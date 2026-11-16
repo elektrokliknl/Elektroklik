@@ -34,8 +34,8 @@
       "Montage van de laadpaal op een stevige buitenmuur of in de garage",
       "Tot 10 meter installatiekabel vanaf de meterkast, netjes weggewerkt",
       "Een aparte beveiliging voor de laadpaal in de meterkast",
-      "Load balancing, inclusief de benodigde hardware of licentie voor uw laadpaal",
-      "Aansluiten, testen en in bedrijf stellen volgens NEN 1010",
+      "Load balancing, inclusief de benodigde hardware voor uw laadpaal",
+      "Aansluiten, testen en in bedrijf stellen volgens de geldende normen",
       "Uitleg over de bediening en de app van de fabrikant",
       "Voorrijkosten binnen ons werkgebied"
     ],
@@ -238,7 +238,7 @@
         "connectiviteit": "Afhankelijk van uitvoering",
         "rfid": "Afhankelijk van uitvoering (plug & charge of RFID)",
         "mid": "Ja, MID-gecertificeerde energiemeter",
-        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing (licentie) met aansluiting op uw slimme meter",
+        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing met aansluiting op uw slimme meter",
         "app": "Statusled; beheer via backoffice of laadpasprovider (OCPP)",
         "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
         "display": "Nee, statusled"
@@ -287,7 +287,7 @@
         "connectiviteit": "Afhankelijk van uitvoering (o.a. 4G-varianten)",
         "rfid": "Ja, RFID-lezer",
         "mid": "Ja, MID-gecertificeerde energiemeter",
-        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing (licentie) met aansluiting op uw slimme meter",
+        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing met aansluiting op uw slimme meter",
         "app": "Display op de laadpaal; beheer via backoffice of laadpasprovider (OCPP)",
         "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
         "display": "Ja, kleurendisplay"
@@ -535,8 +535,8 @@
         "easee-up": "Easee Equalizer P1",
         "easee-max": "Easee Equalizer P1",
         "zaptec": "Zaptec Sense P1",
-        "alfen-s": "Alfen Active Load Balancing (licentie)",
-        "alfen-pro": "Alfen Active Load Balancing (licentie)"
+        "alfen-s": "Alfen Active Load Balancing",
+        "alfen-pro": "Alfen Active Load Balancing"
       },
       "kosten": {
         "easee-up": {

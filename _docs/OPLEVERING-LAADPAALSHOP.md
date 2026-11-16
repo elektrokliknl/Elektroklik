@@ -22,8 +22,8 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 | Easee Charge Up | € 1.450 | Easee Equalizer P1 | Uw Easee-foto's (vooraanzicht en zijaanzicht) |
 | Easee Charge Max | € 1.600 | Easee Equalizer P1 | Uw Easee-foto met de strepen aan de zijkanten (door u bevestigd) |
 | Zaptec Go 2 | € 1.750 | Zaptec Sense P1 | Uw foto's |
-| Alfen Eve Single S-line | € 1.899 | Alfen Active Load Balancing (licentie) | Uw foto: witte S-line met statusled, zonder display |
-| Alfen Eve Single Pro-line | € 2.149 | Alfen Active Load Balancing (licentie) | Uw foto: Pro-line met ElektroKlik-logo op het kleurendisplay, RFID en Type 2-contactdoos |
+| Alfen Eve Single S-line | € 1.899 | Alfen Active Load Balancing | Uw foto: witte S-line met statusled, zonder display |
+| Alfen Eve Single Pro-line | € 2.149 | Alfen Active Load Balancing | Uw foto: Pro-line met ElektroKlik-logo op het kleurendisplay, RFID en Type 2-contactdoos |
 
 - Load balancing kan nergens meer apart worden gekozen of uitgezet. Het staat overal als inbegrepen vermeld.
 - Voor load balancing via de P1-poort is een slimme meter nodig. Daarom staat de vraag **"Heeft u een slimme meter?"** in de configurator. Bij "Nee" of "Weet ik niet" wordt de aanvraag gemarkeerd voor controle.
