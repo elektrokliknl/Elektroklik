@@ -76,12 +76,17 @@
     var a = ' role="img" aria-label="' + EK.esc((label || id) + ' (illustratie)') + '"';
     if (id.indexOf('easee') === 0) return '<svg viewBox="0 0 120 170"' + a + '><path d="M18 10h84l10 18v104l-22 30H30L8 132V28z" fill="#22262c"/><path d="M60 10 18 10 8 28v104l22 30h30z" fill="#1d2126"/><rect x="73" y="62" width="3" height="40" rx="1.5" fill="#e9f0f2"/><text x="74" y="40" fill="#8c96a3" font-size="8" font-family="sans-serif" text-anchor="middle">easee</text></svg>';
     if (id.indexOf('zaptec') === 0) return '<svg viewBox="0 0 120 170"' + a + '><rect x="14" y="8" width="92" height="150" rx="10" fill="#22262c"/><rect x="34" y="28" width="52" height="110" rx="26" fill="none" stroke="#4a515b"/><circle cx="60" cy="58" r="16" fill="#111" stroke="#e9f0f2" stroke-width="2"/><circle cx="60" cy="108" r="14" fill="#15181c" stroke="#555d68"/></svg>';
-    return '<svg viewBox="0 0 120 170"' + a + '><rect x="16" y="10" width="88" height="146" rx="14" fill="#f3f5f7" stroke="#b9c1cb"/><rect x="34" y="30" width="52" height="22" rx="4" fill="#26303a"/><rect x="40" y="36" width="24" height="3" rx="1.5" fill="#7fd1c6"/><circle cx="60" cy="112" r="15" fill="#2c343d"/><circle cx="60" cy="112" r="6" fill="#47515c"/><text x="60" y="78" fill="#55606c" font-size="8" font-family="sans-serif" text-anchor="middle">alfen</text></svg>';
+    return '<svg viewBox="0 0 120 170"' + a + '><rect x="16" y="10" width="88" height="146" rx="14" fill="#f3f5f7" stroke="#b9c1cb"/><rect x="34" y="30" width="52" height="22" rx="4" fill="#26303a"/><rect x="40" y="36" width="24" height="3" rx="1.5" fill="#7fd1c6"/><circle cx="60" cy="112" r="15" fill="#2c343d"/><circle cx="60" cy="112" r="6" fill="#47515c"/><text x="60" y="78" fill="#55606c" font-size="8" font-family="sans-serif" text-anchor="middle"></text></svg>';
   };
   EK.imgUrl = function (src) { return src.indexOf('http') === 0 || src.charAt(0) === '/' ? src : BASE + src; };
   EK.productMedia = function (p, cls) {
     if (p.afbeelding) return '<img src="' + EK.esc(EK.imgUrl(p.afbeelding)) + '" alt="' + EK.esc(p.afbeeldingAlt || p.naam) + '" loading="lazy" class="' + (cls || '') + '">';
     return EK.illustratie(p.id, p.naam);
+  };
+  /** Bij laadpalen met vaste laadkabel: korte toelichting op de kabellengtes en prijzen. */
+  EK.kabelNote = function (p) {
+    if (!p.kabelVarianten || !p.kabelVarianten.length) return '';
+    return '<div class="price-note">Met vaste laadkabel van ' + EK.esc(p.kabelVarianten[0].kort) + p.kabelVarianten.slice(1).map(function (v) { return '; ' + EK.esc(v.kort) + ': ' + EK.euro(v.prijs); }).join('') + '</div>';
   };
   EK.productUrl = function (p) { return BASE + p.slug + '/'; };
   EK.configUrl = function (pid) { return BASE + 'samenstellen/' + (pid ? '?laadpaal=' + encodeURIComponent(pid) : ''); };
@@ -104,7 +109,7 @@
       '</div>' +
       '<div class="price-block"><div class="price-from">Inclusief professionele standaardinstallatie en load balancing</div>' +
       '<div class="price-big">' + EK.euro(p.vanafprijs) + EK.conceptTag() + '</div>' +
-      '<div class="price-note">Inclusief 21% btw</div>' +
+      EK.kabelNote(p) + '<div class="price-note">Inclusief 21% btw</div>' +
       '<div class="pcard-ctas"><a class="btn btn-ghost" href="' + EK.productUrl(p) + '" data-track="bekijk_laadpaal">Bekijk laadpaal</a>' +
       '<a class="btn btn-main" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Stel samen</a></div>' +
       '</div></div></article>';
@@ -146,7 +151,7 @@
       var yn = function (b, t) { return b ? '<span class="yes">✓ ' + (t || 'Ja') + '</span>' : '<span class="no">✕ ' + (t || 'Nee') + '</span>'; };
       el.innerHTML = '<table class="compare"><caption class="sr-only">Vergelijking van de laadpalen</caption><thead><tr><th scope="col"><span class="sr-only">Eigenschap</span></th>' +
         ps.map(function (p) { return '<th scope="col"><span class="t">' + EK.esc(p.naam) + '</span><span class="pcard-pos">' + EK.esc(p.positionering) + '</span></th>'; }).join('') + '</tr></thead><tbody>' +
-        rij('Prijs incl. installatie en load balancing', function (p) { return '<b style="font-size:1.1rem;color:var(--ek-ink)">' + EK.euro(p.vanafprijs) + '</b>' + EK.conceptTag(); }) +
+        rij('Prijs incl. installatie en load balancing', function (p) { return '<b style="font-size:1.1rem;color:var(--ek-ink)">' + EK.euro(p.vanafprijs) + '</b>' + EK.conceptTag() + EK.kabelNote(p); }) +
         rij('Positionering', function (p) { return EK.esc(p.kort); }) +
         rij('Maximaal laadvermogen', function (p) { return EK.esc(p.specs.maxVermogen); }) +
         rij('Aansluiting auto', function (p) { return EK.esc(p.specs.aansluiting); }) +

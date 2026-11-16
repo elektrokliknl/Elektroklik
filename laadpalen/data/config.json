@@ -1,5 +1,5 @@
 {
-  "versie": "2026-11-15.6",
+  "versie": "2026-11-17.1",
   "laatstGewijzigd": "2026-11-15",
   "instellingen": {
     "prijzenGoedgekeurd": true,
@@ -46,7 +46,7 @@
       "Een montagepaal, als er geen geschikte muur is",
       "Uitbreiden of vervangen van de meterkast (na beoordeling, altijd vooraf met u afgestemd)",
       "Verzwaren van de aansluiting bij de netbeheerder",
-      "Laadkabel (optioneel te bestellen in de configurator; veel auto’s worden met een laadkabel geleverd)",
+      "Een losse laadkabel bij laadpalen zonder vaste kabel (optioneel te bestellen in de configurator; veel auto’s worden met een laadkabel geleverd)",
       "Abonnementskosten van een laadpasprovider of verrekenpartij"
     ],
     "kosten": {
@@ -210,44 +210,61 @@
       ]
     },
     {
-      "id": "alfen-s",
-      "slug": "alfen-eve-single-s-line",
-      "merk": "Alfen",
-      "naam": "Alfen Eve Single S-line",
-      "positionering": "Betrouwbaar & Nederlands",
-      "kort": "Een compacte, robuuste laadpaal van de Nederlandse fabrikant Alfen, met een MID-gecertificeerde energiemeter en slimme thuisintegratie.",
-      "vanafprijs": 1899,
-      "afbeelding": "assets/img/alfen-eve-single-s-line.webp",
-      "afbeeldingAlt": "Alfen Eve Single S-line laadpaal, wit, met statusled en Type 2-contactdoos",
-      "kleur": "#e9edf1",
+      "id": "peblar-home",
+      "slug": "peblar-home",
+      "merk": "Peblar",
+      "naam": "Peblar Home",
+      "positionering": "Slim & Nederlands",
+      "kort": "De Peblar Home is een slimme, in Nederland ontwikkelde laadpaal voor thuis. Dankzij de vaste laadkabel, dynamische load balancing en ondersteuning voor laden met zonne-energie laadt u eenvoudig en efficiënt.",
+      "vanafprijs": 1475,
+      "vasteKabel": true,
+      "kabelVarianten": [
+        {
+          "id": "5m",
+          "label": "Vaste laadkabel 5 meter",
+          "kort": "5 meter",
+          "prijs": 1475
+        },
+        {
+          "id": "7-5m",
+          "label": "Vaste laadkabel 7,5 meter",
+          "kort": "7,5 meter",
+          "prijs": 1535
+        }
+      ],
+      "afbeelding": "assets/img/peblar-voorkant.webp",
+      "afbeeldingAlt": "Peblar laadpaal met display en vaste laadkabel, vooraanzicht",
+      "kleur": "#5b6470",
       "voordelen": [
-        "Ontwikkeld door de Nederlandse fabrikant Alfen",
-        "MID-gecertificeerde energiemeter",
-        "Compact, met duidelijke statusled",
-        "Active Load Balancing inbegrepen"
+        "In Nederland ontwikkelde laadpaal",
+        "Vaste Type 2-laadkabel van 5 of 7,5 meter",
+        "Dynamische load balancing en laden met zonne-energie",
+        "Display, ledstatus en RFID-autorisatie"
       ],
       "geschiktVoor": [
-        "Wie kiest voor betrouwbaarheid en een Nederlands merk",
-        "Zakelijke rijders die laadkosten willen verrekenen",
-        "Thuisladen tot 11 kW"
+        "Thuisladen tot 11 kW op 3 fasen",
+        "Wie gemak wil met een vaste laadkabel",
+        "Laden met zonne-energie"
       ],
-      "minderGeschiktVoor": [],
+      "minderGeschiktVoor": [
+        "Zakelijke verrekening: de ingebouwde energiemeter is niet MID-gecertificeerd"
+      ],
       "specs": {
-        "maxVermogen": "Tot 11 kW (3-fase) of 7,4 kW (1-fase), afhankelijk van uitvoering",
-        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
-        "connectiviteit": "Afhankelijk van uitvoering",
-        "rfid": "Afhankelijk van uitvoering (plug & charge of RFID)",
-        "mid": "Ja, MID-gecertificeerde energiemeter",
-        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing met aansluiting op uw slimme meter",
-        "app": "Statusled; beheer via backoffice of laadpasprovider (OCPP)",
-        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
-        "display": "Nee, statusled"
+        "maxVermogen": "Maximaal 11 kW op 3 fasen, maximaal 3,7 kW op 1 fase. Het werkelijke laadvermogen hangt af van uw elektriciteitsaansluiting, uw auto en de installatie-instellingen.",
+        "aansluiting": "Vaste Type 2-laadkabel van 5 of 7,5 meter",
+        "connectiviteit": "Wifi en ethernet",
+        "rfid": "Ja, RFID-autorisatie",
+        "mid": "Nee, ingebouwde energiemeter voor indicatieve meting (niet MID-gecertificeerd)",
+        "loadBalancing": "Inbegrepen: dynamische load balancing",
+        "app": "Gepland laden, laden met zonne-energie, OCPP 1.6-J",
+        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Peblar",
+        "display": "Ja, display en ledstatusindicatie",
+        "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
-      "midGecertificeerd": true,
-      "loadBalancingAccessoire": "Alfen Active Load Balancing",
+      "midGecertificeerd": false,
+      "loadBalancingAccessoire": "Peblar dynamische load balancing",
       "bronnen": [
-        "https://knowledge.alfen.com/products/eve-single-s-line",
-        "https://eu-assets.contentstack.com/v3/assets/blt08d332658a89f766/blta4f9411e56ab5073/6a38defe58a7df05454b278a/Eve_Single_Datasheet_EN_.pdf"
+        "https://peblar.com/chargers/home"
       ],
       "kosten": {
         "inkoop": 0,
@@ -255,48 +272,64 @@
         "materiaal": 0
       },
       "afbeeldingen": [
-        "assets/img/alfen-eve-single-s-line.webp"
+        "assets/img/peblar-voorkant.webp",
+        "assets/img/peblar-zijaanzicht.webp"
       ]
     },
     {
-      "id": "alfen-pro",
-      "slug": "alfen-eve-single-pro-line",
-      "merk": "Alfen",
-      "naam": "Alfen Eve Single Pro-line",
-      "positionering": "Professioneel & Uitgebreid",
-      "kort": "De uitgebreide Alfen voor thuis én zakelijk gebruik, met display, RFID-lezer en MID-gecertificeerde meter. Koppelbaar aan een backoffice.",
-      "vanafprijs": 2149,
-      "afbeelding": "assets/img/alfen-eve-single-pro-line.webp",
-      "afbeeldingAlt": "Alfen Eve Single Pro-line laadpaal, wit, met kleurendisplay, RFID-lezer en Type 2-contactdoos",
-      "kleur": "#e9edf1",
+      "id": "peblar-business",
+      "slug": "peblar-business",
+      "merk": "Peblar",
+      "naam": "Peblar Business",
+      "positionering": "Krachtig & zakelijk",
+      "kort": "De Peblar Business combineert krachtig en slim laden met een MID-gecertificeerde energiemeter. Ideaal voor zakelijke rijders die hun laadkosten nauwkeurig willen registreren en verrekenen.",
+      "vanafprijs": 1785,
+      "vasteKabel": true,
+      "kabelVarianten": [
+        {
+          "id": "5m",
+          "label": "Vaste laadkabel 5 meter",
+          "kort": "5 meter",
+          "prijs": 1785
+        },
+        {
+          "id": "7-5m",
+          "label": "Vaste laadkabel 7,5 meter",
+          "kort": "7,5 meter",
+          "prijs": 1850
+        }
+      ],
+      "afbeelding": "assets/img/peblar-voorkant.webp",
+      "afbeeldingAlt": "Peblar laadpaal met display en vaste laadkabel, vooraanzicht",
+      "kleur": "#5b6470",
       "voordelen": [
-        "Ontwikkeld door de Nederlandse fabrikant Alfen",
-        "Kleurendisplay en RFID-lezer",
-        "MID-gecertificeerde energiemeter",
-        "Active Load Balancing inbegrepen"
+        "MID-gecertificeerde energiemeter voor zakelijke verrekening",
+        "Tot 22 kW op 3 fasen",
+        "Vaste Type 2-laadkabel van 5 of 7,5 meter",
+        "Dynamische load balancing en laden met zonne-energie"
       ],
       "geschiktVoor": [
-        "Zakelijke rijders en ondernemers",
-        "Wie maximale instelmogelijkheden wil",
-        "Laden tot 22 kW op een 3-faseaansluiting (afhankelijk van uitvoering)"
+        "Zakelijke rijders die laadkosten willen registreren en verrekenen",
+        "Laden tot 22 kW op 3 fasen",
+        "Wie gemak wil met een vaste laadkabel"
       ],
       "minderGeschiktVoor": [],
       "specs": {
-        "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase), afhankelijk van uitvoering",
-        "aansluiting": "Type 2-contactdoos (zonder vaste kabel)",
-        "connectiviteit": "Afhankelijk van uitvoering (o.a. 4G-varianten)",
-        "rfid": "Ja, RFID-lezer",
-        "mid": "Ja, MID-gecertificeerde energiemeter",
-        "loadBalancing": "Inbegrepen: Alfen Active Load Balancing met aansluiting op uw slimme meter",
-        "app": "Display op de laadpaal; beheer via backoffice of laadpasprovider (OCPP)",
-        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Alfen",
-        "display": "Ja, kleurendisplay"
+        "maxVermogen": "Maximaal 22 kW op 3 fasen, maximaal 7,4 kW op 1 fase. Het werkelijke laadvermogen hangt af van uw elektriciteitsaansluiting, uw auto en de installatie-instellingen.",
+        "aansluiting": "Vaste Type 2-laadkabel van 5 of 7,5 meter",
+        "connectiviteit": "Wifi en ethernet; mobiele netwerkverbinding afhankelijk van uitvoering",
+        "rfid": "Ja, RFID-autorisatie",
+        "mid": "Ja, MID-gecertificeerde energiemeter (bij de MID-uitvoering)",
+        "loadBalancing": "Inbegrepen: dynamische load balancing",
+        "app": "Gepland laden, laden met zonne-energie, OCPP 1.6-J",
+        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Peblar",
+        "display": "Ja, display en ledstatusindicatie",
+        "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
       "midGecertificeerd": true,
-      "loadBalancingAccessoire": "Alfen Active Load Balancing",
+      "loadBalancingAccessoire": "Peblar dynamische load balancing",
       "bronnen": [
-        "https://alfen.com/nl-nl/ev-oplaadpunten/thuis/eve-single-pro-line",
-        "https://eu-assets.contentstack.com/v3/assets/blt08d332658a89f766/blta4f9411e56ab5073/6a38defe58a7df05454b278a/Eve_Single_Datasheet_EN_.pdf"
+        "https://peblar.com/chargers/business"
       ],
       "kosten": {
         "inkoop": 0,
@@ -304,7 +337,8 @@
         "materiaal": 0
       },
       "afbeeldingen": [
-        "assets/img/alfen-eve-single-pro-line.webp"
+        "assets/img/peblar-voorkant.webp",
+        "assets/img/peblar-zijaanzicht.webp"
       ]
     }
   ],
@@ -535,8 +569,8 @@
         "easee-up": "Easee Equalizer P1",
         "easee-max": "Easee Equalizer P1",
         "zaptec": "Zaptec Sense P1",
-        "alfen-s": "Alfen Active Load Balancing",
-        "alfen-pro": "Alfen Active Load Balancing"
+        "peblar-home": "Peblar dynamische load balancing",
+        "peblar-business": "Peblar dynamische load balancing"
       },
       "kosten": {
         "easee-up": {
@@ -551,11 +585,11 @@
           "inkoop": 0,
           "arbeidsuren": 0
         },
-        "alfen-s": {
+        "peblar-home": {
           "inkoop": 0,
           "arbeidsuren": 0
         },
-        "alfen-pro": {
+        "peblar-business": {
           "inkoop": 0,
           "arbeidsuren": 0
         }
@@ -567,8 +601,8 @@
         "easee-up": 329,
         "easee-max": 329,
         "zaptec": 359,
-        "alfen-s": 409,
-        "alfen-pro": 409
+        "peblar-home": 409,
+        "peblar-business": 409
       },
       "kosten": {
         "easee-up": {
@@ -583,11 +617,11 @@
           "inkoop": 0,
           "arbeidsuren": 0
         },
-        "alfen-s": {
+        "peblar-home": {
           "inkoop": 0,
           "arbeidsuren": 0
         },
-        "alfen-pro": {
+        "peblar-business": {
           "inkoop": 0,
           "arbeidsuren": 0
         }

@@ -17,7 +17,7 @@
   var MAX_METERS = 250;
 
   function leegeStaat() {
-    var s = { product: null, opties: [], afstandMeters: null, graafMeters: null };
+    var s = { product: null, kabelLengte: null, opties: [], afstandMeters: null, graafMeters: null };
     VRAGEN.forEach(function (v) { s[v] = null; });
     return s;
   }
@@ -25,6 +25,17 @@
   function product(config, id) {
     for (var i = 0; i < config.producten.length; i++) if (config.producten[i].id === id) return config.producten[i];
     return null;
+  }
+  /** Gekozen variant van de vaste laadkabel (alleen bij laadpalen met vaste kabel); standaard de eerste. */
+  function kabelVariant(p, id) {
+    if (!p || !p.kabelVarianten || !p.kabelVarianten.length) return null;
+    for (var i = 0; i < p.kabelVarianten.length; i++) if (p.kabelVarianten[i].id === id) return p.kabelVarianten[i];
+    return p.kabelVarianten[0];
+  }
+  /** Prijs van de laadpaal inclusief standaardinstallatie, rekening houdend met de kabelvariant. */
+  function productPrijs(p, kabelId) {
+    var v = kabelVariant(p, kabelId);
+    return v ? v.prijs : p.vanafprijs;
   }
   function keuze(config, vraag, id) {
     var r = config.regels[vraag];
@@ -55,6 +66,7 @@
   function optieStatus(config, staat, opt) {
     var p = product(config, staat.product);
     var v = opt.vereist || {};
+    if (opt.groep === 'kabel' && p && p.vasteKabel) return { beschikbaar: false, verborgen: true };
     if (v.mid && !(p && p.midGecertificeerd)) return { beschikbaar: false, reden: opt.nietBeschikbaarReden || 'Niet beschikbaar met deze laadpaal.' };
     if (v.locatie && v.locatie.indexOf(staat.locatie) === -1) return { beschikbaar: false, verborgen: true };
     if (v.locatieNiet && v.locatieNiet.indexOf(staat.locatie) !== -1) return { beschikbaar: false, verborgen: true };
@@ -90,7 +102,9 @@
     if (!p) return leeg;
 
     var lb = config.regels.loadBalancing.labelPerProduct[p.id];
-    regels.push({ id: 'product', groep: 'zichtbaar', label: p.naam + ' inclusief standaardinstallatie en load balancing', bedrag: bedrag(p.vanafprijs) });
+    var kv = kabelVariant(p, staat.kabelLengte);
+    regels.push({ id: 'product', groep: 'zichtbaar', label: p.naam + (kv ? ' met ' + kv.label.toLowerCase() + ',' : '') + ' inclusief standaardinstallatie en load balancing', bedrag: bedrag(productPrijs(p, staat.kabelLengte)) });
+    if (kv) intern.push('Vaste laadkabel: ' + kv.label);
     if (lb) intern.push('Load balancing inbegrepen: ' + lb);
 
     var r = route(config, staat);
@@ -159,14 +173,14 @@
   /** Keuzehulp: geeft { aanbevolen, scores, redenen } terug. */
   var PUNTEN = {
     prioriteit: {
-      prijs: { 'easee-up': 3, 'easee-max': 2.5, zaptec: 1 },
+      prijs: { 'easee-up': 3, 'easee-max': 2.5, 'peblar-home': 2.5, zaptec: 1 },
       design: { zaptec: 3, 'easee-up': 1, 'easee-max': 1 },
-      uitgebreid: { 'alfen-pro': 3, 'alfen-s': 2, zaptec: 1 }
+      uitgebreid: { 'peblar-business': 3, 'peblar-home': 2, zaptec: 1 }
     },
     bediening: {
       app: { 'easee-up': 1, 'easee-max': 1, zaptec: 1 },
-      eenvoud: { 'easee-up': 1, 'easee-max': 1, 'alfen-s': 1 },
-      backoffice: { 'alfen-pro': 2, 'alfen-s': 1, zaptec: 1 }
+      eenvoud: { 'easee-up': 1, 'easee-max': 1, 'peblar-home': 1 },
+      backoffice: { 'peblar-business': 2, 'peblar-home': 1, zaptec: 1 }
     }
   };
   var REDEN = {
@@ -203,6 +217,12 @@
       var mp = config.regels.montagepaal && config.regels.montagepaal.prijsPerProduct[p.id];
       if (mp === '' || mp === null || mp === undefined || !(Number(mp) >= 0)) fouten.push(p.naam + ': prijs voor de montagepaal ontbreekt.');
       if (!(config.regels.loadBalancing && config.regels.loadBalancing.labelPerProduct[p.id])) fouten.push(p.naam + ': omschrijving van de inbegrepen load balancing ontbreekt.');
+      if (p.kabelVarianten) {
+        if (!p.kabelVarianten.length) fouten.push(p.naam + ': er zijn geen kabellengtes ingesteld.');
+        p.kabelVarianten.forEach(function (v) { if (!(Number(v.prijs) > 0)) fouten.push(p.naam + ', ' + v.label + ': prijs ontbreekt of is ongeldig.'); });
+        var laagste = Math.min.apply(null, p.kabelVarianten.map(function (v) { return Number(v.prijs); }));
+        if (p.kabelVarianten.length && Number(p.vanafprijs) !== laagste) fouten.push(p.naam + ': de vanafprijs moet gelijk zijn aan de laagste kabelprijs (' + laagste + ').');
+      }
     });
     VRAGEN.forEach(function (v) {
       var r = config.regels[v];
@@ -216,7 +236,7 @@
 
   return {
     VRAGEN: VRAGEN, ZICHTBAAR: ZICHTBAAR, MAX_METERS: MAX_METERS,
-    leegeStaat: leegeStaat, product: product, keuze: keuze, optie: optie, route: route,
+    leegeStaat: leegeStaat, product: product, kabelVariant: kabelVariant, productPrijs: productPrijs, keuze: keuze, optie: optie, route: route,
     bereken: bereken, beschikbareOpties: beschikbareOpties, schoonOpties: schoonOpties,
     adviseer: adviseer, valideerConfig: valideerConfig
   };

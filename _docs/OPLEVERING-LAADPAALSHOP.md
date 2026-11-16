@@ -22,8 +22,8 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 | Easee Charge Up | € 1.450 | Easee Equalizer P1 | Uw Easee-foto's (vooraanzicht en zijaanzicht) |
 | Easee Charge Max | € 1.600 | Easee Equalizer P1 | Uw Easee-foto met de strepen aan de zijkanten (door u bevestigd) |
 | Zaptec Go 2 | € 1.750 | Zaptec Sense P1 | Uw foto's |
-| Alfen Eve Single S-line | € 1.899 | Alfen Active Load Balancing | Uw foto: witte S-line met statusled, zonder display |
-| Alfen Eve Single Pro-line | € 2.149 | Alfen Active Load Balancing | Uw foto: Pro-line met ElektroKlik-logo op het kleurendisplay, RFID en Type 2-contactdoos |
+| Peblar Home | € 1.475 (5 m) / € 1.535 (7,5 m) | Peblar dynamische load balancing | Officiële Peblar-foto's (voor- en zijaanzicht), vaste laadkabel |
+| Peblar Business | € 1.785 (5 m) / € 1.850 (7,5 m) | Peblar dynamische load balancing | Zelfde foto's als Peblar Home, MID-meter |
 
 - Load balancing kan nergens meer apart worden gekozen of uitgezet. Het staat overal als inbegrepen vermeld.
 - Voor load balancing via de P1-poort is een slimme meter nodig. Daarom staat de vraag **"Heeft u een slimme meter?"** in de configurator. Bij "Nee" of "Weet ik niet" wordt de aanvraag gemarkeerd voor controle.
@@ -38,7 +38,7 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 | Meterkast geschikt, maar geen vrije ruimte | € 25 | Nee, alleen de totaalprijs |
 | Geen toegankelijke kruipruimte | € 35 ("Weet ik niet" = beoordeling) | Nee, alleen de totaalprijs |
 | Graafwerk | aantal meters × € 25 | Nee, alleen de totaalprijs |
-| Montagepaal Easee / Zaptec / Alfen | € 329 / € 359 / € 409 | Ja |
+| Montagepaal Easee / Zaptec / Peblar | € 329 / € 359 / € 409 (Peblar: voorlopig, te bevestigen) | Ja |
 | Kabelhouder | € 50 | Ja |
 
 - Het prijsblok toont: laadpaal, montagepaal, kabelhouder, één regel **"Aanpassingen voor uw situatie"** en het totaal.
@@ -179,3 +179,9 @@ python3 -m http.server 8765 --bind 127.0.0.1
 Open daarna `http://127.0.0.1:8765/laadpalen/`. Instructies voor de tests staan in `_tests/README.md`.
 
 Publiceer pas na uw goedkeuring. Gebruik eerst een testomgeving, bijvoorbeeld een aparte privé-repository met GitHub Pages.
+
+
+## Wijziging november 2026: Alfen vervangen door Peblar
+- Alfen Eve Single S-line en Pro-line zijn verwijderd; de oude adressen sturen door naar /laadpalen/.
+- Peblar Home en Peblar Business hebben een vaste laadkabel; de klant kiest 5 of 7,5 meter (`kabelVarianten` in config.json). De vanafprijs is altijd de laagste kabelprijs.
+- Bij Peblar wordt de optie voor een losse laadkabel verborgen; alle overige vragen en toeslagen blijven gelden.

@@ -57,6 +57,8 @@
   function zuiver(o) {
     var s = EKPricing.leegeStaat();
     if (o.product && EKPricing.product(C, o.product)) s.product = o.product;
+    var pz = EKPricing.product(C, s.product);
+    if (pz && pz.kabelVarianten && pz.kabelVarianten.some(function (v) { return v.id === o.kabelLengte; })) s.kabelLengte = o.kabelLengte;
     EKPricing.VRAGEN.forEach(function (v) { if (o[v] && EKPricing.keuze(C, v, o[v])) s[v] = o[v]; });
     ['afstandMeters', 'graafMeters'].forEach(function (k) { var n = Math.round(Number(o[k])); if (n > 0 && n <= EKPricing.MAX_METERS) s[k] = n; });
     s.opties = Array.isArray(o.opties) ? o.opties.filter(function (id) { return !!EKPricing.optie(C, id); }) : [];
@@ -91,8 +93,9 @@
           '<span class="box"><span class="pm">' + EK.productMedia(p) + '</span><span class="pb"><span class="pos">' + esc(p.positionering) + '</span><span class="t">' + esc(p.naam) + '</span>' +
           '<span class="d">' + esc(p.kort) + '</span>' +
           '<span class="price-from">Inclusief installatie en load balancing</span><span class="price-big">' + EK.euro(p.vanafprijs) + '</span>' + EK.conceptTag() +
+          (p.kabelVarianten ? '<span class="price-note">Met vaste laadkabel van ' + esc(p.kabelVarianten[0].kort) + '</span>' : '') +
           '<a href="' + EK.productUrl(p) + '" class="btn-link" style="font-size:.88rem" target="_blank" rel="noopener">Meer informatie<span class="sr-only"> over ' + esc(p.naam) + ' (opent in nieuw tabblad)</span></a></span></span></label>';
-      }).join('') + '</div>' + fout('product', 'Kies een laadpaal om verder te gaan.') + '</fieldset>' +
+      }).join('') + '</div>' + fout('product', 'Kies een laadpaal om verder te gaan.') + '</fieldset>' + kabelLengteVraag() +
       '<div class="notice notice-info">' + EK.icon('info') + '<div>Weet u nog niet welke laadpaal bij u past? <button type="button" class="btn-link" id="openHelper">Laat u adviseren in vier korte vragen</button></div></div><div id="miniHelper" hidden></div>';
   }
 
@@ -155,7 +158,19 @@
   }
 
   function kabelKeuze() { return (S.opties || []).filter(function (id) { var o = EKPricing.optie(C, id); return o && o.groep === 'kabel'; })[0] || 'geen'; }
+  /** Bij laadpalen met vaste laadkabel kiest de klant de kabellengte. */
+  function kabelLengteVraag() {
+    var p = EKPricing.product(C, S.product);
+    if (!p || !p.kabelVarianten) return '';
+    var huidig = EKPricing.kabelVariant(p, S.kabelLengte).id;
+    return '<fieldset class="cfg-q" id="q-kabelLengte"><legend>Kies de lengte van de vaste laadkabel</legend><p class="price-note" style="margin:-4px 0 10px">De ' + esc(p.naam) + ' heeft een vaste Type 2-laadkabel. Een losse laadkabel is daarom niet nodig.</p><div class="choice-grid cols-3">' +
+      p.kabelVarianten.map(function (v) {
+        return '<label class="choice"><input type="radio" name="kabelLengte" value="' + v.id + '"' + (huidig === v.id ? ' checked' : '') + '><span class="box"><span><span class="t">' + esc(v.label) + '</span><span class="d">' + esc(p.naam) + ' inclusief installatie en load balancing</span></span><span class="pr">' + EK.euro(v.prijs) + '</span></span></label>';
+      }).join('') + '</div></fieldset>';
+  }
   function kabelVraag() {
+    var pk = EKPricing.product(C, S.product);
+    if (pk && pk.vasteKabel) return kabelLengteVraag();
     var huidig = kabelKeuze(), advies = S.fase === '1' ? 'kabel1' : (S.fase === '3' ? 'kabel3' : null);
     var kabels = C.opties.filter(function (o) { return o.groep === 'kabel'; });
     if (!kabels.length) return '';
@@ -181,7 +196,7 @@
       '<div class="ov-card"><h3>' + esc(p.naam) + ' <button type="button" class="btn-link" data-ga="laadpaal">Wijzig</button></h3><dl class="ov-rows">' +
       rij('Inbegrepen', 'Standaardinstallatie en load balancing (' + C.regels.loadBalancing.labelPerProduct[p.id] + ')') + rij('Max. laadvermogen', p.specs.maxVermogen) + '</dl></div>' +
       '<div class="ov-card"><h3>Uw situatie <button type="button" class="btn-link" data-ga="meterkast">Wijzig</button></h3><dl class="ov-rows">' +
-      rij('Meterkast', keuzeLabel('meterkast', S.meterkast)) + rij('Montageplek', keuzeLabel('locatie', S.locatie)) + rij('Kabelhouder', S.opties.indexOf('kabelhouder') > -1 ? 'Ja' : 'Nee') + rij('Laadkabel', kabelKeuze() === 'geen' ? 'Geen' : EKPricing.optie(C, kabelKeuze()).label) +
+      rij('Meterkast', keuzeLabel('meterkast', S.meterkast)) + rij('Montageplek', keuzeLabel('locatie', S.locatie)) + rij('Kabelhouder', S.opties.indexOf('kabelhouder') > -1 ? 'Ja' : 'Nee') + (p.kabelVarianten ? rij('Vaste laadkabel', EKPricing.kabelVariant(p, S.kabelLengte).label) : rij('Laadkabel', kabelKeuze() === 'geen' ? 'Geen' : EKPricing.optie(C, kabelKeuze()).label)) +
       rij('Kabelroute', afst) + rij('Toegankelijke kruipruimte', keuzeLabel('kruipruimte', S.kruipruimte)) + rij('Graafwerk', graaf) +
       rij('Aansluiting', keuzeLabel('fase', S.fase)) + rij('Slimme meter', keuzeLabel('slimmeMeter', S.slimmeMeter)) + rij('Zonnepanelen', keuzeLabel('zonnepanelen', S.zonnepanelen)) + rij('Zakelijk verrekenen', keuzeLabel('zakelijk', S.zakelijk)) + '</dl></div>' +
       '<div class="ov-card"><h3>Prijsopbouw <span class="result-label ind">Prijsindicatie</span></h3>' + prijsTabel(r) + '</div>' +
@@ -315,8 +330,8 @@
     if (!p) return '<div class="summary-empty"><b style="color:var(--ek-ink);display:block;margin-bottom:4px">Uw prijsindicatie</b>Kies een laadpaal om uw prijs te zien. Alle prijzen zijn inclusief standaardinstallatie, load balancing en btw.</div>';
     var head = '<div class="summary-head"><span class="thumb">' + EK.productMedia(p) + '</span><div><b>' + esc(p.naam) + '</b><span>Inclusief installatie en load balancing</span></div></div>';
     var foot = '<div class="summary-foot"><span>Vragen? <a href="tel:' + C.instellingen.telefoonLink + '">Bel ' + esc(C.instellingen.telefoon) + '</a> of <a href="' + C.instellingen.whatsappLink + '" target="_blank" rel="noopener">WhatsApp</a></span></div>';
-    if (r.route === 'offerte') return head + '<div class="summary-total"><div class="row"><span>Vanaf</span><b>' + EK.euro(p.vanafprijs) + '</b></div><small>Voor uw situatie maken wij een vrijblijvende offerte op maat, omdat uw meterkast eerst beoordeeld moet worden.</small></div>' + foot;
-    var regels = r.regels.filter(function (x) { return x.groep === 'zichtbaar'; }).map(function (x) { return '<li><span>' + esc(x.id === 'product' ? 'Laadpaal, installatie en load balancing' : x.label) + '</span><span>' + EK.euro(x.bedrag) + '</span></li>'; });
+    if (r.route === 'offerte') return head + '<div class="summary-total"><div class="row"><span>Vanaf</span><b>' + EK.euro(EKPricing.productPrijs(p, S.kabelLengte)) + '</b></div><small>Voor uw situatie maken wij een vrijblijvende offerte op maat, omdat uw meterkast eerst beoordeeld moet worden.</small></div>' + foot;
+    var regels = r.regels.filter(function (x) { return x.groep === 'zichtbaar'; }).map(function (x) { return '<li><span>' + esc(x.id === 'product' ? (p.kabelVarianten ? 'Laadpaal (kabel ' + EKPricing.kabelVariant(p, S.kabelLengte).kort + '), installatie en load balancing' : 'Laadpaal, installatie en load balancing') : x.label) + '</span><span>' + EK.euro(x.bedrag) + '</span></li>'; });
     if (r.situatieTotaal) regels.push('<li><span>Aanpassingen voor uw situatie</span><span>' + EK.euro(r.situatieTotaal) + '</span></li>');
     return head + '<ul class="summary-lines">' + regels.join('') + '</ul>' +
       '<div class="summary-total"><div class="row"><span>Prijsindicatie</span><b>' + EK.euro(r.totaal) + '</b></div><small>Inclusief ' + C.instellingen.btwPercentage + '% btw (' + EK.euro(r.btw, 2) + ')</small>' +
@@ -325,7 +340,7 @@
   function renderSamenvatting(r) {
     $('summary').innerHTML = samenvattingHTML(r);
     var p = EKPricing.product(C, S.product);
-    $('mbTotal').innerHTML = p ? (r.route === 'offerte' ? '<small class="vanaf-s">vanaf </small>' + EK.euro(p.vanafprijs) : EK.euro(r.totaal)) : 'Kies een laadpaal';
+    $('mbTotal').innerHTML = p ? (r.route === 'offerte' ? '<small class="vanaf-s">vanaf </small>' + EK.euro(EKPricing.productPrijs(p, S.kabelLengte)) : EK.euro(r.totaal)) : 'Kies een laadpaal';
     $('mbLabel').textContent = r.route === 'offerte' ? 'Offerte op maat' : 'Uw prijsindicatie incl. btw';
     $('mbOpen').hidden = !p;
     if ($('sheet').open) $('sheetBody').innerHTML = samenvattingHTML(r);
@@ -438,13 +453,15 @@
     add('Naam', G.voornaam.trim() + ' ' + G.achternaam.trim());
     add('Telefoon', G.telefoon.trim());
     add('Installatieadres', G.straat.trim() + ' ' + G.huisnummer.trim() + ', ' + G.postcode.trim().toUpperCase() + ' ' + G.plaats.trim());
-    add('Laadpaal', p.naam + ' (incl. load balancing: ' + cfg.regels.loadBalancing.labelPerProduct[p.id] + ')');
+    var kvf = EKPricing.kabelVariant(p, S.kabelLengte);
+    add('Laadpaal', p.naam + (kvf ? ' met ' + kvf.label.toLowerCase() : '') + ' (incl. load balancing: ' + cfg.regels.loadBalancing.labelPerProduct[p.id] + ')');
+    if (kvf) add('Vaste laadkabel', kvf.label + ' (' + EK.euro(kvf.prijs) + ' incl. installatie en load balancing)');
     add('Meterkast', keuzeLabel('meterkast', S.meterkast));
     if (!offerte) {
       add('Montageplek', keuzeLabel('locatie', S.locatie));
       add('Montagepaal', S.locatie === 'paal' ? 'Ja' : 'Nee');
       add('Kabelhouder', S.opties.indexOf('kabelhouder') > -1 ? 'Ja' : 'Nee');
-      add('Laadkabel', kabelKeuze() === 'geen' ? 'Nee' : EKPricing.optie(cfg, kabelKeuze()).label);
+      add('Laadkabel', kvf ? 'Vaste laadkabel van de laadpaal: ' + kvf.label : (kabelKeuze() === 'geen' ? 'Nee' : EKPricing.optie(cfg, kabelKeuze()).label));
       add('Kabelafstand', keuzeLabel('afstand', S.afstand) + (S.afstand === '20+' ? ' (circa ' + S.afstandMeters + ' m)' : ''));
       add('Kruipruimte', keuzeLabel('kruipruimte', S.kruipruimte));
       add('Graafwerk', keuzeLabel('graafwerk', S.graafwerk) + (S.graafwerk === 'ja' ? ' (circa ' + S.graafMeters + ' m)' : ''));
@@ -454,7 +471,7 @@
       add('Zakelijk verrekenen', keuzeLabel('zakelijk', S.zakelijk));
       add('Prijsopbouw (intern)', r.regels.map(function (x) { return x.label + ': ' + EK.euro(x.bedrag); }).join('\n'));
       add('Prijsindicatie incl. btw', EK.euro(r.totaal) + ' (waarvan btw ' + EK.euro(r.btw, 2) + ')');
-    } else add('Prijsindicatie incl. btw', 'Geen – offerte op maat (vanafprijs laadpaal ' + EK.euro(p.vanafprijs) + ')');
+    } else add('Prijsindicatie incl. btw', 'Geen – offerte op maat (vanafprijs laadpaal ' + EK.euro(EKPricing.productPrijs(p, S.kabelLengte)) + ')');
     add('Nog te controleren', r.beoordeling.join('\n') || 'Standaardcontrole');
     add('Interne bijzonderheden', r.intern.join('\n') || '-');
     add('Opmerkingen klant', G.opmerkingen.trim() || '-');
@@ -480,7 +497,7 @@
       .catch(function (e) { console.error(e); toonVerzendFout(r); });
   }
   function toonVerzendFout(r) {
-    var tekst = r ? 'Aanvraag laadpaal ' + REF + '\nLaadpaal: ' + EKPricing.product(C, S.product).naam + '\nPrijsindicatie: ' + EK.euro(r.totaal) + '\n\nNaam: ' + G.voornaam + ' ' + G.achternaam + '\nTelefoon: ' + G.telefoon + '\nAdres: ' + G.straat + ' ' + G.huisnummer + ', ' + G.postcode + ' ' + G.plaats : '';
+    var tekst = r ? 'Aanvraag laadpaal ' + REF + '\nLaadpaal: ' + r.regels[0].label + '\nPrijsindicatie: ' + EK.euro(r.totaal) + '\n\nNaam: ' + G.voornaam + ' ' + G.achternaam + '\nTelefoon: ' + G.telefoon + '\nAdres: ' + G.straat + ' ' + G.huisnummer + ', ' + G.postcode + ' ' + G.plaats : '';
     $('sendError').innerHTML = '<div class="notice notice-warn" style="margin-top:14px">' + EK.icon('warn') + '<div><b>Uw aanvraag kon niet worden verstuurd.</b> Dit ligt niet aan u. Uw keuzes en gegevens zijn bewaard. Probeer het over een moment opnieuw, of neem direct contact met ons op: <a href="tel:' + C.instellingen.telefoonLink + '">bel ' + esc(C.instellingen.telefoon) + '</a>' +
       (r ? ' of <a href="mailto:' + esc(C.instellingen.email) + '?subject=' + encodeURIComponent('Aanvraag laadpaal ' + REF) + '&body=' + encodeURIComponent(tekst) + '">stuur uw aanvraag per e-mail</a>' : '') + '.</div></div>';
     EK.track('aanvraag_fout', { laadpaal: S.product });
@@ -520,9 +537,19 @@
       if (!gestart) { gestart = true; EK.track('configurator_start', { bron: 'configurator' }); }
       if (t.type === 'file') { voegBestandenToe(t.files, t.getAttribute('data-soort')); t.value = ''; return; }
       if (t.name === 'product') {
+        var vorigeVast = !!(EKPricing.product(C, S.product) || {}).kabelVarianten;
         S.product = t.value; S.opties = EKPricing.schoonOpties(C, S);
-        EK.track('select_item', { item_list_name: 'configurator', items: [EK.gaItem(EKPricing.product(C, t.value))] });
-        renderSamenvatting(EKPricing.bereken(C, S)); var er0 = $('err-product'); if (er0) er0.hidden = true; bewaar(); return;
+        var np = EKPricing.product(C, t.value);
+        if (!(np.kabelVarianten && np.kabelVarianten.some(function (v) { return v.id === S.kabelLengte; }))) S.kabelLengte = np.kabelVarianten ? np.kabelVarianten[0].id : null;
+        EK.track('select_item', { item_list_name: 'configurator', items: [EK.gaItem(np)] });
+        if (vorigeVast || np.kabelVarianten) { render(false); var gekozen = document.querySelector('input[name="product"][value="' + t.value + '"]'); if (gekozen) gekozen.focus(); }
+        else renderSamenvatting(EKPricing.bereken(C, S));
+        var er0 = $('err-product'); if (er0) er0.hidden = true; bewaar(); return;
+      }
+      if (t.name === 'kabelLengte') {
+        S.kabelLengte = t.value;
+        EK.track('kabellengte_keuze', { laadpaal: S.product, lengte: t.value });
+        renderSamenvatting(EKPricing.bereken(C, S)); bewaar(); return;
       }
       if (EKPricing.VRAGEN.indexOf(t.name) > -1) {
         S[t.name] = t.value; S.opties = EKPricing.schoonOpties(C, S);
@@ -622,6 +649,8 @@
     } else if (q.get('laadpaal') && EKPricing.product(C, q.get('laadpaal'))) {
       if (opgeslagen && opgeslagen.s && opgeslagen.s.product) $('resume').classList.add('show');
       S.product = q.get('laadpaal'); stapKey = 'meterkast'; bezocht.meterkast = true;
+      var qp = EKPricing.product(C, S.product);
+      if (qp.kabelVarianten) S.kabelLengte = qp.kabelVarianten.some(function (v) { return v.id === q.get('kabel'); }) ? q.get('kabel') : qp.kabelVarianten[0].id;
       try { history.replaceState(null, '', location.pathname); } catch (e) {}
       EK.track('configurator_start', { bron: 'productkeuze', laadpaal: S.product }); gestart = true;
     } else if (opgeslagen && opgeslagen.s && opgeslagen.s.product) {

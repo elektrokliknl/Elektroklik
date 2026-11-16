@@ -60,7 +60,7 @@ function verwerk(file) {
   const rel = path.relative(ROOT, file);
   const oud = fs.readFileSync(file, 'utf8');
   let s = oud;
-  const oudePrijzen = {}; // productid → oude prijs (uit JSON-LD), om FAQ-teksten bij te werken
+  const wissels = []; // [oud bedrag, nieuw bedrag] uit JSON-LD, om FAQ-teksten bij te werken
 
   // 1) Losse prijsvelden
   s = s.replace(/(<(\w+)\b[^>]*?\bdata-(prijs|cfg)="([^"]+)"[^>]*>)([^<]*)(<\/\2>)/g, (m, open, tag, soort, sleutel, inhoud, sluit) => {
@@ -81,11 +81,23 @@ function verwerk(file) {
     const knopen = Array.isArray(data['@graph']) ? data['@graph'] : [data];
     for (const k of knopen) {
       if (k['@type'] !== 'Product' || !k.offers || !/^EK-/.test(k.sku || '')) continue;
-      const id = k.sku.slice(3), v = prijsVan(id);
+      const id = k.sku.slice(3);
+      if (Array.isArray(k.offers)) { // laadpaal met kabelvarianten: één aanbieding per kabellengte
+        const prod = config.producten.find(x => x.id === id);
+        if (!prod || !prod.kabelVarianten) { fouten.push(`${rel}: onbekend product of geen kabelvarianten voor ${id}`); continue; }
+        for (const o of k.offers) {
+          const kv = prod.kabelVarianten.find(x => o.sku === `EK-${id}-${x.id}`);
+          if (!kv) { fouten.push(`${rel}: onbekende kabelvariant ${o.sku}`); continue; }
+          const nieuw = kv.prijs.toFixed(2);
+          if (o.price !== nieuw) { wissels.push([Number(o.price), kv.prijs]); o.price = nieuw; if (o.priceSpecification) o.priceSpecification.price = nieuw; veranderd = true; }
+        }
+        continue;
+      }
+      const v = prijsVan(id);
       if (v === undefined) { fouten.push(`${rel}: onbekend product ${id}`); continue; }
       const nieuw = v.toFixed(2);
       if (k.offers.price !== nieuw) {
-        oudePrijzen[id] = Number(k.offers.price);
+        wissels.push([Number(k.offers.price), v]);
         k.offers.price = nieuw;
         if (k.offers.priceSpecification) k.offers.priceSpecification.price = nieuw;
         veranderd = true;
@@ -96,7 +108,7 @@ function verwerk(file) {
       for (const q of k.mainEntity || []) {
         const ans = q.acceptedAnswer; if (!ans) continue;
         let t = ans.text;
-        for (const [id, oudBedrag] of Object.entries(oudePrijzen)) t = t.split(euro(oudBedrag)).join(euro(prijsVan(id)));
+        for (const [oud, nieuw] of wissels) t = t.split(euro(oud)).join(euro(nieuw));
         if (t !== ans.text) { ans.text = t; veranderd = true; }
       }
     }

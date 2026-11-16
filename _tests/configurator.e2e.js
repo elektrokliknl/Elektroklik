@@ -103,7 +103,7 @@ async function gegevens(p) {
   // 3) Mobiel – 'weet ik niet' meterkast + foto-upload die mislukt → tweede poging zonder foto's
   {
     const { ctx, p, st } = await nieuw(b, { ...devices['Pixel 7'] }, true);
-    await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=alfen-pro');
+    await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=peblar-business');
     await p.click('input[value="onbekend"] + .box');
     assert(await p.isVisible('text=Geen probleem. U kunt verder met het samenstellen.'));
     assert((await p.textContent('#btnNext')).includes('Volgende stap') && (await p.textContent('#progressCount')).includes('van 8'));

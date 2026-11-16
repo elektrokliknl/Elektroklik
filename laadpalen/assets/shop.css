@@ -560,3 +560,8 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 .usp-link h3 { color: var(--ek-primary); }
 @media (max-width: 860px) { .wg-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .wg-grid { grid-template-columns: 1fr; } }
+
+/* Peblar: keuze lengte vaste laadkabel op de productpagina */
+.pdp-kabel { border: 0; padding: 0; margin: 4px 0 14px; }
+.pdp-kabel legend { font-weight: 700; font-size: .92rem; color: var(--ek-ink); margin-bottom: 8px; padding: 0; }
+.pdp-kabel .pill b { margin-left: .2rem; }

@@ -193,8 +193,8 @@
         <ul class="checks" id="pdpVoordelen"></ul>
         <div class="buybox">
           <div class="price-from">Inclusief professionele standaardinstallatie en load balancing</div>
-          <div class="price-big"><span data-prijs="zaptec">€ 1.750,-</span></div>
-          <a class="btn btn-main btn-lg btn-block" href="../samenstellen/?laadpaal=zaptec" data-track="pdp_samenstellen" data-laadpaal="zaptec">Stel uw laadpaal samen</a>
+          <div class="price-big"><span id="pdpPrijs" data-prijs="zaptec">€ 1.750,-</span></div>
+          <a class="btn btn-main btn-lg btn-block" id="pdpCta" href="../samenstellen/?laadpaal=zaptec" data-track="pdp_samenstellen" data-laadpaal="zaptec">Stel uw laadpaal samen</a>
           <div class="buybox-meta">
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Inclusief professionele standaardinstallatie en load balancing</div>
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> 30% aanbetaling na akkoord, de rest na installatie</div>
@@ -273,7 +273,7 @@
         <a href="https://wa.me/31850600572" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Laadpalen</h4><a href="../../laadpalen/">Alle laadpalen</a><a href="../../laadpalen/easee-charge-up/">Easee Charge Up</a><a href="../../laadpalen/easee-charge-max/">Easee Charge Max</a><a href="../../laadpalen/zaptec-go-2/">Zaptec Go 2</a><a href="../../laadpalen/alfen-eve-single-s-line/">Alfen Eve Single S-line</a><a href="../../laadpalen/alfen-eve-single-pro-line/">Alfen Eve Single Pro-line</a><a href="../../laadpalen/vergelijken/">Laadpalen vergelijken</a><a href="../../laadpalen/samenstellen/">Stel uw laadpaal samen</a><a href="../../laadpalen/garantie/">Garantie</a><a href="../../laadpalen/werkgebied/">Werkgebied</a></div>
+    <div class="footer-col"><h4>Laadpalen</h4><a href="../../laadpalen/">Alle laadpalen</a><a href="../../laadpalen/easee-charge-up/">Easee Charge Up</a><a href="../../laadpalen/easee-charge-max/">Easee Charge Max</a><a href="../../laadpalen/zaptec-go-2/">Zaptec Go 2</a><a href="../../laadpalen/peblar-home/">Peblar Home</a><a href="../../laadpalen/peblar-business/">Peblar Business</a><a href="../../laadpalen/vergelijken/">Laadpalen vergelijken</a><a href="../../laadpalen/samenstellen/">Stel uw laadpaal samen</a><a href="../../laadpalen/garantie/">Garantie</a><a href="../../laadpalen/werkgebied/">Werkgebied</a></div>
     <div class="footer-col"><h4>Diensten</h4><a href="../../meterkasten-en-elektra/">Meterkasten en elektra</a><a href="../../thuisbatterij/">Thuisbatterij</a><a href="../../alarm-en-camerasystemen/">Alarm- en camerasystemen</a><a href="../../diensten/">Alle diensten</a><a href="../../blog/">Blog</a></div>
     <div class="footer-col"><h4>Contact</h4><a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a><a href="tel:+31850600572">085 060 05 72</a><a href="https://wa.me/31850600572" target="_blank" rel="noopener">WhatsApp</a><a href="../../contact/">Contactformulier</a><a href="../../over-ons/">Over ons</a></div>
   </div>
@@ -287,7 +287,7 @@
 <script src="../../consent.js" defer></script>
 <script>
 (function () {
-  var pid = 'zaptec', rel = ["easee-max", "alfen-s"];
+  var pid = 'zaptec', rel = ["easee-max", "peblar-business"];
   EK.loadConfig().then(function (c) {
     var p = EKPricing.product(c, pid);
     var fotos = (p.afbeeldingen && p.afbeeldingen.length) ? p.afbeeldingen : (p.afbeelding ? [p.afbeelding] : []);
@@ -308,15 +308,23 @@
     document.getElementById('pdpVoordelen').innerHTML = p.voordelen.map(function (v) { return '<li>' + EK.txt(v) + '</li>'; }).join('');
     document.getElementById('pdpGeschikt').innerHTML = p.geschiktVoor.map(function (v) { return '<li>' + EK.txt(v) + '</li>'; }).join('');
     if (p.minderGeschiktVoor.length) document.getElementById('pdpMinder').innerHTML = '<h3 style="margin-top:18px;font-size:1.05rem">Minder geschikt voor</h3><ul class="checks neg">' + p.minderGeschiktVoor.map(function (v) { return '<li>' + EK.txt(v) + '</li>'; }).join('') + '</ul>';
-    var L = { maxVermogen: 'Maximaal laadvermogen', aansluiting: 'Aansluiting auto', connectiviteit: 'Verbinding', rfid: 'RFID', display: 'Display', mid: 'MID-gecertificeerde meter', loadBalancing: 'Load balancing', app: 'Bediening', garantie: 'Fabrieksgarantie' };
-    document.getElementById('specTable').insertAdjacentHTML('beforeend', '<tbody>' + Object.keys(L).map(function (k) { return '<tr><th scope="row">' + L[k] + '</th><td>' + EK.txt(p.specs[k] || '–') + '</td></tr>'; }).join('') + '</tbody>');
+    var L = { maxVermogen: 'Maximaal laadvermogen', aansluiting: 'Aansluiting auto', connectiviteit: 'Verbinding', rfid: 'RFID', display: 'Display', mid: 'MID-gecertificeerde meter', loadBalancing: 'Load balancing', app: 'Bediening', garantie: 'Fabrieksgarantie', extra: 'Overige kenmerken' };
+    document.getElementById('specTable').insertAdjacentHTML('beforeend', '<tbody>' + Object.keys(L).filter(function (k) { return k !== 'extra' || p.specs.extra; }).map(function (k) { return '<tr><th scope="row">' + L[k] + '</th><td>' + EK.txt(p.specs[k] || '–') + '</td></tr>'; }).join('') + '</tbody>');
     document.getElementById('specSource').innerHTML = 'Bron: specificaties van de fabrikant. De uitvoering kan per variant verschillen. ' + p.bronnen.map(function (b, i) { return '<a href="' + EK.esc(b) + '" target="_blank" rel="noopener">bron ' + (i + 1) + '</a>'; }).join(', ');
     document.getElementById('garantieTekst').innerHTML = EK.txt(p.specs.garantie);
     document.getElementById('inclList').innerHTML = c.standaardInstallatie.inbegrepen.map(function (x) { return '<li>' + EK.txt(x) + '</li>'; }).join('');
+    var kk = document.getElementById('pdpKabel');
+    if (kk && p.kabelVarianten) kk.addEventListener('change', function (e) {
+      var v = EKPricing.kabelVariant(p, e.target.value);
+      document.getElementById('pdpPrijs').textContent = EK.euro(v.prijs);
+      document.getElementById('pdpCta').href = '../samenstellen/?laadpaal=' + pid + '&kabel=' + encodeURIComponent(v.id);
+      EK.track('kabellengte_keuze', { laadpaal: pid, lengte: v.id, bron: 'productpagina' });
+    });
     var opt = [];
     opt.push({ l: 'Load balancing: ' + c.regels.loadBalancing.labelPerProduct[pid], u: 'Verdeelt het vermogen automatisch tussen uw woning en de laadpaal. Vereist een slimme meter met P1-poort.', p: 0 });
     opt.push({ l: c.regels.montagepaal.label, u: 'Als er geen geschikte muur bij uw parkeerplek is.', p: c.regels.montagepaal.prijsPerProduct[pid] });
-    c.opties.forEach(function (o) { opt.push({ l: o.label, u: o.uitleg, p: o.prijs }); });
+    if (p.kabelVarianten) p.kabelVarianten.slice(1).forEach(function (v) { opt.push({ l: v.label + ' in plaats van ' + p.kabelVarianten[0].kort, u: 'De laadpaal heeft een vaste Type 2-laadkabel.', p: v.prijs - p.kabelVarianten[0].prijs }); });
+    c.opties.forEach(function (o) { if (p.vasteKabel && o.groep === 'kabel') return; opt.push({ l: o.label, u: o.uitleg, p: o.prijs }); });
     document.getElementById('optList').innerHTML = opt.map(function (o) { return '<div class="option-row"><div><b>' + EK.esc(o.l) + '</b><div class="price-note">' + EK.esc(o.u) + '</div></div><span class="p">' + (o.p === null ? '<span class="no" style="color:var(--ek-err)">Niet beschikbaar</span>' : (o.p === 0 ? '<span style="color:var(--ek-primary)">Inbegrepen</span>' : '+ ' + EK.euro(o.p))) + '</span></div>'; }).join('');
     document.getElementById('relGrid').innerHTML = rel.map(function (id) { return EK.productCard(EKPricing.product(c, id)); }).join('');
     EK.track('view_item', { currency: 'EUR', value: p.vanafprijs, items: [EK.gaItem(p)] });

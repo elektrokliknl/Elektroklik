@@ -112,7 +112,7 @@
         var b = 'producten.' + i + '.';
         h += '<div class="card"><h2>' + esc(p.naam) + '</h2><div class="grid">' +
           f(b + 'naam', 'Productnaam') + f(b + 'merk', 'Merk') + f(b + 'positionering', 'Positionering') +
-          f(b + 'vanafprijs', 'Vanafprijs incl. standaardinstallatie en btw (€)', 'number') +
+          (p.kabelVarianten ? p.kabelVarianten.map(function (v, j) { return f(b + 'kabelVarianten.' + j + '.prijs', 'Prijs met ' + esc(v.label.toLowerCase()) + ', incl. standaardinstallatie en btw (€)', 'number', j === 0 ? 'De vanafprijs wordt automatisch de laagste kabelprijs.' : ''); }).join('') : f(b + 'vanafprijs', 'Vanafprijs incl. standaardinstallatie en btw (€)', 'number')) +
           f(b + 'afbeelding', 'Productfoto', 'text', 'Pad of URL, bijv. assets/img/zaptec-go-2.jpg (map /laadpalen/). Leeg = illustratie.') +
           f(b + 'afbeeldingAlt', 'Omschrijving foto (voor blinden en Google)') +
           f(b + 'midGecertificeerd', 'Heeft een MID-gecertificeerde meter', 'bool', 'Bepaalt of zakelijke verrekening kan worden gekozen.', 'full') +
@@ -359,6 +359,8 @@
     else v = el.value;
     if (path.slice(-12) === '.beoordeling' && v === '') { var ks = path.split('.'); var o = get(ks.slice(0, -1).join('.')); delete o.beoordeling; }
     else set(path, v);
+    var kv = path.match(/^producten\.(\d+)\.kabelVarianten\./);
+    if (kv) { var pr = CFG.producten[+kv[1]]; var pr2 = pr.kabelVarianten.map(function (x) { return Number(x.prijs); }).filter(function (x) { return x > 0; }); if (pr2.length) pr.vanafprijs = Math.min.apply(null, pr2); }
     markeer();
   });
   document.addEventListener('change', function (e) { if (e.target.getAttribute('data-type') === 'bool') e.target.dispatchEvent(new Event('input', { bubbles: true })); });

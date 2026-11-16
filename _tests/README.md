@@ -7,6 +7,7 @@ Deze map begint met een underscore, zodat GitHub Pages hem niet publiceert.
 2. Prijsmotor (geen browser nodig): `node _tests/pricing.test.js`
 3. Volledige bestelflow op desktop en mobiel (Playwright): `node _tests/configurator.e2e.js`
 4. Beheer, prijswijziging tijdens bestellen en storingen: `node _tests/beheer-en-foutscenarios.e2e.js`
+5. Peblar (vier prijzen, kabellengte, geen losse laadkabel, oude Alfen-adressen): `node _tests/peblar.e2e.js`
 
 De e2e-tests onderscheppen het verzenden naar Formspree. Er worden dus geen echte aanvragen verstuurd.
 
