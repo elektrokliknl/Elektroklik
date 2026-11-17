@@ -662,3 +662,36 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 .page-band .breadcrumbs, .page-band .breadcrumbs span { color: rgba(255,255,255,.85); }
 .page-band .breadcrumbs a { color: #fff; }
 .page-band p, .page-band .lead { color: rgba(255,255,255,.93); }
+
+/* ===== Monteur in de bovenkant van de laadpalenpagina ===== */
+.shop-hero::after { z-index: 2; }
+.shop-hero .hero-monteur { align-self: end; display: flex; justify-content: center; margin: 0 0 -88px; min-height: 0; }
+.shop-hero .hero-monteur::before {
+  content: ""; position: absolute; left: 50%; bottom: 40px; width: min(440px, 90%); aspect-ratio: 1; transform: translateX(-50%);
+  border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.34) 0%, rgba(255,255,255,.10) 45%, rgba(255,255,255,0) 70%);
+}
+.shop-hero .hero-monteur img {
+  position: relative; z-index: 1; width: auto; height: min(600px, 66vh); max-width: 100%; aspect-ratio: auto; object-fit: contain;
+  border: 0; border-radius: 0; box-shadow: none; filter: drop-shadow(0 24px 30px rgba(0,40,30,.35));
+}
+.shop-hero .hero-monteur figcaption { left: 6%; top: 18%; bottom: auto; z-index: 3; }
+.shop-hero .hero-monteur .hero-price-chip { right: 2%; left: auto; top: auto; bottom: 34%; z-index: 3; }
+@media (max-width: 900px) {
+  .shop-hero .hero-monteur { order: 3; margin: 6px 0 -80px; }
+  .shop-hero .hero-monteur img { height: 400px; aspect-ratio: auto; }
+  .shop-hero .hero-monteur figcaption { left: 0; top: 12%; }
+  .shop-hero .hero-monteur .hero-price-chip { right: 0; bottom: 30%; }
+}
+@media (max-width: 420px) {
+  .shop-hero .hero-monteur img { height: 340px; }
+  .shop-hero .hero-monteur figcaption { font-size: .74rem; }
+}
+@media (max-width: 640px) {
+  .shop-hero .hero-monteur { justify-content: flex-end; margin-top: 18px; }
+  .shop-hero .hero-monteur::before { left: 62%; }
+  .shop-hero .hero-monteur img { margin-right: 4%; }
+  .shop-hero .hero-monteur figcaption { left: 0; top: 14%; }
+  .shop-hero .hero-monteur .hero-price-chip { left: 0; right: auto; bottom: 22%; padding: .6rem .8rem; max-width: 52%; }
+  .shop-hero .hero-monteur .hero-price-chip small { font-size: .7rem; }
+  .shop-hero .hero-monteur .hero-price-chip strong { font-size: 1.25rem; }
+}
