@@ -140,6 +140,7 @@
   if (!sessionStorage.getItem('ek_lead_' + a.referentie)) {
     sessionStorage.setItem('ek_lead_' + a.referentie, '1');
     EK.track('generate_lead', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
+    EK.track('laadpaal_aanvraag', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
     if (typeof fbq === 'function') fbq('track', 'Lead', { lead_type: 'Laadpaal ' + a.type, value: a.totaal, currency: 'EUR' });
   }
   document.getElementById('thanksTitle').focus();
