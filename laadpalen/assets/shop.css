@@ -695,3 +695,9 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
   .shop-hero .hero-monteur .hero-price-chip small { font-size: .7rem; }
   .shop-hero .hero-monteur .hero-price-chip strong { font-size: 1.25rem; }
 }
+/* Monteur zonder zwevende labels: op de telefoon gecentreerd */
+@media (max-width: 640px) {
+  .shop-hero .hero-monteur { justify-content: center; }
+  .shop-hero .hero-monteur::before { left: 50%; }
+  .shop-hero .hero-monteur img { margin-right: 0; }
+}
