@@ -38,8 +38,8 @@
     try{if(localStorage.getItem('ek_consent_v1')!=='granted')fbq('consent','revoke');}catch(e){fbq('consent','revoke');}fbq('init','1869941847011402');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18199719989"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18199719989');</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-84ZN73CE1T"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-84ZN73CE1T');gtag('config','AW-18199719989');</script>
   <style>
     /* ===== FUNNEL (zelfde als homepage) ===== */
     .hero-funnel-wrap {
@@ -1074,6 +1074,7 @@
         var _kop = document.querySelector('.hf-kop'); if (_kop) _kop.style.display='none';
         var s = document.getElementById('hf-succes');
         if(s){ s.classList.remove('hf-verborgen'); s.scrollIntoView({behavior:'smooth',block:'center'}); }
+        if(typeof gtag==='function') gtag('event','generate_lead',{lead_type:'Offerteaanvraag'});
         if(typeof fbq==='function') fbq('track','Lead',{lead_type:'Homepage funnel'});
       } else {
         if(btn) btn.disabled=false;

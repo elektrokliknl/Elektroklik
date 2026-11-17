@@ -132,6 +132,7 @@ async function submitOfferte() {
       } : {})
     });
 
+    if (typeof gtag === 'function') gtag('event', 'generate_lead', { lead_type: 'Offerte aanvraag' });
     if (typeof fbq === 'function') {
       fbq('track', 'Lead', { lead_type: 'Offerte aanvraag' });
     }
@@ -174,6 +175,7 @@ async function submitContact() {
       Bericht: bericht
     });
 
+    if (typeof gtag === 'function') gtag('event', 'generate_lead', { lead_type: 'Contactbericht' });
     if (typeof fbq === 'function') {
       fbq('track', 'Lead', { lead_type: 'Contactbericht' });
     }

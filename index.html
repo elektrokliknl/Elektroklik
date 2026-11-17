@@ -1440,6 +1440,7 @@
         var _kop = document.querySelector('.hf-kop'); if (_kop) _kop.style.display='none';
         var s = document.getElementById('hf-succes');
         if(s){ s.classList.remove('hf-verborgen'); s.scrollIntoView({behavior:'smooth',block:'center'}); }
+        if(typeof gtag==='function') gtag('event','generate_lead',{lead_type:'Offerteaanvraag'});
         if(typeof fbq==='function') fbq('track','Lead',{lead_type:'Homepage funnel'});
       } else {
         if(btn) btn.disabled=false;
