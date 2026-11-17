@@ -701,3 +701,5 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
   .shop-hero .hero-monteur::before { left: 50%; }
   .shop-hero .hero-monteur img { margin-right: 0; }
 }
+/* Monteur alleen op grotere schermen tonen, niet op de telefoon */
+@media (max-width: 640px) { .shop-hero .hero-monteur { display: none; } }
