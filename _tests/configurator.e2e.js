@@ -7,19 +7,23 @@ const OUT = path.join(__dirname, 'screenshots/');
 fs.mkdirSync(OUT, { recursive: true });
 const BASE = 'http://127.0.0.1:8765';
 
-async function nieuw(b, opts, failFirstPost) {
+// failCall: het zoveelste verzoek naar Formspree laten mislukken (1 = de aanvraag zelf, 2 = de foto's erna)
+async function nieuw(b, opts, failCall) {
   const ctx = await b.newContext(opts); const p = await ctx.newPage();
-  const st = { errs: [], posted: null, calls: 0 };
+  const st = { errs: [], posted: null, posts: [], calls: 0, pdok: 0 };
   p.on('pageerror', e => st.errs.push(e.message));
   await p.route('**/*', async r => {
     const u = r.request().url();
-    if (u.includes('formspree.io')) { st.calls++; st.posted = r.request().postDataBuffer().toString('latin1');
-      if (failFirstPost && st.calls === 1) return r.fulfill({ status: 413, body: '{}' });
+    if (u.includes('formspree.io')) { st.calls++; st.posted = r.request().postDataBuffer().toString('latin1'); st.posts.push(st.posted);
+      if (failCall && st.calls === failCall) return r.fulfill({ status: 413, body: '{}' });
       return r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }); }
+    if (u.includes('api.pdok.nl')) { st.pdok++; st.pdokUrl = u;
+      return r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ response: { numFound: 1, docs: [{ straatnaam: 'Stationsplein', woonplaatsnaam: 'Amersfoort' }] } }) }); }
     return u.startsWith(BASE) ? r.continue() : r.abort();
   });
   return { ctx, p, st };
 }
+const leads = p => p.evaluate(() => (window.dataLayer || []).filter(x => x && x.event === 'generate_lead').length);
 const kies = (p, q, v) => p.click(`#q-${q} input[value="${v}"] + span`);
 async function gegevens(p) {
   for (const [k, v] of Object.entries({ voornaam: 'Test', achternaam: 'Klant', email: 'test@voorbeeld.nl', telefoon: '06 12345678', postcode: '3811 AB', huisnummer: '12', straat: 'Teststraat', plaats: 'Amersfoort' })) await p.fill('#f-' + k, v);
@@ -43,14 +47,17 @@ async function gegevens(p) {
     await p.click('input[value="geschikt-vol"] + .box');
     assert((await p.textContent('#btnNext')).includes('Volgende'));
     await p.click('#btnNext');
+    assert((await p.textContent('#progressCount')).includes('van 6'), 'standaardroute heeft 6 stappen');
     await p.click('input[name=locatie][value=paal] + .box');
     assert(!(await p.isVisible('input[value=kabelhouder]')), 'kabelhouder hoort niet bij montagepaal');
-    await p.click('#btnNext');
+    // plaats en kabelroute staan samen in één stap
+    assert(await p.isVisible('#q-afstand') && await p.isVisible('.step-sub'));
+    await p.click('#btnNext'); assert(await p.isVisible('#err-afstand'), 'kabelroute is verplicht in dezelfde stap');
     await kies(p, 'afstand', '20+'); await p.click('#btnNext'); assert(await p.isVisible('#err-afstandMeters'));
     await p.fill('#m-afstandMeters', '28');
     await kies(p, 'kruipruimte', 'nee'); await kies(p, 'graafwerk', 'ja'); await p.fill('#m-graafMeters', '6');
     // geen losse toeslagen bij technische vragen
-    assert(!(await p.textContent('#stepHost')).includes('€'));
+    for (const q of ['afstand', 'kruipruimte', 'graafwerk']) assert(!(await p.textContent('#q-' + q)).includes('€'), 'geen toeslag bij ' + q);
     await p.click('#btnNext');
     for (const [q, v] of [['fase', '3'], ['slimmeMeter', 'ja'], ['zonnepanelen', 'ja'], ['zakelijk', 'ja']]) await kies(p, q, v);
     assert(await p.isVisible('text=Load balancing is inbegrepen'));
@@ -65,15 +72,28 @@ async function gegevens(p) {
     await p.screenshot({ path: OUT + 'desktop-overzicht.png', fullPage: true });
     await p.click('#btnNext');
     await p.click('#btnNext'); assert(await p.isVisible('#e-voornaam'));
+    assert((await p.textContent('#btnNext')).includes('Vraag uw definitieve prijs aan'));
     await gegevens(p); await p.click('#btnNext');
-    assert((await p.textContent('.step-title')).includes('Foto'));
+    // aanvraag is direct verstuurd (zonder foto's) en de conversie is gemeten
+    await p.waitForSelector('#stepHost .notice-ok .ref');
+    assert(st.calls === 1 && !st.posts[0].includes('filename='), 'aanvraag wordt verstuurd voor de fotostap');
+    for (const veld of ['Uitbreiding meterkast', '3-fase 32 A', 'Aanvraagnummer', 'Kruipruimte', 'Graafwerk', 'circa 28 m', 'Montagepaal', 'uitbreidingskast', 'Zaptec Sense P1']) assert(st.posts[0].includes(veld), 'mist in aanvraag: ' + veld);
+    assert.strictEqual(await leads(p), 1, 'generate_lead direct na versturen');
+    assert((await p.textContent('.step-title')).includes('foto'));
+    assert((await p.textContent('#btnNext')).includes('Afronden zonder foto'));
+    assert(!(await p.isVisible('#btnBack')), 'na versturen niet meer terug');
     assert(await p.isVisible('#up-meterkast', { state: 'attached' }) !== null);
     assert(await p.isVisible('.later-box a[href*="wa.me/31850600572"]'));
     await p.setInputFiles('#up-meterkast', { name: 'meterkast.png', mimeType: 'image/png', buffer: fs.readFileSync(path.join(__dirname, '../favicon-96.png')) });
     await p.waitForSelector('.upload-list img');
+    assert((await p.textContent('#btnNext')).includes('Foto’s versturen'));
     await p.screenshot({ path: OUT + 'desktop-fotos.png', fullPage: true });
+    const ref = (await p.textContent('.notice-ok .ref')).trim();
     await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); await p.waitForSelector('.ref');
-    for (const veld of ['Uitbreiding meterkast', '3-fase 32 A', 'Aanvraagnummer', 'Kruipruimte', 'Graafwerk', 'circa 28 m', 'Montagepaal', 'uitbreidingskast', 'Zaptec Sense P1', 'filename=']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
+    assert(st.calls === 2 && st.posts[1].includes('filename=') && st.posts[1].includes(ref), 'foto’s apart verstuurd met hetzelfde aanvraagnummer');
+    assert(!st.posts[1].includes('Aanvraagnummer'), 'foto-inzending wordt in beheer niet als nieuwe aanvraag gezien');
+    assert.strictEqual(await leads(p), 0, 'bedankpagina meet niet nogmaals');
+    assert(!(await p.isVisible('text=konden niet worden meegestuurd')));
     console.log('desktop ok, aanvraag', await p.textContent('.ref'), '| errors:', st.errs.length ? st.errs : 'geen');
     await ctx.close();
   }
@@ -87,33 +107,74 @@ async function gegevens(p) {
     await p.click('input[value="verouderd"] + .box');
     assert(await p.isVisible('text=Wij adviseren u een vrijblijvende offerte aan te vragen.'));
     assert((await p.textContent('#btnNext')).includes('Vraag vrijblijvend een offerte aan'));
-    assert((await p.textContent('#progressCount')).includes('van 4'));
+    assert((await p.textContent('#progressCount')).includes('van 3'));
     await p.screenshot({ path: OUT + 'mobiel-meterkast.png', fullPage: true });
     await p.click('#btnNext');
     assert((await p.textContent('.step-title')).includes('offerte'));
-    await gegevens(p); await p.click('#btnNext');
-    await p.click('#btnNext'); // versturen zonder foto's
+    // adres automatisch invullen op basis van postcode en huisnummer
+    await p.fill('#f-postcode', '3811 AB'); await p.fill('#f-huisnummer', '12');
+    await p.waitForFunction(() => document.getElementById('f-straat').value === 'Stationsplein');
+    assert.strictEqual(await p.inputValue('#f-plaats'), 'Amersfoort');
+    assert(/fq=postcode:3811AB/.test(st.pdokUrl) && /fq=huisnummer:12/.test(st.pdokUrl), st.pdokUrl);
+    for (const [k, v] of Object.entries({ voornaam: 'Test', achternaam: 'Klant', email: 'test@voorbeeld.nl', telefoon: '06 12345678' })) await p.fill('#f-' + k, v);
+    await p.check('#f-akkoord');
+    assert((await p.textContent('#btnNext')).includes('Vraag vrijblijvend een offerte aan'));
+    await p.click('#btnNext'); await p.waitForSelector('#stepHost .notice-ok .ref');
+    await p.click('#btnNext'); // afronden zonder foto's
     await p.waitForURL('**/bedankt/'); await p.waitForSelector('.later-box');
-    assert(st.posted.includes('Vrijblijvende offerte') && st.posted.includes('Easee Charge Up') && !st.posted.includes('filename='));
+    assert(st.calls === 1 && st.posted.includes('Vrijblijvende offerte') && st.posted.includes('Easee Charge Up') && st.posted.includes('Stationsplein 12') && !st.posted.includes('filename='));
     await p.screenshot({ path: OUT + 'mobiel-bedankt.png', fullPage: true });
     console.log('mobiel offerteroute ok | errors:', st.errs.length ? st.errs : 'geen');
     await ctx.close();
   }
 
-  // 3) Mobiel – 'weet ik niet' meterkast + foto-upload die mislukt → tweede poging zonder foto's
+  // 3) Mobiel – 'weet ik niet' meterkast + foto's die niet verstuurd kunnen worden → aanvraag is er wel
   {
-    const { ctx, p, st } = await nieuw(b, { ...devices['Pixel 7'] }, true);
+    const { ctx, p, st } = await nieuw(b, { ...devices['Pixel 7'] }, 2);
     await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=peblar-business');
     await p.click('input[value="onbekend"] + .box');
     assert(await p.isVisible('text=Geen probleem. U kunt verder met het samenstellen.'));
-    assert((await p.textContent('#btnNext')).includes('Volgende stap') && (await p.textContent('#progressCount')).includes('van 8'));
+    assert((await p.textContent('#btnNext')).includes('Volgende stap') && (await p.textContent('#progressCount')).includes('van 6'));
     await p.click('input[value="verouderd"] + .box');
     await p.click('#btnNext'); await gegevens(p); await p.click('#btnNext');
+    await p.waitForSelector('#stepHost .notice-ok .ref');
     await p.setInputFiles('#up-locatie', { name: 'muur.png', mimeType: 'image/png', buffer: fs.readFileSync(path.join(__dirname, '../favicon-96.png')) });
     await p.waitForSelector('.upload-list img');
     await p.click('#btnNext'); await p.waitForURL('**/bedankt/');
     assert(st.calls === 2 && await p.isVisible('text=konden niet worden meegestuurd'));
     console.log('upload-fallback ok | errors:', st.errs.length ? st.errs : 'geen');
+    await ctx.close();
+  }
+
+  // 4) Aanvraag zelf mislukt → foutmelding op de gegevensstap, geen conversie, gegevens blijven staan
+  {
+    const { ctx, p, st } = await nieuw(b, { viewport: { width: 1280, height: 900 } }, 1);
+    await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=easee-max');
+    await p.click('input[value="verouderd"] + .box'); await p.click('#btnNext');
+    await gegevens(p); await p.click('#btnNext');
+    await p.waitForSelector('#sendError .notice');
+    assert((await p.textContent('#sendError')).includes('kon niet worden verstuurd'));
+    assert.strictEqual(await leads(p), 0, 'geen conversie bij mislukte aanvraag');
+    assert.strictEqual(await p.inputValue('#f-voornaam'), 'Test');
+    await p.click('#btnNext'); await p.waitForSelector('#stepHost .notice-ok .ref');
+    assert.strictEqual(await leads(p), 1);
+    console.log('mislukte aanvraag + opnieuw proberen ok | errors:', st.errs.length ? st.errs : 'geen');
+    await ctx.close();
+  }
+
+  // 5) Automatisch doorschuiven op de telefoon
+  {
+    const { ctx, p, st } = await nieuw(b, { ...devices['iPhone 13'] });
+    await p.goto(BASE + '/laadpalen/samenstellen/?laadpaal=zaptec');
+    await p.click('.consent-bar [data-c=denied]').catch(() => {});
+    await p.click('input[value="geschikt"] + .box'); await p.click('#btnNext');
+    await p.click('input[name=locatie][value=buitenmuur] + .box'); await p.waitForTimeout(900);
+    const y1 = await p.evaluate(() => window.scrollY);
+    await kies(p, 'afstand', '5-10'); await p.waitForTimeout(900);
+    const top = await p.evaluate(() => document.getElementById('q-kruipruimte').getBoundingClientRect().top);
+    assert(top > 0 && top < 300, 'volgende vraag staat bovenaan in beeld: ' + top);
+    assert(await p.evaluate(() => window.scrollY) > y1, 'pagina is doorgeschoven');
+    console.log('doorschuiven ok | errors:', st.errs.length ? st.errs : 'geen');
     await ctx.close();
   }
   await b.close();

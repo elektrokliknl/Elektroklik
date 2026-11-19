@@ -1,6 +1,8 @@
 /* ElektroKlik laadpaalconfigurator
- * Route: laadpaal → meterkastcontrole → (standaard: plaats, kabelroute, aansluiting, overzicht) → gegevens → foto's.
- * Bij een verouderde of onbekende meterkast: laadpaal → meterkast → gegevens → foto's (vrijblijvende offerte).
+ * Route: laadpaal → meterkastcontrole → (standaard: plaats en kabelroute, aansluiting, overzicht) → gegevens → versturen.
+ * Bij een verouderde of onbekende meterkast: laadpaal → meterkast → gegevens → versturen (vrijblijvende offerte).
+ * De aanvraag wordt verstuurd na de stap 'gegevens'. Daarna kan de klant nog foto's toevoegen (stap 'fotos', buiten de stappenlijst);
+ * die gaan als aparte inzending met hetzelfde aanvraagnummer naar ElektroKlik.
  */
 (function () {
   'use strict';
@@ -16,12 +18,11 @@
   var MAX_PER_SOORT = 3, MAX_MB = 20;
 
   var STANDAARD = [
-    { key: 'laadpaal', naam: 'Laadpaal' }, { key: 'meterkast', naam: 'Meterkast' }, { key: 'plaats', naam: 'Plaats' },
-    { key: 'kabelroute', naam: 'Kabelroute' }, { key: 'aansluiting', naam: 'Aansluiting' }, { key: 'overzicht', naam: 'Overzicht' },
-    { key: 'gegevens', naam: 'Gegevens' }, { key: 'fotos', naam: 'Foto’s' }
+    { key: 'laadpaal', naam: 'Laadpaal' }, { key: 'meterkast', naam: 'Meterkast' }, { key: 'plaats', naam: 'Plaats en kabelroute' },
+    { key: 'aansluiting', naam: 'Aansluiting' }, { key: 'overzicht', naam: 'Overzicht' }, { key: 'gegevens', naam: 'Gegevens' }
   ];
   var OFFERTE = [
-    { key: 'laadpaal', naam: 'Laadpaal' }, { key: 'meterkast', naam: 'Meterkast' }, { key: 'gegevens', naam: 'Gegevens' }, { key: 'fotos', naam: 'Foto’s' }
+    { key: 'laadpaal', naam: 'Laadpaal' }, { key: 'meterkast', naam: 'Meterkast' }, { key: 'gegevens', naam: 'Gegevens' }
   ];
   var FOTO_SOORTEN = [
     { id: 'meterkast', label: 'Foto van uw meterkast (optioneel)', uitleg: 'Maak bij voorkeur een duidelijke foto waarop de volledige meterkast zichtbaar is. U hoeft niets open te schroeven.' },
@@ -131,12 +132,13 @@
         var pr = k.voegtToe === 'montagepaal' ? '<span class="pr">+ ' + EK.euro(C.regels.montagepaal.prijsPerProduct[S.product]) + '</span>' : '';
         return '<label class="choice"><input type="radio" name="locatie" value="' + esc(k.id) + '"' + (S.locatie === k.id ? ' checked' : '') + '><span class="box"><span class="ic">' + EK.icon(ICONS[k.id] || 'home') + '</span><span><span class="t">' + esc(k.label) + '</span>' + (k.uitleg ? '<span class="d">' + esc(k.uitleg) + '</span>' : '') + '</span>' + pr + '</span></label>';
       }).join('') + '</div>' + fout('locatie') + '</fieldset>' +
-      (kh ? '<fieldset class="cfg-q"><legend>Extra</legend><div class="choice-grid"><label class="choice choice-check"><input type="checkbox" name="optie" value="kabelhouder"' + (S.opties.indexOf('kabelhouder') > -1 ? ' checked' : '') + '><span class="box"><span><span class="t">' + esc(kh.optie.label) + '</span><span class="d">' + esc(kh.optie.uitleg) + '</span></span><span class="pr">+ ' + EK.euro(kh.optie.prijs) + '</span></span></label></div></fieldset>' : '');
+      (kh ? '<fieldset class="cfg-q"><legend>Extra</legend><div class="choice-grid"><label class="choice choice-check"><input type="checkbox" name="optie" value="kabelhouder"' + (S.opties.indexOf('kabelhouder') > -1 ? ' checked' : '') + '><span class="box"><span><span class="t">' + esc(kh.optie.label) + '</span><span class="d">' + esc(kh.optie.uitleg) + '</span></span><span class="pr">+ ' + EK.euro(kh.optie.prijs) + '</span></span></label></div></fieldset>' : '') +
+      stapKabelroute();
   }
 
   function stapKabelroute() {
     var afst = C.regels.afstand;
-    return '<h2 class="step-title" tabindex="-1">De kabelroute</h2><p class="step-intro">Een schatting is voldoende. Wij controleren de kabelroute altijd voordat de installatie wordt ingepland.</p>' +
+    return '<h3 class="step-sub">De kabelroute</h3><p class="step-intro">Een schatting is voldoende. Wij controleren de kabelroute altijd voordat de installatie wordt ingepland.</p>' +
       '<fieldset class="cfg-q" id="q-afstand"><legend>' + esc(afst.vraag) + '</legend><p class="price-note" style="margin:-4px 0 10px">Meet ongeveer de route die de kabel aflegt, bijvoorbeeld langs de muur of via de kruipruimte.</p><div class="pills">' +
       afst.keuzes.map(function (k) { return '<label class="pill"><input type="radio" name="afstand" value="' + k.id + '"' + (S.afstand === k.id ? ' checked' : '') + '><span>' + esc(k.label) + '</span></label>'; }).join('') + '</div>' +
       (S.afstand === '20+' ? meterVeld('afstandMeters', 'Hoeveel meter is de kabelroute ongeveer?', 'Een schatting is voldoende, bijvoorbeeld 28.', S.afstandMeters) : '') + fout('afstand') + '</fieldset>' +
@@ -224,23 +226,24 @@
       veld('email', 'E-mailadres', 'email', { ac: 'email', im: 'email', hint: 'Hier sturen wij de bevestiging en de offerte naartoe.' }) +
       veld('telefoon', 'Telefoonnummer', 'tel', { ac: 'tel', im: 'tel', hint: 'Zodat wij u kunnen bellen bij een vraag.' }) +
       veld('postcode', 'Postcode', 'text', { ac: 'postal-code', ph: '1234 AB' }) + veld('huisnummer', 'Huisnummer en toevoeging', 'text', { ph: '12 A' }) +
-      veld('straat', 'Straat', 'text', { ac: 'address-line1' }) + veld('plaats', 'Plaats', 'text', { ac: 'address-level2' }) +
+      veld('straat', 'Straat', 'text', { ac: 'address-line1', ph: 'Wordt automatisch ingevuld' }) + veld('plaats', 'Plaats', 'text', { ac: 'address-level2', ph: 'Wordt automatisch ingevuld' }) +
       veld('opmerkingen', 'Aanvullende opmerkingen', 'textarea', { full: true, optioneel: true, ph: 'Bijvoorbeeld uw automodel, een gewenste periode of bijzonderheden over uw woning.' }) +
       '<div class="full"><input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true"></div>' +
       '<div class="full"><label class="consent"><input type="checkbox" id="f-akkoord" name="akkoord"' + (G.akkoord ? ' checked' : '') + ' aria-describedby="e-akkoord"><span>Ik ga ermee akkoord dat ElektroKlik mijn gegevens gebruikt om mijn aanvraag te behandelen, zoals beschreven in de <a href="' + esc(C.instellingen.privacyUrl || '/privacy.html') + '" target="_blank" rel="noopener">privacyverklaring</a>.</span></label><p class="field-error" id="e-akkoord" hidden></p></div>' +
-      '</div><p class="price-note" style="margin-top:14px">In de volgende stap kunt u nog foto’s toevoegen. Dat is niet verplicht.</p>';
+      '</div><p class="price-note" style="margin-top:14px">Na het versturen kunt u nog foto’s toevoegen. Dat is niet verplicht.</p><div id="sendError" role="alert"></div>';
   }
 
   function stapFotos() {
     var offerte = EKPricing.route(C, S) === 'offerte';
     var wa = C.instellingen.whatsappLink + '?text=' + encodeURIComponent('Hallo ElektroKlik, hierbij de foto’s voor mijn laadpaalaanvraag ' + REF + '.');
-    return '<h2 class="step-title" tabindex="-1">Foto’s van uw installatiesituatie</h2>' +
+    return '<div class="notice notice-ok" style="margin-bottom:18px">' + EK.icon('check') + '<div><b>Uw aanvraag is verstuurd.</b> Uw aanvraagnummer is <span class="ref">' + esc(REF) + '</span>. Wij nemen binnen 1 werkdag contact met u op.</div></div>' +
+      '<h2 class="step-title" tabindex="-1">Wilt u nog foto’s toevoegen?</h2>' +
       '<p class="step-intro">Met enkele foto’s kunnen wij uw installatie beter voorbereiden en uw aanvraag sneller beoordelen. Het toevoegen van foto’s is niet verplicht.</p>' +
       FOTO_SOORTEN.map(uploadBlok).join('') +
       '<div class="later-box"><h3>Heeft u op dit moment geen foto’s bij de hand?</h3><p>Geen probleem. U kunt uw aanvraag afronden en de foto’s later naar ons toesturen. Dit kan eenvoudig per e-mail of via WhatsApp. Vermeld dan uw aanvraagnummer: <span class="ref">' + esc(REF) + '</span></p>' +
       '<p><b>E-mail:</b> <a href="mailto:' + esc(C.instellingen.email) + '?subject=' + encodeURIComponent('Foto’s bij aanvraag ' + REF) + '">' + esc(C.instellingen.email) + '</a><br><b>Telefoon:</b> <a href="tel:' + esc(C.instellingen.telefoonLink) + '">' + esc(C.instellingen.telefoon) + '</a></p>' +
       '<a class="btn btn-ghost" href="' + esc(wa) + '" target="_blank" rel="noopener">' + EK.icon('chat') + ' Foto’s later via WhatsApp versturen</a></div>' +
-      '<div class="notice notice-info" style="margin-top:18px">' + EK.icon('shield') + '<div>' + (offerte ? 'U vraagt een vrijblijvende offerte aan.' : 'U vraagt uw definitieve prijs aan. U betaalt nu niets.') + ' Uw gegevens worden versleuteld verzonden en alleen gebruikt voor de behandeling van uw aanvraag.</div></div>' +
+      '<div class="notice notice-info" style="margin-top:18px">' + EK.icon('shield') + '<div>Uw foto’s worden versleuteld verzonden en alleen gebruikt voor de behandeling van uw aanvraag.</div></div>' +
       '<div id="sendError" role="alert"></div>';
   }
 
@@ -295,14 +298,16 @@
   /* ---------- Weergave ---------- */
   function render(focus) {
     var r = EKPricing.bereken(C, S);
-    var html = ({ laadpaal: stapLaadpaal, meterkast: stapMeterkast, plaats: stapPlaats, kabelroute: stapKabelroute, aansluiting: stapAansluiting, overzicht: function () { return stapOverzicht(r); }, gegevens: stapGegevens, fotos: stapFotos })[stapKey]();
+    var html = ({ laadpaal: stapLaadpaal, meterkast: stapMeterkast, plaats: stapPlaats, aansluiting: stapAansluiting, overzicht: function () { return stapOverzicht(r); }, gegevens: stapGegevens, fotos: stapFotos })[stapKey]();
     $('stepHost').innerHTML = html;
     var offerte = r.route === 'offerte';
-    $('btnBack').style.visibility = stapKey === 'laadpaal' ? 'hidden' : 'visible';
+    $('btnBack').style.visibility = (stapKey === 'laadpaal' || stapKey === 'fotos') ? 'hidden' : 'visible';
+    if ($('btnSave')) $('btnSave').parentNode.hidden = stapKey === 'fotos'; // na versturen valt er niets meer te bewaren
     var next = $('btnNext');
     if (stapKey === 'meterkast' && offerte) next.textContent = 'Vraag vrijblijvend een offerte aan';
     else if (stapKey === 'overzicht') next.textContent = 'Vraag uw definitieve prijs aan';
-    else if (stapKey === 'fotos') next.textContent = offerte ? 'Vraag vrijblijvend een offerte aan' : 'Vraag uw definitieve prijs aan';
+    else if (stapKey === 'gegevens') next.textContent = offerte ? 'Vraag vrijblijvend een offerte aan' : 'Vraag uw definitieve prijs aan';
+    else if (stapKey === 'fotos') next.textContent = FILES.length ? 'Foto’s versturen en afronden' : 'Afronden zonder foto’s';
     else next.textContent = 'Volgende stap';
     renderVoortgang(); renderSamenvatting(r);
     if (focus) {
@@ -316,6 +321,12 @@
   function renderVoortgang() {
     var l = stappen(), idx = stapIndex();
     $('progressList').style.gridTemplateColumns = 'repeat(' + l.length + ', 1fr)';
+    if (stapKey === 'fotos') {
+      $('progressList').innerHTML = l.map(function (s, i) { return '<li class="done">' + (i + 1) + '. ' + s.naam + '</li>'; }).join('');
+      $('progressCount').textContent = 'Uw aanvraag is verstuurd';
+      $('progressBar').style.width = '100%';
+      return;
+    }
     $('progressList').innerHTML = l.map(function (s, i) {
       var cls = i < idx ? 'done' : (i === idx ? 'current' : '');
       var kan = bezocht[s.key] && i !== idx;
@@ -393,24 +404,24 @@
   function naar(key) {
     if (stapKey === 'gegevens') leesGegevens();
     stapKey = key; bezocht[key] = true;
-    if (key === 'fotos' && !REF) REF = referentie();
     render(true);
     var l = stappen(), idx = stapIndex();
-    EK.track('configurator_stap', { stap_nummer: idx + 1, stap_naam: l[idx].naam, route: EKPricing.route(C, S), laadpaal: S.product || undefined });
+    if (key === 'fotos') EK.track('configurator_stap', { stap_nummer: l.length + 1, stap_naam: 'Foto’s (na versturen)', route: EKPricing.route(C, S), laadpaal: S.product || undefined });
+    else EK.track('configurator_stap', { stap_nummer: idx + 1, stap_naam: l[idx].naam, route: EKPricing.route(C, S), laadpaal: S.product || undefined });
     var r = EKPricing.bereken(C, S);
     if (key === 'overzicht') EK.track('configurator_overzicht', { currency: 'EUR', value: r.totaal, laadpaal: S.product });
     if (key === 'gegevens') EK.track('begin_checkout', { currency: 'EUR', value: r.totaal, route: r.route, items: [EK.gaItem(EKPricing.product(C, S.product))] });
   }
   function volgende() {
     var VERPLICHT = {
-      laadpaal: ['product'], meterkast: ['meterkast'], plaats: ['locatie'],
-      kabelroute: ['afstand'].concat(S.afstand === '20+' ? ['afstandMeters'] : []).concat(['kruipruimte', 'graafwerk']).concat(S.graafwerk === 'ja' ? ['graafMeters'] : []),
+      laadpaal: ['product'], meterkast: ['meterkast'],
+      plaats: ['locatie', 'afstand'].concat(S.afstand === '20+' ? ['afstandMeters'] : []).concat(['kruipruimte', 'graafwerk']).concat(S.graafwerk === 'ja' ? ['graafMeters'] : []),
       aansluiting: ['fase', 'slimmeMeter', 'zonnepanelen', 'zakelijk']
     };
     if (VERPLICHT[stapKey] && !verplicht(VERPLICHT[stapKey])) return;
-    if (stapKey === 'gegevens' && !valideerGegevens()) return;
+    if (stapKey === 'gegevens') { if (valideerGegevens()) verstuur(); return; }
     if (stapKey === 'meterkast' && EKPricing.route(C, S) === 'offerte') EK.track('meterkast_offerteroute', { keuze: S.meterkast, laadpaal: S.product });
-    if (stapKey === 'fotos') { verstuur(); return; }
+    if (stapKey === 'fotos') { verstuurFotos(); return; }
     var l = stappen(); naar(l[Math.min(stapIndex() + 1, l.length - 1)].key);
   }
 
@@ -423,7 +434,7 @@
   }
 
   function verstuur() {
-    if (FILES.some(function (f) { return !f.file; })) { EK.toast('Een moment, uw foto’s worden nog verwerkt.'); return; }
+    if (!REF) REF = referentie();
     var btn = $('btnNext'), oud = btn.textContent;
     btn.disabled = true; btn.textContent = 'Bezig met versturen…'; $('sendError').innerHTML = '';
     var getoond = EKPricing.bereken(C, S);
@@ -435,7 +446,7 @@
         $('sendError').innerHTML = '<div class="notice notice-warn" style="margin-top:14px">' + EK.icon('warn') + '<div>Onze prijzen zijn zojuist bijgewerkt. Uw nieuwe prijsindicatie is ' + EK.euro(r.totaal) + '. Controleer het bedrag en verstuur uw aanvraag opnieuw.</div></div>';
         btn.disabled = false; btn.textContent = oud; return;
       }
-      return verzend(vers, r).then(function () { btn.disabled = false; btn.textContent = oud; });
+      return verzend(vers, r).then(function () { btn.disabled = false; if (stapKey !== 'fotos') btn.textContent = oud; });
     }).catch(function (e) { console.error(e); toonVerzendFout(null); btn.disabled = false; btn.textContent = oud; });
   }
 
@@ -475,7 +486,7 @@
     add('Nog te controleren', r.beoordeling.join('\n') || 'Standaardcontrole');
     add('Interne bijzonderheden', r.intern.join('\n') || '-');
     add('Opmerkingen klant', G.opmerkingen.trim() || '-');
-    add('Foto’s', FILES.length ? FILES.map(function (f) { return f.soort; }).join(', ') : 'Geen (klant kan later mailen of WhatsAppen met het aanvraagnummer)');
+    add('Foto’s', 'Volgen eventueel in een aparte e-mail “Foto’s bij aanvraag ' + REF + '” (de klant kan ze na het versturen toevoegen, of later mailen of WhatsAppen)');
     add('Prijsconfiguratie versie', cfg.versie);
     var ids = EK.clickIds(); if (Object.keys(ids).length) add('Advertentie-ID’s', JSON.stringify(ids));
     add('Configuratie (technisch)', JSON.stringify({ ref: REF, route: r.route, staat: S, totaal: r.totaal, regels: r.regels, intern: r.intern, versie: cfg.versie, klant: { naam: G.voornaam + ' ' + G.achternaam, email: G.email, telefoon: G.telefoon, adres: G.straat + ' ' + G.huisnummer + ', ' + G.postcode + ' ' + G.plaats } }));
@@ -485,16 +496,43 @@
   function post(cfg, fd) {
     return fetch(cfg.instellingen.formEndpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } }).then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res; });
   }
+  var AANVRAAG = null; // overzicht van de verstuurde aanvraag (voor de bedankpagina en de conversiemeting)
+  function bewaarAanvraag() { try { localStorage.setItem('ek_laatste_aanvraag', JSON.stringify(AANVRAAG)); } catch (e) {} }
   function verzend(cfg, r) {
-    var metFotos = FILES.some(function (f) { return f.file; }), foutUpload = false;
-    var bewaarAanvraag = function (status) {
-      try { localStorage.setItem('ek_laatste_aanvraag', JSON.stringify({ referentie: REF, datum: new Date().toISOString(), naam: G.voornaam + ' ' + G.achternaam, email: G.email, product: S.product, type: r.route, regels: r.regels, totaal: r.totaal, fotos: FILES.length, foutUpload: foutUpload, status: status })); } catch (e) {}
-    };
-    bewaarAanvraag('versturen');
-    return post(cfg, bouwFormData(cfg, r, metFotos))
-      .catch(function (e) { if (!metFotos) throw e; foutUpload = true; return post(cfg, bouwFormData(cfg, r, false)); })
-      .then(function () { bewaarAanvraag('verstuurd'); verzonden = true; wis(); location.href = EK.base + 'bedankt/'; })
+    AANVRAAG = { referentie: REF, datum: new Date().toISOString(), naam: G.voornaam + ' ' + G.achternaam, email: G.email, product: S.product, type: r.route, regels: r.regels, totaal: r.totaal, fotos: 0, foutUpload: false, status: 'versturen' };
+    bewaarAanvraag();
+    return post(cfg, bouwFormData(cfg, r, false))
+      .then(function () {
+        AANVRAAG.status = 'verstuurd'; bewaarAanvraag();
+        verzonden = true; wis();
+        EK.meetAanvraag(AANVRAAG); // conversie direct meten, ook als de klant de fotostap niet afmaakt
+        naar('fotos');
+      })
       .catch(function (e) { console.error(e); toonVerzendFout(r); });
+  }
+  /* Foto's na het versturen: aparte inzending met hetzelfde aanvraagnummer. Daarna naar de bedankpagina. */
+  function verstuurFotos() {
+    if (FILES.some(function (f) { return !f.file; })) { EK.toast('Een moment, uw foto’s worden nog verwerkt.'); return; }
+    var klaar = function () { location.href = EK.base + 'bedankt/'; };
+    var met = FILES.filter(function (f) { return f.file; });
+    if (!met.length) { EK.track('fotos_overgeslagen', { laadpaal: S.product }); klaar(); return; }
+    var btn = $('btnNext'); btn.disabled = true; btn.textContent = 'Bezig met versturen…';
+    var fd = new FormData(), add = function (k, v) { fd.append(k, v == null ? '' : String(v)); };
+    add('_subject', 'Foto’s bij aanvraag ' + REF + ' – ' + G.voornaam + ' ' + G.achternaam);
+    add('_replyto', G.email.trim()); add('email', G.email.trim());
+    add('Foto’s bij aanvraag', REF);
+    add('Naam', G.voornaam.trim() + ' ' + G.achternaam.trim());
+    add('Telefoon', G.telefoon.trim());
+    add('Foto’s', met.map(function (f) { return f.soort; }).join(', '));
+    met.forEach(function (f, i) { fd.append('upload', f.file, (REF + '-' + f.soort + '-' + (i + 1) + '-' + f.file.name).slice(0, 90)); });
+    post(C, fd).then(function () {
+      if (AANVRAAG) { AANVRAAG.fotos = met.length; AANVRAAG.foutUpload = false; bewaarAanvraag(); }
+      EK.track('fotos_verstuurd', { aantal: met.length, laadpaal: S.product });
+    }).catch(function (e) {
+      console.error(e);
+      if (AANVRAAG) { AANVRAAG.foutUpload = true; bewaarAanvraag(); }
+      EK.track('fotos_fout', { laadpaal: S.product });
+    }).then(klaar);
   }
   function toonVerzendFout(r) {
     var tekst = r ? 'Aanvraag laadpaal ' + REF + '\nLaadpaal: ' + r.regels[0].label + '\nPrijsindicatie: ' + EK.euro(r.totaal) + '\n\nNaam: ' + G.voornaam + ' ' + G.achternaam + '\nTelefoon: ' + G.telefoon + '\nAdres: ' + G.straat + ' ' + G.huisnummer + ', ' + G.postcode + ' ' + G.plaats : '';
@@ -527,6 +565,49 @@
     });
   }
 
+  /* ---------- Automatisch doorschuiven naar de volgende vraag ---------- */
+  var schuifTimer = null;
+  function naarVolgendeVraag(naam) {
+    clearTimeout(schuifTimer);
+    schuifTimer = setTimeout(function () {
+      var el = document.querySelector('#stepHost input[name="' + naam + '"]'); if (!el) return;
+      var vraag = el.closest('fieldset.cfg-q'); if (!vraag) return;
+      var rustig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      // Moet er binnen deze vraag nog een aantal meters worden ingevuld? Dan daar blijven.
+      var meters = vraag.querySelector('input[data-meters]');
+      if (meters && !meters.value) { meters.focus({ preventScroll: true }); meters.scrollIntoView({ block: 'center', behavior: rustig }); return; }
+      if (vraag.parentNode.querySelector('.mk-advies')) return; // meterkastadvies: de klant moet dat eerst lezen
+      var alle = Array.prototype.slice.call(document.querySelectorAll('#stepHost fieldset.cfg-q'));
+      var doel = alle[alle.indexOf(vraag) + 1] || $('cfgNav');
+      if (!doel) return;
+      var top = doel.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.6) return; // staat al goed in beeld
+      window.scrollTo({ top: window.scrollY + top - 96, behavior: rustig });
+    }, 260);
+  }
+
+  /* ---------- Adres automatisch invullen (postcode + huisnummer, via PDOK van de overheid) ---------- */
+  var adresTimer = null, adresLaatst = '', adresAuto = { straat: '', plaats: '' };
+  function zoekAdres() {
+    clearTimeout(adresTimer);
+    adresTimer = setTimeout(function () {
+      var pc = String(G.postcode || '').replace(/\s/g, '').toUpperCase(), hn = (String(G.huisnummer || '').match(/^\s*(\d+)/) || [])[1];
+      if (!/^[1-9]\d{3}[A-Z]{2}$/.test(pc) || !hn || pc + '-' + hn === adresLaatst) return;
+      adresLaatst = pc + '-' + hn;
+      var url = 'https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?fq=type:adres&fq=postcode:' + pc + '&fq=huisnummer:' + hn + '&rows=1&fl=straatnaam,woonplaatsnaam';
+      fetch(url).then(function (x) { return x.ok ? x.json() : null; }).then(function (d) {
+        var doc = d && d.response && d.response.docs && d.response.docs[0];
+        if (!doc || stapKey !== 'gegevens') return;
+        var gevuld = false;
+        [['straat', doc.straatnaam], ['plaats', doc.woonplaatsnaam]].forEach(function (x) {
+          var veldEl = $('f-' + x[0]); if (!veldEl || !x[1]) return;
+          if (!veldEl.value || veldEl.value === adresAuto[x[0]]) { veldEl.value = x[1]; adresAuto[x[0]] = x[1]; zetFout(x[0], ''); gevuld = true; }
+        });
+        if (gevuld) { leesGegevens(); bewaar(); EK.track('adres_automatisch_ingevuld'); }
+      }).catch(function () { /* geen verbinding: de klant vult straat en plaats zelf in */ });
+    }, 350);
+  }
+
   /* ---------- Events ---------- */
   function bindEvents() {
     $('cfgForm').addEventListener('submit', function (e) { e.preventDefault(); volgende(); });
@@ -544,12 +625,12 @@
         EK.track('select_item', { item_list_name: 'configurator', items: [EK.gaItem(np)] });
         if (vorigeVast || np.kabelVarianten) { render(false); var gekozen = document.querySelector('input[name="product"][value="' + t.value + '"]'); if (gekozen) gekozen.focus(); }
         else renderSamenvatting(EKPricing.bereken(C, S));
-        var er0 = $('err-product'); if (er0) er0.hidden = true; bewaar(); return;
+        var er0 = $('err-product'); if (er0) er0.hidden = true; bewaar(); naarVolgendeVraag('product'); return;
       }
       if (t.name === 'kabelLengte') {
         S.kabelLengte = t.value;
         EK.track('kabellengte_keuze', { laadpaal: S.product, lengte: t.value });
-        renderSamenvatting(EKPricing.bereken(C, S)); bewaar(); return;
+        renderSamenvatting(EKPricing.bereken(C, S)); bewaar(); naarVolgendeVraag('kabelLengte'); return;
       }
       if (EKPricing.VRAGEN.indexOf(t.name) > -1) {
         S[t.name] = t.value; S.opties = EKPricing.schoonOpties(C, S);
@@ -559,12 +640,12 @@
           var el = document.querySelector('input[name="' + naam + '"][value="' + waarde + '"]'); if (el) el.focus();
           if (naam === 'meterkast') { var m = document.querySelector('.mk-advies'); if (m) m.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); EK.track('meterkast_keuze', { keuze: waarde }); }
         } else renderSamenvatting(EKPricing.bereken(C, S));
-        bewaar(); return;
+        bewaar(); naarVolgendeVraag(t.name); return;
       }
       if (t.name === 'kabel') {
         S.opties = S.opties.filter(function (id) { var o = EKPricing.optie(C, id); return !(o && o.groep === 'kabel'); });
         if (t.value !== 'geen') S.opties.push(t.value);
-        renderSamenvatting(EKPricing.bereken(C, S)); bewaar(); return;
+        renderSamenvatting(EKPricing.bereken(C, S)); bewaar(); naarVolgendeVraag('kabel'); return;
       }
       if (t.name === 'optie') {
         S.opties = S.opties.filter(function (id) { return id !== t.value; }); if (t.checked) S.opties.push(t.value);
@@ -584,6 +665,7 @@
       if (stapKey !== 'gegevens' || !t.id || t.id.indexOf('f-') !== 0) return;
       leesGegevens(); bewaar();
       var id = t.id.slice(2);
+      if (id === 'postcode' || id === 'huisnummer') zoekAdres();
       if (t.getAttribute('aria-invalid') === 'true' && REGELS[id] && !REGELS[id](t.value.trim())) zetFout(id, '');
     });
     $('cfgForm').addEventListener('focusout', function (e) {
@@ -625,8 +707,10 @@
     if (d.g) Object.keys(G).forEach(function (k) { if (d.g[k] !== undefined) G[k] = d.g[k]; });
     bezocht = d.bezocht || { laadpaal: true }; REF = d.ref || null;
     stapKey = S.product ? (d.stap || 'laadpaal') : 'laadpaal';
+    if (stapKey === 'kabelroute') stapKey = 'plaats';   // oude stap, nu samengevoegd
+    if (stapKey === 'fotos') stapKey = 'gegevens';      // er is nog niets verstuurd
     if (!stappen().some(function (s) { return s.key === stapKey; })) stapKey = 'meterkast';
-    if (stapKey === 'fotos' && !REF) REF = referentie();
+    if (bezocht.kabelroute) bezocht.plaats = true;
     render(true);
   }
 

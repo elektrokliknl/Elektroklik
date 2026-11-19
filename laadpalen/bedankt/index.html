@@ -137,14 +137,8 @@
       : '<div class="ov-card" style="margin-top:16px"><h3>Uw prijsindicatie</h3><table class="price-table"><tbody>' + rows + '<tr class="total"><td>Prijsindicatie incl. btw</td><td>' + EK.euro(a.totaal) + '</td></tr></tbody></table></div>') +
     (a.foutUpload ? '<div class="notice notice-warn" style="margin-top:14px">Uw foto’s konden niet worden meegestuurd. Wilt u ze per e-mail of WhatsApp naar ons sturen, met uw aanvraagnummer?</div>' : '') +
     (!a.fotos || a.foutUpload ? '<div class="later-box no-print" style="margin-top:16px"><h3>Foto’s later versturen?</h3><p>Stuur ze naar <a href="mailto:info@elektroklik.nl?subject=' + encodeURIComponent('Foto’s bij aanvraag ' + a.referentie) + '">info@elektroklik.nl</a> of via WhatsApp, met uw aanvraagnummer.</p><a class="btn btn-ghost" href="' + wa + '" target="_blank" rel="noopener">Foto’s later via WhatsApp versturen</a></div>' : '');
-  if (!sessionStorage.getItem('ek_lead_' + a.referentie)) {
-    sessionStorage.setItem('ek_lead_' + a.referentie, '1');
-    EK.track('generate_lead', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
-    EK.track('laadpaal_aanvraag', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
-    // Google Ads-conversie 'Laadpaal aanvraag' (alleen na een echte aanvraag via de configurator)
-    if (typeof gtag === 'function') gtag('event', 'conversion', { send_to: 'AW-18199719989/JBcMCIrEgrodELXgpuZD', value: a.totaal || 1, currency: 'EUR', transaction_id: a.referentie });
-    if (typeof fbq === 'function') fbq('track', 'Lead', { lead_type: 'Laadpaal ' + a.type, value: a.totaal, currency: 'EUR' });
-  }
+  // Meestal al gemeten direct na het versturen; EK.meetAanvraag meet elke aanvraag maar één keer.
+  EK.meetAanvraag(a);
   document.getElementById('thanksTitle').focus();
 })();
 </script>

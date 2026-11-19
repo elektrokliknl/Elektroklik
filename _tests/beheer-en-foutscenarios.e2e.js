@@ -49,9 +49,10 @@ const GEGEVENS = { voornaam: 'A', achternaam: 'Bee', email: 'a@b.nl', telefoon: 
   console.log('overzicht via link:', (await p.textContent('.price-table tr.total')).replace(/\s+/g, ' '));
   await p.click('#btnNext');
   for (const [k, v] of Object.entries(GEGEVENS)) await p.fill('#f-' + k, v);
-  await p.check('#f-akkoord'); await p.click('#btnNext');
+  await p.check('#f-akkoord');
   wijzig = true; await p.click('#btnNext');
   await p.waitForSelector('#sendError .notice'); console.log('prijswijziging:', (await p.textContent('#sendError')).trim().slice(0, 80));
+  await p.click('#btnNext'); await p.waitForSelector('#stepHost .notice-ok .ref');
   await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); console.log('na herbevestiging verstuurd');
   await p.close();
 
@@ -59,11 +60,12 @@ const GEGEVENS = { voornaam: 'A', achternaam: 'Bee', email: 'a@b.nl', telefoon: 
   p = await nieuw(r => { const u = r.request().url(); if (u.includes('formspree')) return r.abort(); return u.startsWith(BASE) ? r.continue() : r.abort(); });
   await p.goto(link(STAAT)); await p.waitForSelector('.price-table'); await p.click('#btnNext');
   for (const [k, v] of Object.entries(GEGEVENS)) await p.fill('#f-' + k, v);
-  await p.check('#f-akkoord'); await p.click('#btnNext'); await p.click('#btnNext');
+  await p.check('#f-akkoord'); await p.click('#btnNext');
   await p.waitForSelector('#sendError .notice'); console.log('storing:', (await p.textContent('#sendError')).trim().slice(0, 60), '| mailto:', await p.isVisible('#sendError a[href^=mailto]'));
   await p.reload(); await p.waitForTimeout(600);
   console.log('na herladen:', await p.textContent('#progressCount'));
-  await p.click('[data-ga=gegevens]'); console.log('naam bewaard:', await p.inputValue('#f-voornaam'));
+  if (await p.$('[data-ga=gegevens]')) await p.click('[data-ga=gegevens]');
+  console.log('naam bewaard:', await p.inputValue('#f-voornaam'));
   console.log('errors:', errs.length ? errs : 'geen');
   await p.unrouteAll({ behavior: 'ignoreErrors' });
   await b.close();

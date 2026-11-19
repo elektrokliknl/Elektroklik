@@ -231,6 +231,19 @@
       var p = Object.assign({}, params || {}); window.gtag('event', event, p);
     }
   };
+  /* Meet een verstuurde laadpaalaanvraag één keer (GA4, Google Ads, Meta). Wordt direct na het versturen aangeroepen
+     en nogmaals op de bedankpagina; het aanvraagnummer voorkomt dubbel meten. */
+  EK.meetAanvraag = function (a) {
+    if (!a || !a.referentie) return;
+    var k = 'ek_lead_' + a.referentie;
+    try { if (localStorage.getItem(k) || sessionStorage.getItem(k)) return; } catch (e) {}
+    try { localStorage.setItem(k, '1'); } catch (e) { try { sessionStorage.setItem(k, '1'); } catch (e2) {} }
+    EK.track('generate_lead', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
+    EK.track('laadpaal_aanvraag', { currency: 'EUR', value: a.totaal, lead_type: a.type, laadpaal: a.product, transaction_id: a.referentie });
+    // Google Ads-conversie 'Laadpaal aanvraag' (alleen na een echte aanvraag via de configurator)
+    if (typeof window.gtag === 'function') window.gtag('event', 'conversion', { send_to: 'AW-18199719989/JBcMCIrEgrodELXgpuZD', value: a.totaal || 1, currency: 'EUR', transaction_id: a.referentie });
+    if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { lead_type: 'Laadpaal ' + a.type, value: a.totaal, currency: 'EUR' });
+  };
   EK.gaItem = function (p) { return { item_id: p.id, item_name: p.naam, item_brand: p.merk, price: p.vanafprijs, currency: 'EUR' }; };
 
   /* Consent Mode v2 + niet-blokkerende cookiebalk */

@@ -44,7 +44,7 @@ const totaal = async p => (await p.textContent('#summary .summary-total b')).rep
     await p.click('#q-kabelLengte input[value="7-5m"] + .box');
     await p.click('#btnNext');
     await p.click('input[value="geschikt"] + .box'); await p.click('#btnNext');
-    await p.click('input[name=locatie][value=buitenmuur] + .box'); await p.click('#btnNext');
+    await p.click('input[name=locatie][value=buitenmuur] + .box');
     await kies(p, 'afstand', '10-20'); await kies(p, 'kruipruimte', 'ja'); await kies(p, 'graafwerk', 'nee'); await p.click('#btnNext');
     for (const [q, v] of [['fase', '3'], ['slimmeMeter', 'ja'], ['zonnepanelen', 'nee'], ['zakelijk', 'ja']]) await kies(p, q, v);
     assert(!(await p.isVisible('#q-kabel')), 'geen losse laadkabel bij Peblar');
@@ -55,8 +55,9 @@ const totaal = async p => (await p.textContent('#summary .summary-total b')).rep
     assert((await p.textContent('#stepHost')).includes('Vaste laadkabel 7,5 meter'));
     await p.click('#btnNext');
     for (const [k, v] of Object.entries({ voornaam: 'Test', achternaam: 'Klant', email: 'test@voorbeeld.nl', telefoon: '06 12345678', postcode: '3811 AB', huisnummer: '12', straat: 'Teststraat', plaats: 'Amersfoort' })) await p.fill('#f-' + k, v);
-    await p.check('#f-akkoord'); await p.click('#btnNext');
-    await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); await p.waitForSelector('.ref');
+    await p.check('#f-akkoord'); await p.click('#btnNext'); // aanvraag versturen
+    await p.waitForSelector('#stepHost .notice-ok .ref');
+    await p.click('#btnNext'); await p.waitForURL('**/bedankt/'); // afronden zonder foto's await p.waitForSelector('.ref');
     for (const veld of ['Peblar Business met vaste laadkabel 7,5 meter', 'Vaste laadkabel 7,5 meter', 'Dynamische load balancing', '1.940']) assert(st.posted.includes(veld), 'mist in aanvraag: ' + veld);
     assert((await p.textContent('#thanksBody')).includes('vaste laadkabel 7,5 meter'), 'bedankpagina toont kabellengte');
     console.log('configurator Peblar ok | fouten:', st.errs.length ? st.errs : 'geen');
