@@ -131,7 +131,7 @@
       EK.kabelNote(p) + '<div class="price-note">Inclusief 21% btw</div>' +
       '<a class="pcard-incl" href="' + BASE + '#inbegrepen">' + EK.icon('check') + ' Bekijk wat is inbegrepen</a>' +
       '<div class="pcard-ctas"><a class="btn btn-ghost" href="' + EK.productUrl(p) + '" data-track="bekijk_laadpaal">Bekijk laadpaal</a>' +
-      '<a class="btn btn-main" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Stel samen</a></div>' +
+      '<a class="btn btn-main" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Bereken uw prijs</a></div>' +
       '</div></div></article>';
   };
 

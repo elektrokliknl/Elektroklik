@@ -703,3 +703,13 @@ nav.subnav { position: sticky; top: 72px; left: auto; right: auto; z-index: 50; 
 }
 /* Monteur alleen op grotere schermen tonen, niet op de telefoon */
 @media (max-width: 640px) { .shop-hero .hero-monteur { display: none; } }
+
+/* ---------- Vaste knop 'Bereken uw prijs' onderaan het scherm (alleen telefoon, laadpalenpagina) ---------- */
+.lp-cta-bar { display: none; }
+@media (max-width: 640px) {
+  .lp-cta-bar { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 900; background: #fff; border-top: 1px solid var(--ek-line); box-shadow: 0 -6px 20px rgba(15,27,45,.08); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .lp-cta-bar .btn { display: flex; width: 100%; justify-content: center; min-height: 50px; }
+  body:has(.lp-cta-bar) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  body:has(.lp-cta-bar) .ek-cb { bottom: 84px; }
+  body:has(.lp-cta-bar) .whatsapp-btn { bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
