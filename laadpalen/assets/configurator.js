@@ -578,9 +578,17 @@
       if (meters && !meters.value) { meters.focus({ preventScroll: true }); meters.scrollIntoView({ block: 'center', behavior: rustig }); return; }
       if (vraag.parentNode.querySelector('.mk-advies')) return; // meterkastadvies: de klant moet dat eerst lezen
       var alle = Array.prototype.slice.call(document.querySelectorAll('#stepHost fieldset.cfg-q'));
-      var doel = alle[alle.indexOf(vraag) + 1] || $('cfgNav');
-      if (!doel) return;
-      var top = doel.getBoundingClientRect().top;
+      var volgende = alle[alle.indexOf(vraag) + 1];
+      if (!volgende) {
+        // Laatste vraag: alleen zo ver schuiven dat de knop onderaan in beeld komt (boven de prijsbalk op de telefoon)
+        var nav = $('cfgNav'); if (!nav) return;
+        var balk = $('mobileBar'), balkH = balk && getComputedStyle(balk).display !== 'none' ? balk.offsetHeight : 0;
+        var onder = nav.getBoundingClientRect().bottom, ruimte = window.innerHeight - balkH - 16;
+        if (onder <= ruimte) return; // knop staat al in beeld
+        window.scrollTo({ top: window.scrollY + onder - ruimte, behavior: rustig });
+        return;
+      }
+      var top = volgende.getBoundingClientRect().top;
       if (top < window.innerHeight * 0.6) return; // staat al goed in beeld
       window.scrollTo({ top: window.scrollY + top - 96, behavior: rustig });
     }, 260);

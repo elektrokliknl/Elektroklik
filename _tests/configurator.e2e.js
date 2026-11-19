@@ -174,6 +174,11 @@ async function gegevens(p) {
     const top = await p.evaluate(() => document.getElementById('q-kruipruimte').getBoundingClientRect().top);
     assert(top > 0 && top < 300, 'volgende vraag staat bovenaan in beeld: ' + top);
     assert(await p.evaluate(() => window.scrollY) > y1, 'pagina is doorgeschoven');
+    await kies(p, 'kruipruimte', 'nee'); await p.waitForTimeout(900);
+    await kies(p, 'graafwerk', 'nee'); await p.waitForTimeout(900);
+    const pos = await p.evaluate(() => { const r = document.getElementById('cfgNav').getBoundingClientRect(), bar = document.getElementById('mobileBar').offsetHeight; return { onder: r.bottom, ruimte: innerHeight - bar, top: r.top }; });
+    assert(pos.onder <= pos.ruimte && pos.top > pos.ruimte * 0.5, 'knop staat onderaan in beeld, niet bovenaan: ' + JSON.stringify(pos));
+    await p.screenshot({ path: OUT + 'mobiel-knop-onderaan.png' });
     console.log('doorschuiven ok | errors:', st.errs.length ? st.errs : 'geen');
     await ctx.close();
   }
