@@ -49,7 +49,7 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
 
 ## 3. Nieuwe volgorde van de configurator
 
-**Standaardroute (8 stappen):**
+**Standaardroute (6 stappen tot het versturen, daarna eventueel foto's):**
 
 1. **Laadpaal:** keuze uit de vijf modellen, met een optionele keuzehulp.
 2. **Meterkast:** uw vier voorbeeldfoto's, twee geschikte meterkasten (✓) en twee die beoordeeld moeten worden (✕), plus vier grote keuzevakken.
@@ -57,21 +57,26 @@ Alle prijzen zijn inclusief btw, **professionele standaardinstallatie en load ba
    - *Geschikt, geen vrije ruimte* → verder, met € 25 toeslag voor het uitbreiden van de meterkast. Intern gemarkeerd als "Aanvullende uitbreidingskast mogelijk nodig".
    - *Verouderd of niet geschikt* → melding "Wij adviseren u een vrijblijvende offerte aan te vragen." De knop wordt **"Vraag vrijblijvend een offerte aan"**.
    - *Weet ik niet* → de klant gaat verder met samenstellen. De aanvraag wordt gemarkeerd zodat u de meterkast vooraf controleert.
-3. **Plaats:** buitenmuur, garage, montagepaal (+ prijs) of anders. Daaronder de kabelhouder (€ 50); die wordt niet getoond bij een montagepaal.
-4. **Kabelroute:** afstand (bij meer dan 20 m ook het aantal meters), kruipruimte, en graafwerk (bij "Ja" het aantal meters).
-5. **Aansluiting:** 1- of 3-fase, slimme meter, zonnepanelen en zakelijk verrekenen. Wil iemand zakelijk verrekenen met een Easee Charge Up, dan ziet hij een melding met een knop om naar een model met MID-meter te wisselen.
-6. **Overzicht:** prijsindicatie met volledige prijsopbouw en "wat wij nog controleren". De knop is **"Vraag uw definitieve prijs aan"**.
-7. **Gegevens:** naam, e-mail, telefoon, installatieadres en opmerkingen. Geen account nodig.
-8. **Foto's** (alles optioneel):
-   - drie aparte uploads: meterkast, **kabelroute** en laadpaallocatie;
-   - werkt met de camera van de smartphone, JPG/PNG/HEIC, maximaal 20 MB per foto en maximaal 3 per onderdeel, met voorvertoning en verwijderknop;
-   - daaronder het blok "Heeft u op dit moment geen foto's bij de hand?" met e-mail, telefoon en de knop "Foto's later via WhatsApp versturen";
-   - het aanvraagnummer staat al op deze stap, zodat de klant het kan vermelden bij foto's die hij later stuurt.
+3. **Plaats en kabelroute** (één stap):
+   - plaats: buitenmuur, garage, montagepaal (+ prijs) of anders, met daaronder de kabelhouder (€ 50); die wordt niet getoond bij een montagepaal;
+   - kabelroute: afstand (bij meer dan 20 m ook het aantal meters), kruipruimte, en graafwerk (bij "Ja" het aantal meters).
+4. **Aansluiting:** 1- of 3-fase, slimme meter, zonnepanelen en zakelijk verrekenen. Wil iemand zakelijk verrekenen met een Easee Charge Up, dan ziet hij een melding met een knop om naar een model met MID-meter te wisselen.
+5. **Overzicht:** prijsindicatie met volledige prijsopbouw en "wat wij nog controleren". De knop is **"Vraag uw definitieve prijs aan"**.
+6. **Gegevens:** naam, e-mail, telefoon, installatieadres en opmerkingen. Geen account nodig. Straat en plaats worden automatisch ingevuld na postcode en huisnummer (adresgegevens van de overheid, PDOK); de klant kan ze aanpassen. **Met de knop op deze stap wordt de aanvraag verstuurd.** De conversie (GA4 en Google Ads) wordt op dat moment gemeten.
 
-**Offerteroute (4 stappen, alleen bij een verouderde meterkast):** laadpaal → meterkast → gegevens → foto's. Het gekozen model en alle ingevulde gegevens blijven bewaard; de klant hoeft niets opnieuw in te vullen.
+**Na het versturen: foto's** (alles optioneel):
+   - de klant ziet "Uw aanvraag is verstuurd" met het aanvraagnummer, en de vraag "Wilt u nog foto's toevoegen?";
+   - drie aparte uploads: meterkast, **kabelroute** en laadpaallocatie; werkt met de camera van de smartphone, JPG/PNG/HEIC, maximaal 20 MB per foto en maximaal 3 per onderdeel, met voorvertoning en verwijderknop;
+   - foto's komen binnen als aparte e-mail **"Foto's bij aanvraag EK-…"**, met hetzelfde aanvraagnummer;
+   - daaronder het blok "Heeft u op dit moment geen foto's bij de hand?" met e-mail, telefoon en de knop "Foto's later via WhatsApp versturen";
+   - de knop is "Afronden zonder foto's" of "Foto's versturen en afronden". Daarna volgt de bedankpagina.
+
+Na elk antwoord schuift het scherm vanzelf naar de volgende vraag, als die nog niet goed in beeld staat.
+
+**Offerteroute (3 stappen, alleen bij een verouderde meterkast):** laadpaal → meterkast → gegevens (versturen), daarna eventueel foto's. Het gekozen model en alle ingevulde gegevens blijven bewaard; de klant hoeft niets opnieuw in te vullen.
 
 - **Betaling:** er wordt nergens direct betaald. De klant ontvangt eerst een definitieve offerte, en de bedankpagina legt dat uit. De structuur is voorbereid op online betalen later.
-- **Na het versturen:** de klant ziet het aanvraagnummer. Zijn er geen foto's meegestuurd, dan staat er opnieuw een WhatsApp-knop met het aanvraagnummer al in het bericht.
+- **Bedankpagina:** de klant ziet het aanvraagnummer. Zijn er geen foto's meegestuurd, dan staat er opnieuw een WhatsApp-knop met het aanvraagnummer al in het bericht.
 
 ---
 
