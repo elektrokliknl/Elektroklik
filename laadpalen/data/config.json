@@ -88,7 +88,7 @@
         "mid": "Nee",
         "loadBalancing": "Inbegrepen: Easee Equalizer P1 op uw slimme meter",
         "app": "Easee-app",
-        "garantie": "5 jaar fabrieksgarantie (volgens Easee)",
+        "garantie": "5 jaar fabrieksgarantie",
         "display": "Nee"
       },
       "midGecertificeerd": false,
@@ -139,7 +139,7 @@
         "mid": "Ja, MID klasse B (±1%)",
         "loadBalancing": "Inbegrepen: Easee Equalizer P1 op uw slimme meter",
         "app": "Easee-app",
-        "garantie": "5 jaar fabrieksgarantie (volgens Easee)",
+        "garantie": "5 jaar fabrieksgarantie",
         "display": "Nee"
       },
       "midGecertificeerd": true,
@@ -189,7 +189,7 @@
         "mid": "Ja, MID klasse B",
         "loadBalancing": "Inbegrepen: Zaptec Sense P1 op uw slimme meter (DSMR 5.0 of hoger)",
         "app": "Zaptec-app",
-        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Zaptec",
+        "garantie": "5 jaar fabrieksgarantie",
         "display": "Nee, lichtring"
       },
       "midGecertificeerd": true,
@@ -257,7 +257,7 @@
         "mid": "Nee, ingebouwde energiemeter voor indicatieve meting (niet MID-gecertificeerd)",
         "loadBalancing": "Inbegrepen: dynamische load balancing",
         "app": "Gepland laden, laden met zonne-energie, OCPP 1.6-J",
-        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Peblar",
+        "garantie": "3 jaar fabrieksgarantie",
         "display": "Ja, display en ledstatusindicatie",
         "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
@@ -317,12 +317,12 @@
       "specs": {
         "maxVermogen": "Maximaal 22 kW op 3 fasen, maximaal 7,4 kW op 1 fase. Het werkelijke laadvermogen hangt af van uw elektriciteitsaansluiting, uw auto en de installatie-instellingen.",
         "aansluiting": "Vaste Type 2-laadkabel van 5 of 7,5 meter",
-        "connectiviteit": "Wifi en ethernet; mobiele netwerkverbinding afhankelijk van uitvoering",
+        "connectiviteit": "Wifi, ethernet en mobiel internet via een nano-simkaart (simkaart en data-abonnement apart nodig)",
         "rfid": "Ja, RFID-autorisatie",
-        "mid": "Ja, MID-gecertificeerde energiemeter (bij de MID-uitvoering)",
+        "mid": "Ja, MID-gecertificeerde energiemeter",
         "loadBalancing": "Inbegrepen: dynamische load balancing",
         "app": "Gepland laden, laden met zonne-energie, OCPP 1.6-J",
-        "garantie": "Fabrieksgarantie volgens de garantievoorwaarden van Peblar",
+        "garantie": "3 jaar fabrieksgarantie",
         "display": "Ja, display en ledstatusindicatie",
         "extra": "IP54-bescherming; geschikt voor wand- en paalmontage"
       },
