@@ -188,7 +188,7 @@
         rij('Montage', function (p) { return EK.esc(p.specs.montage || '–'); }) +
         rij('Fabrieksgarantie', function (p) { return EK.txt(p.specs.garantie); }) +
         rij('Geschikt voor', function (p) { return '<ul class="checks">' + p.geschiktVoor.map(function (x) { return '<li>' + EK.esc(x) + '</li>'; }).join('') + '</ul>'; }) +
-        '</tbody><tfoot><tr><td></td>' + ps.map(function (p) { return '<td><a class="btn btn-main btn-block" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Stel samen</a><a class="btn-link" style="display:inline-block;margin-top:8px" href="' + EK.productUrl(p) + '">Meer over ' + EK.esc(p.merk) + '</a></td>'; }).join('') + '</tr></tfoot></table>';
+        '</tbody><tfoot><tr><td></td>' + ps.map(function (p) { return '<td><a class="btn btn-main btn-block" href="' + EK.configUrl(p.id) + '" data-track="stel_samen">Bereken uw prijs</a><a class="btn-link" style="display:inline-block;margin-top:8px" href="' + EK.productUrl(p) + '">Meer over ' + EK.esc(p.merk) + '</a></td>'; }).join('') + '</tr></tfoot></table>';
     }).catch(EK.configFout(el));
   };
 

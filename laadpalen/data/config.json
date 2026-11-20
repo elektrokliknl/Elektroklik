@@ -75,7 +75,7 @@
       "geschiktVoor": [
         "Particulieren die eenvoudig en slim thuis willen laden",
         "Woningen met een 1-fase- of 3-faseaansluiting",
-        "Wie geen MID-gecertificeerde meting nodig heeft"
+        "Wie geen zakelijke verrekening nodig heeft"
       ],
       "minderGeschiktVoor": [
         "Zakelijke verrekening van laadkosten met de werkgever: de Charge Up is niet MID-gecertificeerd. Kies hiervoor de Easee Charge Max."
@@ -128,9 +128,9 @@
         "Fabrieksgarantie van 5 jaar"
       ],
       "geschiktVoor": [
-        "Zakelijke rijders die laadkosten willen verrekenen",
-        "Wie het gemak van Easee wil, met een MID-meter",
-        "Woningen met een 1-fase- of 3-faseaansluiting"
+        "Zakelijke rijders die het gemak van Easee willen",
+        "Woningen met een 1-fase- of 3-faseaansluiting",
+        "Wie laadkosten zakelijk wil verrekenen (MID-meter)"
       ],
       "minderGeschiktVoor": [],
       "specs": {
@@ -181,8 +181,8 @@
       ],
       "geschiktVoor": [
         "Particulieren die een premium, toekomstgerichte laadpaal willen",
-        "Wie laadkosten zakelijk wil verrekenen (MID-meting)",
-        "Woningen met een 1-fase- of 3-faseaansluiting"
+        "Woningen met een 1-fase- of 3-faseaansluiting",
+        "Wie laadkosten zakelijk wil verrekenen (MID-meter)"
       ],
       "minderGeschiktVoor": [],
       "specs": {
@@ -248,9 +248,9 @@
         "Fabrieksgarantie van 3 jaar"
       ],
       "geschiktVoor": [
-        "Thuisladen tot 11 kW op 3 fasen",
         "Wie gemak wil met een vaste laadkabel",
-        "Laden met zonne-energie"
+        "Woningen met een 1-fase- of 3-faseaansluiting",
+        "Wie geen zakelijke verrekening nodig heeft"
       ],
       "minderGeschiktVoor": [
         "Zakelijke verrekening: de ingebouwde energiemeter is niet MID-gecertificeerd"
@@ -288,7 +288,7 @@
       "slug": "peblar-business",
       "merk": "Peblar",
       "naam": "Peblar Business",
-      "positionering": "Krachtig & zakelijk",
+      "positionering": "Krachtig & Zakelijk",
       "kort": "De Peblar Business combineert krachtig en slim laden met een MID-gecertificeerde energiemeter. Ideaal voor zakelijke rijders die hun laadkosten nauwkeurig willen registreren en verrekenen.",
       "vanafprijs": 1785,
       "vasteKabel": true,
@@ -316,9 +316,9 @@
         "Fabrieksgarantie van 3 jaar"
       ],
       "geschiktVoor": [
-        "Zakelijke rijders die laadkosten willen registreren en verrekenen",
-        "Laden tot 22 kW op 3 fasen",
-        "Wie gemak wil met een vaste laadkabel"
+        "Zakelijke rijders die gemak willen met een vaste laadkabel",
+        "Woningen met een 1-fase- of 3-faseaansluiting",
+        "Wie laadkosten zakelijk wil verrekenen (MID-meter)"
       ],
       "minderGeschiktVoor": [],
       "specs": {
