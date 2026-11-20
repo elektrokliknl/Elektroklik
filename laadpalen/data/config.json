@@ -70,7 +70,7 @@
         "Compact ontwerp dat rustig oogt aan de gevel",
         "Bediening en inzicht via de Easee-app",
         "Ingebouwde wifi en 4G-verbinding",
-        "Fabrieksgarantie van 5 jaar volgens Easee"
+        "Fabrieksgarantie van 5 jaar"
       ],
       "geschiktVoor": [
         "Particulieren die eenvoudig en slim thuis willen laden",
@@ -78,7 +78,7 @@
         "Wie geen MID-gecertificeerde meting nodig heeft"
       ],
       "minderGeschiktVoor": [
-        "Zakelijke verrekening van laadkosten met de werkgever: de Charge Up is volgens Easee niet MID-gecertificeerd. Kies hiervoor de Easee Charge Max."
+        "Zakelijke verrekening van laadkosten met de werkgever: de Charge Up is niet MID-gecertificeerd. Kies hiervoor de Easee Charge Max."
       ],
       "specs": {
         "maxVermogen": "Tot 22 kW (3-fase), tot 7,4 kW (1-fase)",
@@ -123,7 +123,7 @@
         "MID-gecertificeerde energiemeter (klasse B)",
         "RFID-toegangscontrole",
         "Ingebouwde wifi en 4G (eSIM)",
-        "Fabrieksgarantie van 5 jaar volgens Easee"
+        "Fabrieksgarantie van 5 jaar"
       ],
       "geschiktVoor": [
         "Zakelijke rijders die laadkosten willen verrekenen",
