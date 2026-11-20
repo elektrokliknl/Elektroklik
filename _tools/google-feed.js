@@ -3,13 +3,13 @@
 // Gebruik: node _tools/google-feed.js          → bestand (opnieuw) schrijven
 //          node _tools/google-feed.js --check  → alleen controleren of het bestand klopt met config.json
 // Wordt automatisch uitgevoerd door .github/workflows/prijzen-sync.yml zodra config.json wijzigt.
-// In Merchant Center stelt u een "geplande ophaalactie" in op https://elektroklik.nl/google-producten.xml.
+// In Merchant Center stelt u een "geplande ophaalactie" in op https://www.elektroklik.nl/google-producten.xml.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = 'https://elektroklik.nl';
+const SITE = 'https://www.elektroklik.nl';
 const UIT = path.join(ROOT, 'google-producten.xml');
 const config = JSON.parse(fs.readFileSync(path.join(ROOT, 'laadpalen/data/config.json'), 'utf8'));
 

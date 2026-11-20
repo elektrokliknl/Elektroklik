@@ -10,7 +10,7 @@
 - Werkgebied: Amersfoort en circa 70 km daaromheen, waaronder Leusden, Soest, Baarn, Nijkerk, Utrecht, Zeist, Hilversum, Veenendaal, Ede, Barneveld, Harderwijk, Apeldoorn en Almere
 - Telefoon: 085 060 05 72 (+31 85 060 05 72)
 - E-mail: info@elektroklik.nl
-- Website: https://elektroklik.nl
+- Website: https://www.elektroklik.nl
 - Offerte aanvragen: https://offerte.elektroklik.nl
 - Doelgroep: particulieren en bedrijven (geen utiliteitsbouw)
 - Beoordelingen: 5,0 sterren op Google, Zoofy en Trustoo
@@ -33,23 +33,23 @@
 
 ## Laadpaalshop
 
-- Laadpaal inclusief installatie en load balancing (vanaf € 1.450 incl. btw): https://elektroklik.nl/laadpalen/
-- Easee Charge Up (compact en slim): https://elektroklik.nl/laadpalen/easee-charge-up/
-- Easee Charge Max (compact, met MID-meter): https://elektroklik.nl/laadpalen/easee-charge-max/
-- Zaptec Go 2 (premium, MID-meter): https://elektroklik.nl/laadpalen/zaptec-go-2/
-- Peblar Home (vaste laadkabel van 5 of 7,5 meter, in Nederland ontwikkeld): https://elektroklik.nl/laadpalen/peblar-home/
-- Peblar Business (vaste laadkabel, MID-meter, tot 22 kW): https://elektroklik.nl/laadpalen/peblar-business/
-- Garantievoorwaarden (2 jaar op de installatie): https://elektroklik.nl/laadpalen/garantie/
-- Werkgebied (Amersfoort en circa 70 km daaromheen, voorrijkosten inbegrepen): https://elektroklik.nl/laadpalen/werkgebied/
-- Wat kost een laadpaal laten installeren?: https://elektroklik.nl/blog/laadpaal-installeren-kosten/
-- 1-fase of 3-fase laadpaal: https://elektroklik.nl/blog/laadpaal-1-fase-of-3-fase/
-- Load balancing bij een laadpaal: https://elektroklik.nl/blog/laadpaal-load-balancing/
-- Laadpalen vergelijken: https://elektroklik.nl/laadpalen/vergelijken/
-- Online samenstellen met prijsindicatie: https://elektroklik.nl/laadpalen/samenstellen/
+- Laadpaal inclusief installatie en load balancing (vanaf € 1.450 incl. btw): https://www.elektroklik.nl/laadpalen/
+- Easee Charge Up (compact en slim): https://www.elektroklik.nl/laadpalen/easee-charge-up/
+- Easee Charge Max (compact, met MID-meter): https://www.elektroklik.nl/laadpalen/easee-charge-max/
+- Zaptec Go 2 (premium, MID-meter): https://www.elektroklik.nl/laadpalen/zaptec-go-2/
+- Peblar Home (vaste laadkabel van 5 of 7,5 meter, in Nederland ontwikkeld): https://www.elektroklik.nl/laadpalen/peblar-home/
+- Peblar Business (vaste laadkabel, MID-meter, tot 22 kW): https://www.elektroklik.nl/laadpalen/peblar-business/
+- Garantievoorwaarden (2 jaar op de installatie): https://www.elektroklik.nl/laadpalen/garantie/
+- Werkgebied (Amersfoort en circa 70 km daaromheen, voorrijkosten inbegrepen): https://www.elektroklik.nl/laadpalen/werkgebied/
+- Wat kost een laadpaal laten installeren?: https://www.elektroklik.nl/blog/laadpaal-installeren-kosten/
+- 1-fase of 3-fase laadpaal: https://www.elektroklik.nl/blog/laadpaal-1-fase-of-3-fase/
+- Load balancing bij een laadpaal: https://www.elektroklik.nl/blog/laadpaal-load-balancing/
+- Laadpalen vergelijken: https://www.elektroklik.nl/laadpalen/vergelijken/
+- Online samenstellen met prijsindicatie: https://www.elektroklik.nl/laadpalen/samenstellen/
 
 ## Blog en informatie
 
-- Wat kost een perilex aansluiting: https://elektroklik.nl/blog/perilex-aansluiten-kosten/
-- Video-deurbel laten installeren, kosten en advies: https://elektroklik.nl/blog/video-deurbel-installeren/
-- Alle diensten: https://elektroklik.nl/diensten/
-- Contact: https://elektroklik.nl/contact/
+- Wat kost een perilex aansluiting: https://www.elektroklik.nl/blog/perilex-aansluiten-kosten/
+- Video-deurbel laten installeren, kosten en advies: https://www.elektroklik.nl/blog/video-deurbel-installeren/
+- Alle diensten: https://www.elektroklik.nl/diensten/
+- Contact: https://www.elektroklik.nl/contact/
