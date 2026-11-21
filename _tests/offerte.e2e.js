@@ -59,6 +59,7 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   const inb = await k.textContent('#oInbegrepen');
   assert(inb.includes('Plaatsing van uw laadstation op een montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
   assert(!(await k.$('button[onclick*="print"]')), 'geen afdrukknop');
+  assert((await k.textContent('#akkoordGerust')).includes('Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.'));
   assert(!tekst.includes('meer werk nodig') && tekst.includes('Op de installatie krijgt u 2 jaar garantie van ElektroKlik.') && tekst.includes('Op de Zaptec Go 2 krijgt u 5 jaar fabrieksgarantie.') && tekst.includes('gebaseerd op de gegevens en foto’s die u ons heeft gestuurd'));
   await k.screenshot({ path: path.join(__dirname, 'screenshots/klant-offerte.png'), fullPage: true });
 
@@ -70,6 +71,7 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   for (const t of ['Akkoord op offerte OF-', 'Jan de Tester', '2.184,00', '655,20 (30%)', 'Akkoord gegeven op', 'Liefst in de ochtend', 'EK-261121-TEST9']) assert(post.includes(t), 'mist in akkoordmail: ' + t);
   assert(!/name="Aanvraagnummer"/.test(post), 'akkoordmail telt in beheer niet als nieuwe aanvraag');
   assert.strictEqual(await k.getAttribute('#betaalKnop', 'href'), TIKKIE);
+  assert((await k.textContent('#betaalMelding')).includes('U ontvangt van ons per e-mail een bevestiging met alle afspraken.'));
   assert((await k.textContent('#betaalKnop')).includes('655,20'));
   // opnieuw openen: akkoord blijft zichtbaar
   await k.reload(); await k.fill('#code', code); await k.click('#codeKnop'); await k.waitForSelector('#betaalKaart:not([hidden])');

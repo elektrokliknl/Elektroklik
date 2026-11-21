@@ -119,6 +119,7 @@
         <textarea id="opmerking" rows="3" placeholder="Bijvoorbeeld een voorkeur voor de installatiedatum" style="margin:6px 0 16px"></textarea>
         <input type="text" name="_gotcha" id="gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <button class="btn groot" type="submit" id="akkoordKnop">Akkoord geven</button>
+        <p class="mut" id="akkoordGerust" style="margin:12px 0 0;text-align:center">Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.</p>
         <p class="fout" id="akkoordFout" role="alert" hidden></p>
       </form>
     </section>
@@ -236,7 +237,7 @@
   function naAkkoord(a) {
     $('akkoordKaart').hidden = true;
     $('statusMelding').innerHTML = '<div class="melding ok"><b>U heeft akkoord gegeven</b> op ' + esc(new Date(a.tijd).toLocaleString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })) + '.</div>';
-    $('betaalMelding').innerHTML = '<b>Bedankt voor uw akkoord.</b> Wij hebben uw akkoord ontvangen en nemen contact met u op over de planning.';
+    $('betaalMelding').innerHTML = '<b>Bedankt voor uw akkoord.</b> U ontvangt van ons per e-mail een bevestiging met alle afspraken. Wij nemen contact met u op over de planning.';
     var link = veiligeLink(O.betaallink);
     if (O.aanbetalingPercentage && link) {
       $('betaalTekst').textContent = 'U kunt de aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + ' direct voldoen met iDEAL. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast.';
