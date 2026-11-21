@@ -364,7 +364,7 @@
       var a = reg[ref]; if (!a) return;
       var r = leeg(), t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product);
       r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
-      if (p) { r.o.titel = p.naam + (st.locatie === 'paal' ? ' op een montagepaal' : '') + ', inclusief installatie'; var g = (p.specs && p.specs.garantie) || ''; if (/^\d+ jaar/.test(g)) r.o.garantie.push(g.charAt(0).toUpperCase() + g.slice(1) + ' op de ' + p.naam + '.'); }
+      if (p) { r.o.titel = p.naam + (st.locatie === 'paal' ? ' op een montagepaal' : '') + ', inclusief installatie'; var g = (p.specs && p.specs.garantie) || ''; if (/^\d+ jaar/.test(g)) r.o.garantie.push('Op de ' + p.naam + ' krijgt u ' + g + '.'); }
       if ((t.regels || []).length) r.o.regels = t.regels.map(function (x) { return { omschrijving: x.label, bedrag: x.bedrag }; });
       if (st.locatie === 'paal') r.o.inbegrepen = r.o.inbegrepen.map(function (x) { return /^Montage van de laadpaal/i.test(x) ? 'Plaatsing van uw laadstation op een montagepaal' : x; });
       data.items[r.nr] = r; bewaar(); open(r.nr);

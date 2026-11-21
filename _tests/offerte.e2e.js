@@ -28,7 +28,7 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   assert((await beh.inputValue('[data-off="titel"]')).includes('Zaptec Go 2 op een montagepaal'));
   assert((await beh.textContent('#offTotalen')).includes('2.184,00'), 'totaal uit de aanvraag');
   assert((await beh.textContent('#offTotalen')).includes('655,20'), '30% aanbetaling');
-  assert((await beh.inputValue('[data-off="garantie"]')).includes('5 jaar fabrieksgarantie op de Zaptec Go 2'));
+  assert((await beh.inputValue('[data-off="garantie"]')).includes('Op de Zaptec Go 2 krijgt u 5 jaar fabrieksgarantie.'));
   await beh.fill('[data-off="betaallink"]', TIKKIE);
   await beh.fill('[data-off="installatiedatum"]', 'dinsdag 9 december');
   await beh.click('#offLink'); await beh.waitForSelector('#offB1');
@@ -55,7 +55,7 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   const inb = await k.textContent('#oInbegrepen');
   assert(inb.includes('Plaatsing van uw laadstation op een montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
   assert(!(await k.$('button[onclick*="print"]')), 'geen afdrukknop');
-  assert(!tekst.includes('meer werk nodig') && tekst.includes('Op de installatie krijgt u 2 jaar garantie van ElektroKlik.'));
+  assert(!tekst.includes('meer werk nodig') && tekst.includes('Op de installatie krijgt u 2 jaar garantie van ElektroKlik.') && tekst.includes('Op de Zaptec Go 2 krijgt u 5 jaar fabrieksgarantie.') && tekst.includes('gebaseerd op de gegevens en foto’s die u ons heeft gestuurd'));
   await k.screenshot({ path: path.join(__dirname, 'screenshots/klant-offerte.png'), fullPage: true });
 
   // 3) Akkoord
