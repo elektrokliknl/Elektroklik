@@ -1,8 +1,4 @@
-# Algemene voorwaarden ElektroKlik — CONCEPT
-
-> **Concept ter controle.** Dit concept is opgesteld als startpunt en is geen juridisch advies. Laat het nakijken door een jurist of uw branchevereniging voordat u het gebruikt.
-> Tekst tussen **[VIERKANTE HAKEN]** is een keuze die u nog moet maken.
-> Deze map (`_docs`) wordt niet gepubliceerd. Na uw akkoord zet ik de voorwaarden als pagina op de website en koppel ik ze aan de offertes.
+# Algemene voorwaarden ElektroKlik
 
 **Versie:** [DATUM INGANG]
 

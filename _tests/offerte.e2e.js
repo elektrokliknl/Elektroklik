@@ -52,14 +52,17 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   const tekst = await k.textContent('#offerte');
   for (const t of ['Zaptec Go 2 op een montagepaal', 'Jan de Tester', '€ 2.184,00', '€ 655,20', '€ 1.528,80', 'dinsdag 9 december', 'KvK 81585802', 'NL003586894B15', '5 jaar fabrieksgarantie']) assert(tekst.includes(t), 'mist op offerte: ' + t);
   assert(!(await k.isVisible('#betaalKnop')), 'betaalknop pas na akkoord');
+  const inb = await k.textContent('#oInbegrepen');
+  assert(inb.includes('Plaatsing van de montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
+  assert(!(await k.$('button[onclick*="print"]')), 'geen afdrukknop');
   await k.screenshot({ path: path.join(__dirname, 'screenshots/klant-offerte.png'), fullPage: true });
 
   // 3) Akkoord
   await k.click('#akkoordKnop'); assert(await k.isVisible('#akkoordFout'), 'zonder vinkje geen akkoord');
-  await k.check('#akkoord'); await k.check('#bedenktijd'); await k.fill('#opmerking', 'Liefst in de ochtend');
+  assert(!(await k.$('#bedenktijd')), 'geen bedenktijd-vinkje'); await k.check('#akkoord'); await k.fill('#opmerking', 'Liefst in de ochtend');
   await k.click('#akkoordKnop'); await k.waitForSelector('#betaalKaart:not([hidden])');
   const post = posts[posts.length - 1];
-  for (const t of ['Akkoord op offerte OF-', 'Jan de Tester', '2.184,00', '655,20 (30%)', 'Akkoord gegeven op', 'binnen de bedenktijd wordt', 'Liefst in de ochtend', 'EK-261121-TEST9']) assert(post.includes(t), 'mist in akkoordmail: ' + t);
+  for (const t of ['Akkoord op offerte OF-', 'Jan de Tester', '2.184,00', '655,20 (30%)', 'Akkoord gegeven op', 'Liefst in de ochtend', 'EK-261121-TEST9']) assert(post.includes(t), 'mist in akkoordmail: ' + t);
   assert(!/name="Aanvraagnummer"/.test(post), 'akkoordmail telt in beheer niet als nieuwe aanvraag');
   assert.strictEqual(await k.getAttribute('#betaalKnop', 'href'), TIKKIE);
   assert((await k.textContent('#betaalKnop')).includes('655,20'));

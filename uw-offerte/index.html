@@ -54,7 +54,7 @@
   .bedrijf a { color: var(--p); }
   [hidden] { display: none !important; }
   @media (max-width: 560px) { .card { padding: 18px; } .betaal { grid-template-columns: 1fr; } }
-  @media print { header, #akkoordKaart, #betaalKaart, .noprint { display: none !important; } main { margin-top: 0; } .card { box-shadow: none; } }
+  @media print { body * { display: none !important; } }
 </style>
 </head>
 <body>
@@ -114,8 +114,6 @@
       <h2>Akkoord geven</h2>
       <form id="akkoordForm">
         <label class="check"><input type="checkbox" id="akkoord"><span id="akkoordTekst">Ik ga akkoord met deze offerte.</span></label>
-        <label class="check"><input type="checkbox" id="bedenktijd"><span>Ik wil graag dat ElektroKlik de laadpaal al binnen de bedenktijd van 14 dagen installeert.</span></label>
-        <p class="mut" style="margin:-4px 0 14px 32px">Als consument heeft u na uw akkoord 14 dagen bedenktijd. Vinkt u dit aan en ziet u na de start van de werkzaamheden toch af van de opdracht, dan betaalt u alleen voor wat al is uitgevoerd.</p>
         <label for="opmerking" style="font-weight:600">Opmerking <span class="mut" style="font-weight:400">(optioneel)</span></label>
         <textarea id="opmerking" rows="3" placeholder="Bijvoorbeeld een voorkeur voor de installatiedatum" style="margin:6px 0 16px"></textarea>
         <input type="text" name="_gotcha" id="gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
@@ -134,7 +132,6 @@
 
     <section class="card">
       <div class="bedrijf" id="oBedrijf"></div>
-      <p class="noprint" style="margin:12px 0 0"><button class="btn" type="button" onclick="window.print()" style="background:#fff;color:var(--ink);border:1px solid #cfd8e3">Afdrukken of opslaan als pdf</button></p>
     </section>
   </div>
 </main>
@@ -222,12 +219,11 @@
     add('Totaalbedrag incl. btw', EKOfferte.euro(T.totaal));
     add('Aanbetaling', O.aanbetalingPercentage ? EKOfferte.euro(T.aanbetaling) + ' (' + O.aanbetalingPercentage + '%)' : '-');
     add('Akkoord gegeven op', nu.toLocaleString('nl-NL') + ' (' + nu.toISOString() + ')');
-    add('Installatie binnen bedenktijd', $('bedenktijd').checked ? 'Ja, de klant wil dat er binnen de bedenktijd wordt geïnstalleerd' : 'Nee');
     add('Opmerking klant', $('opmerking').value.trim() || '-');
     add('Offerteregels', (O.regels || []).map(function (r) { return r.omschrijving + ': ' + EKOfferte.euro(r.bedrag); }).join('\n'));
     fetch(O.formEndpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
-      var a = { tijd: nu.toISOString(), bedenktijd: $('bedenktijd').checked };
+      var a = { tijd: nu.toISOString() };
       try { localStorage.setItem(sleutel(), JSON.stringify(a)); } catch (x) {}
       naAkkoord(a);
     }).catch(function () {
