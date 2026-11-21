@@ -40,8 +40,8 @@ t('kruipruimte: nee +35, weet ik niet = beoordeling', () => {
   assert.strictEqual(tot({ kruipruimte: 'nee' }), 1485);
   assert.ok(P.bereken(config, { ...basis, kruipruimte: 'onbekend' }).beoordeling.length === 1);
 });
-t('graafwerk: meters × 25', () => {
-  assert.strictEqual(tot({ graafwerk: 'ja', graafMeters: 6 }), 1450 + 150);
+t('graafwerk: meters × 35', () => {
+  assert.strictEqual(tot({ graafwerk: 'ja', graafMeters: 6 }), 1450 + 210);
   assert.ok(!P.bereken(config, { ...basis, graafwerk: 'ja' }).compleet);
   assert.ok(!P.bereken(config, { ...basis, graafwerk: 'ja', graafMeters: 0 }).compleet);
   assert.ok(!P.bereken(config, { ...basis, graafwerk: 'ja', graafMeters: 9999 }).compleet);
@@ -82,8 +82,8 @@ t('zakelijk met Easee Charge Up = beoordeling, met MID niet', () => {
 });
 t('combinatie: Zaptec, paal, 28 m, geen kruipruimte, 6 m graven, zonder kabelhouder', () => {
   const r = P.bereken(config, { ...basis, product: 'zaptec', locatie: 'paal', afstand: '20+', afstandMeters: 28, kruipruimte: 'nee', graafwerk: 'ja', graafMeters: 6 });
-  assert.strictEqual(r.totaal, 1650 + 359 + 200 + 35 + 150);
-  assert.strictEqual(r.situatieTotaal, 200 + 35 + 150);
+  assert.strictEqual(r.totaal, 1650 + 359 + 200 + 35 + 210);
+  assert.strictEqual(r.situatieTotaal, 200 + 35 + 210);
   assert.strictEqual(r.btw, Math.round(r.totaal * 21 / 121 * 100) / 100);
 });
 t('onvolledig -> niet compleet', () => { const r = P.bereken(config, { product: 'easee-up' }); assert.ok(!r.compleet && r.ontbreekt.length === P.VRAGEN.length); });

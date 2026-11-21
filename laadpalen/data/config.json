@@ -472,7 +472,7 @@
     },
     "graafwerk": {
       "vraag": "Zijn graafwerkzaamheden nodig?",
-      "prijsPerMeter": 25,
+      "prijsPerMeter": 35,
       "keuzes": [
         {
           "id": "nee",
