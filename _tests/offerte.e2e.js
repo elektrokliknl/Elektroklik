@@ -38,6 +38,9 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   assert(!link.includes('Jan') && !link.includes('Teststraat'), 'geen leesbare klantgegevens in de link');
   console.log('link lengte:', link.length, 'tekens | code:', code);
   await beh.screenshot({ path: path.join(__dirname, 'screenshots/beheer-offerte.png'), fullPage: true });
+  const b3 = await beh.inputValue('#offB3');
+  for (const t of ['Hierbij bevestigen wij uw opdracht', 'Totaal inclusief btw: € 2.184,00', 'Aanbetaling (30%): € 655,20', TIKKIE, 'Na de installatie: € 1.528,80', 'dinsdag 9 december', 'Op de Zaptec Go 2 krijgt u 5 jaar fabrieksgarantie.', 'https://www.elektroklik.nl/algemene-voorwaarden/', 'KvK 81585802', 'NL003586894B15']) assert(b3.includes(t), 'mist in bevestiging: ' + t);
+  assert(await beh.getAttribute('a[href^="mailto:jan@voorbeeld.nl?subject=Bevestiging"]', 'href'), 'knop Bevestiging sturen');
 
   // 2) Klant: verkeerde code, aangepaste link, juiste code
   const k = await ctx.newPage();
@@ -52,6 +55,7 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   const tekst = await k.textContent('#offerte');
   for (const t of ['Zaptec Go 2 op een montagepaal', 'Jan de Tester', '€ 2.184,00', '€ 655,20', '€ 1.528,80', 'dinsdag 9 december', 'KvK 81585802', 'NL003586894B15', '5 jaar fabrieksgarantie']) assert(tekst.includes(t), 'mist op offerte: ' + t);
   assert(!(await k.isVisible('#betaalKnop')), 'betaalknop pas na akkoord');
+  assert.strictEqual(await k.getAttribute('#akkoordTekst a', 'href'), 'https://www.elektroklik.nl/algemene-voorwaarden/');
   const inb = await k.textContent('#oInbegrepen');
   assert(inb.includes('Plaatsing van uw laadstation op een montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
   assert(!(await k.$('button[onclick*="print"]')), 'geen afdrukknop');
@@ -92,6 +96,12 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   await beh.click('[data-regwis="' + AANVRAAG.ref + '"]'); await beh.waitForSelector('text=Nog geen aanvragen');
   assert.strictEqual(await beh.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('ek_register_v1')).items).length), 0);
 
+  // 7) Algemene voorwaarden en privacyverklaring
+  const av = await ctx.newPage(); await av.goto(BASE + '/algemene-voorwaarden/');
+  const avt = await av.textContent('main');
+  for (const t of ['Algemene voorwaarden ElektroKlik', 'Artikel 6 – Bedenktijd', 'aanbetaling van 30%', '€ 70', 'NL003586894B15', 'Artikel 18']) assert(avt.includes(t), 'mist in voorwaarden: ' + t);
+  assert(!/\[[A-Z]/.test(avt), 'geen open keuzes tussen haken');
+  await av.goto(BASE + '/privacyverklaring/'); assert((await av.textContent('main')).includes('Tikkie (ABN AMRO)'));
   console.log('fouten op pagina’s:', errs.length ? errs : 'geen');
   assert(!errs.length);
   await b.close();

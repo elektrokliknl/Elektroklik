@@ -336,7 +336,7 @@
     var STATUS = ['Concept', 'Verstuurd', 'Akkoord', 'Betaald', 'Geannuleerd'];
     function standaardInst() {
       return {
-        geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: '',
+        geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: 'https://www.elektroklik.nl/algemene-voorwaarden/',
         garantieUrl: 'https://www.elektroklik.nl/laadpalen/garantie/',
         garantie: ['Op de installatie krijgt u 2 jaar garantie van ElektroKlik.'],
         bedrijf: { naam: 'ElektroKlik', adres: 'Netwerklaan 661, Amersfoort', kvk: '81585802', btw: 'NL003586894B15', telefoon: '085 060 05 72', telefoonLink: '+31850600572', email: 'info@elektroklik.nl' }
@@ -445,7 +445,23 @@
         '<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" data-kopieer="offB1">Kopieer bericht 1</button><button class="btn" type="button" data-kopieer="offB2">Kopieer bericht 2</button>' +
         (r.o.klant.telefoon ? '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/' + esc(waNummer(r.o.klant.telefoon)) + '?text=' + encodeURIComponent(b2) + '">Code via WhatsApp sturen</a>' : '') +
         (r.o.klant.email ? '<a class="btn light" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Uw offerte ' + r.nr + ' van ElektroKlik') + '&body=' + encodeURIComponent(b1) + '">Link per e-mail sturen</a>' : '') +
-        '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(r.link) + '">Bekijk als klant</a></p>';
+        '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(r.link) + '">Bekijk als klant</a></p>' +
+        '<div class="sub"><h3>Na het akkoord van de klant: bevestiging sturen</h3><p class="hint">Heeft de klant akkoord gegeven? Stuur dan deze bevestiging. Zo heeft de klant de afspraken en uw algemene voorwaarden op papier (per e-mail), zoals de wet vraagt bij een akkoord via internet.</p>' +
+        '<textarea readonly id="offB3" style="min-height:220px;width:100%">' + esc(bevestiging(r)) + '</textarea>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + (r.o.klant.email ? '<a class="btn" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Bevestiging van uw opdracht – offerte ' + r.nr + ' – ElektroKlik') + '&body=' + encodeURIComponent(bevestiging(r)) + '">Bevestiging sturen</a>' : '') +
+        '<button class="btn light" type="button" data-kopieer="offB3">Kopieer bevestiging</button></p></div>';
+    }
+    function bevestiging(r) {
+      var o = r.o, tt = EKOfferte.totalen(o), b = inst.bedrijf, voornaam = (o.klant.naam || '').split(' ')[0], n = '\n';
+      var regels = o.regels.filter(function (x) { return x.omschrijving || Number(x.bedrag); }).map(function (x) { return '- ' + x.omschrijving + ': ' + EKOfferte.euro(x.bedrag); }).join(n);
+      return 'Goedendag ' + voornaam + ',' + n + n +
+        'Hartelijk dank voor uw akkoord op onze offerte ' + r.nr + (r.verstuurdeVersie > 1 ? ' (versie ' + r.verstuurdeVersie + ')' : '') + '. Hierbij bevestigen wij uw opdracht.' + n + n +
+        (o.titel ? o.titel + n : '') + regels + n + 'Totaal inclusief btw: ' + EKOfferte.euro(tt.totaal) + n + n +
+        (Number(o.aanbetalingPercentage) ? 'Betaling' + n + '- Aanbetaling (' + o.aanbetalingPercentage + '%): ' + EKOfferte.euro(tt.aanbetaling) + (o.betaallink ? '. U kunt deze voldoen via: ' + o.betaallink : '') + n + '- Na de installatie: ' + EKOfferte.euro(tt.rest) + n + n : '') +
+        (o.installatiedatum ? 'Voorgestelde installatie: ' + o.installatiedatum + n + n : '') +
+        ((o.garantie || []).length ? 'Garantie' + n + o.garantie.map(function (g) { return '- ' + g; }).join(n) + n + n : '') +
+        (inst.voorwaardenUrl ? 'Op deze opdracht zijn onze algemene voorwaarden van toepassing, met onder meer informatie over de betaling, de garantie en uw bedenktijd: ' + inst.voorwaardenUrl + n + n : '') +
+        'Met vriendelijke groet,' + n + b.naam + n + b.telefoon + ' | ' + b.email + n + 'KvK ' + b.kvk + ' | btw ' + b.btw;
     }
     function waNummer(t) { var n = String(t).replace(/[^0-9+]/g, ''); if (n.indexOf('+') === 0) return n.slice(1); if (n.indexOf('00') === 0) return n.slice(2); if (n.indexOf('0') === 0) return '31' + n.slice(1); return n; }
     function toonInst() {
