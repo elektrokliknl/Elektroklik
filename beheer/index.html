@@ -336,7 +336,7 @@
     var STATUS = ['Concept', 'Verstuurd', 'Akkoord', 'Betaald', 'Geannuleerd'];
     function standaardInst() {
       return {
-        geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: 'https://www.elektroklik.nl/algemene-voorwaarden/',
+        geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: 'https://www.elektroklik.nl/algemene-voorwaarden/', repo: 'elektrokliknl/Elektroklik', branch: 'main',
         garantieUrl: 'https://www.elektroklik.nl/laadpalen/garantie/',
         garantie: ['Op de installatie krijgt u 2 jaar garantie van ElektroKlik.'],
         bedrijf: { naam: 'ElektroKlik', adres: 'Netwerklaan 661, Amersfoort', kvk: '81585802', btw: 'NL003586894B15', telefoon: '085 060 05 72', telefoonLink: '+31850600572', email: 'info@elektroklik.nl' }
@@ -395,7 +395,7 @@
     function open(nr) {
       bewerk = nr; var r = data.items[nr], o = r.o, el = $('#offEditor');
       el.innerHTML = '<div class="sub"><h3>Offerte ' + esc(r.nr) + (r.versie > 1 ? ' (versie ' + r.versie + ')' : '') + ' <button class="btn light" type="button" data-offsluit>Sluiten</button></h3>' +
-        (r.token ? '<div class="banner warn">Deze offerte is al verstuurd. Past u iets aan en maakt u daarna een nieuwe link, dan wordt het <b>versie ' + (r.versie + 1) + '</b>. De oude link blijft werken tot ' + esc(o.geldigTot) + '; in de akkoordmail ziet u altijd welke versie de klant heeft geaccepteerd.</div>' : '') +
+        (r.gepubliceerd ? '<div class="banner warn">Deze offerte staat online. Past u iets aan, klik dan op “Wijzigingen online zetten”. De klant ziet via <b>dezelfde link</b> dan versie ' + (r.versie + 1) + '. In de akkoordmail ziet u altijd welke versie de klant heeft geaccepteerd.</div>' : '') +
         '<div class="grid">' + veld('titel', 'Titel', o.titel, 'text', 'Bijv. Zaptec Go 2 op een montagepaal, inclusief installatie') + veld('aanvraag', 'Bij aanvraag', o.aanvraag) +
         veld('klant.naam', 'Naam klant', o.klant.naam) + veld('klant.email', 'E-mail klant', o.klant.email, 'email') + veld('klant.telefoon', 'Telefoon klant', o.klant.telefoon) + veld('klant.adres', 'Installatieadres', o.klant.adres) + '</div>' +
         '<h3 style="margin-top:16px">Regels <small style="font-weight:400;color:var(--mut)">(bedragen inclusief btw)</small></h3><table><tbody id="offRegels">' + o.regels.map(function (x, i) {
@@ -406,9 +406,9 @@
         veld('betaallink', 'Tikkie-link voor de aanbetaling', o.betaallink, 'url', 'Maak in Tikkie Zakelijk een verzoek voor precies het aanbetalingsbedrag en plak de link hier. Let op de geldigheid van de Tikkie.') +
         veld('inbegrepen', 'Wat is inbegrepen (één per regel)', o.inbegrepen, 'lines') + veld('garantie', 'Garantie (één per regel)', o.garantie, 'lines') +
         veld('opmerking', 'Toelichting voor de klant (optioneel)', o.opmerking, 'textarea') + '</div>' +
-        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn" type="button" id="offLink">' + (r.token ? 'Nieuwe link maken (versie ' + (r.versie + 1) + ')' : 'Link en code maken') + '</button></p>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn" type="button" id="offLink">' + (r.gepubliceerd ? 'Wijzigingen online zetten (versie ' + (r.versie + 1) + ')' : 'Offerte online zetten en link maken') + '</button></p>' +
         '<div id="offResultaat"></div></div>';
-      totalen(); if (r.token) toonResultaat(r);
+      totalen(); if (r.gepubliceerd) toonResultaat(r);
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     function totalen() {
@@ -416,48 +416,92 @@
       var tt = EKOfferte.totalen(r.o);
       el.innerHTML = '<table><tr><th>Totaal incl. btw</th><td class="num"><b>' + eur(tt.totaal) + '</b></td></tr><tr><td>Waarvan btw</td><td class="num">' + eur(tt.btw) + '</td></tr><tr><td>Aanbetaling (' + esc(r.o.aanbetalingPercentage) + '%)</td><td class="num"><b>' + eur(tt.aanbetaling) + '</b></td></tr><tr><td>Na de installatie</td><td class="num">' + eur(tt.rest) + '</td></tr></table>';
     }
+    /* --- Offerte als versleuteld bestand op de website zetten (via GitHub) --- */
+    function ghToken() {
+      var t = ''; try { t = sessionStorage.getItem('ek_token') || ''; } catch (e) {}
+      if (!t) { t = prompt('Uw GitHub-sleutel (fine-grained token met “Contents: read and write” op de repository ' + inst.repo + '). De sleutel wordt alleen bewaard zolang dit tabblad open is.') || ''; t = t.trim(); try { if (t) sessionStorage.setItem('ek_token', t); } catch (e) {} }
+      return t;
+    }
+    function gh(pad, methode, body) {
+      var token = ghToken(); if (!token) return Promise.reject(new Error('Geen GitHub-sleutel ingevuld.'));
+      var url = 'https://api.github.com/repos/' + inst.repo + '/contents/' + pad;
+      var hdr = { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json' };
+      return fetch(url + '?ref=' + encodeURIComponent(inst.branch), { headers: hdr, cache: 'no-store' }).then(function (r) {
+        if (r.status === 401 || r.status === 403) throw Object.assign(new Error('GitHub weigert de sleutel (' + r.status + ').'), { sleutel: true });
+        return r.ok ? r.json() : {};
+      }).then(function (cur) {
+        if (methode === 'DELETE' && !cur.sha) return null;
+        return fetch(url, { method: methode, headers: hdr, body: JSON.stringify(Object.assign({ branch: inst.branch, sha: cur.sha }, body)) });
+      }).then(function (r) {
+        if (r && !r.ok) throw Object.assign(new Error('GitHub antwoordde met ' + r.status + '.'), { sleutel: r.status === 401 || r.status === 403 });
+      }).catch(function (e) { if (e.sleutel) { try { sessionStorage.removeItem('ek_token'); } catch (x) {} } throw e; });
+    }
     function maakLink() {
       var r = data.items[bewerk], o = r.o;
       if (!o.klant.naam || !o.regels.some(function (x) { return x.omschrijving && Number(x.bedrag) > 0; })) return alert('Vul ten minste de naam van de klant en één regel met een bedrag in.');
       if (o.betaallink && !/^https:\/\//i.test(o.betaallink)) return alert('De Tikkie-link moet beginnen met https://');
-      if (r.token) { r.versie++; }
-      var code = EKOfferte.nieuweCode();
-      var offerte = { nr: r.nr, versie: r.versie, datum: vandaag(), geldigTot: o.geldigTot, aanvraag: o.aanvraag, titel: o.titel, klant: o.klant,
+      if (!r.id) { r.id = EKOfferte.nieuweId(); r.sleutel = EKOfferte.nieuweSleutel(); }
+      var versie = r.gepubliceerd ? r.versie + 1 : r.versie;
+      var offerte = { nr: r.nr, versie: versie, datum: vandaag(), geldigTot: o.geldigTot, aanvraag: o.aanvraag, titel: o.titel, klant: o.klant,
         regels: o.regels.filter(function (x) { return x.omschrijving || Number(x.bedrag); }).map(function (x) { return { omschrijving: x.omschrijving, bedrag: Math.round(Number(x.bedrag) * 100) / 100 }; }),
         btwPercentage: CFG.instellingen.btwPercentage, aanbetalingPercentage: Number(o.aanbetalingPercentage) || 0, inbegrepen: o.inbegrepen, garantie: o.garantie,
         installatiedatum: o.installatiedatum, opmerking: o.opmerking, betaallink: o.betaallink, voorwaardenUrl: inst.voorwaardenUrl, garantieUrl: inst.garantieUrl,
         bedrijf: inst.bedrijf, formEndpoint: CFG.instellingen.formEndpoint };
-      $('#offLink').disabled = true; $('#offLink').textContent = 'Bezig…';
-      EKOfferte.versleutel(offerte, code).then(function (token) {
-        r.token = token; r.code = code; r.link = location.origin + '/uw-offerte/#o=' + token; r.verstuurd = new Date().toISOString(); r.verstuurdeVersie = r.versie;
+      var knop = $('#offLink'); knop.disabled = true; knop.textContent = 'Bezig met online zetten…';
+      var inhoud;
+      EKOfferte.versleutelBestand(offerte, r.sleutel).then(function (b) {
+        inhoud = b;
+        return gh('uw-offerte/o/' + r.id + '.json', 'PUT', { message: 'Offerte bijgewerkt via beheer', content: btoa(unescape(encodeURIComponent(inhoud))) });
+      }).then(function () {
+        r.versie = versie; r.verstuurdeVersie = versie; r.gepubliceerd = new Date().toISOString(); r.laatsteIv = JSON.parse(inhoud).iv;
+        r.link = location.origin + '/uw-offerte/#' + r.id + '.' + r.sleutel;
         if (r.status === 'Concept') r.status = 'Verstuurd';
-        bewaar(); lijst(); open(r.nr);
+        bewaar(); lijst(); open(r.nr); controleerOnline(r);
+      }).catch(function (e) {
+        knop.disabled = false; knop.textContent = r.gepubliceerd ? 'Wijzigingen online zetten (versie ' + (r.versie + 1) + ')' : 'Offerte online zetten en link maken';
+        alert('Online zetten is niet gelukt: ' + e.message + (e.sleutel ? ' Controleer uw GitHub-sleutel en probeer het opnieuw.' : ' Probeer het opnieuw.'));
       });
+    }
+    /* Wacht tot de nieuwe versie echt op de website staat (meestal binnen een minuut) */
+    function controleerOnline(r) {
+      var pogingen = 0, el = function () { return $('#offOnline'); };
+      var zet = function (h) { var e = el(); if (e && bewerk === r.nr) e.innerHTML = h; };
+      zet('<div class="banner warn"><b>De offerte wordt online gezet.</b> Dit duurt meestal ongeveer een minuut. Verstuur de link pas als hier staat dat hij werkt.</div>');
+      (function kijk() {
+        pogingen++;
+        fetch(location.origin + '/uw-offerte/o/' + r.id + '.json?t=' + Date.now(), { cache: 'no-store' }).then(function (x) { return x.ok ? x.json() : null; }).catch(function () { return null; }).then(function (j) {
+          if (j && j.iv === r.laatsteIv) return zet('<div class="banner ok"><b>✓ De link werkt.</b> U kunt hem nu versturen.</div>');
+          if (pogingen < 60) setTimeout(kijk, 5000);
+          else zet('<div class="banner warn">De offerte staat nog niet online. Controleer het over een paar minuten met “Bekijk als klant”.</div>');
+        });
+      })();
     }
     function toonResultaat(r) {
       var el = $('#offResultaat'); if (!el) return;
-      var voornaam = (r.o.klant.naam || '').split(' ')[0];
-      var b1 = 'Goedendag ' + (voornaam || '') + ',\n\nHierbij uw offerte van ElektroKlik' + (r.o.titel ? ' voor de ' + r.o.titel.charAt(0).toLowerCase() + r.o.titel.slice(1) : '') + ':\n' + r.link + '\n\nDe code om de offerte te openen stuur ik u in een apart bericht. In de offerte kunt u direct akkoord geven' + (r.o.betaallink ? ' en de aanbetaling voldoen' : '') + '.\n\nMet vriendelijke groet,\nElektroKlik';
-      var b2 = 'De code voor uw offerte ' + r.nr + ' is: ' + r.code;
-      el.innerHTML = '<div class="banner ok"><b>Versie ' + r.verstuurdeVersie + ' klaar om te versturen.</b> Stuur de link en de code in twee aparte berichten, bijvoorbeeld de link per e-mail en de code via WhatsApp.</div>' +
-        '<div class="grid"><label class="full">Bericht 1: de link<textarea readonly id="offB1" style="min-height:150px">' + esc(b1) + '</textarea></label>' +
-        '<label class="full">Bericht 2: de code<textarea readonly id="offB2" style="min-height:50px">' + esc(b2) + '</textarea></label></div>' +
-        '<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" data-kopieer="offB1">Kopieer bericht 1</button><button class="btn" type="button" data-kopieer="offB2">Kopieer bericht 2</button>' +
-        (r.o.klant.telefoon ? '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/' + esc(waNummer(r.o.klant.telefoon)) + '?text=' + encodeURIComponent(b2) + '">Code via WhatsApp sturen</a>' : '') +
-        (r.o.klant.email ? '<a class="btn light" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Uw offerte ' + r.nr + ' van ElektroKlik') + '&body=' + encodeURIComponent(b1) + '">Link per e-mail sturen</a>' : '') +
+      var b = inst.bedrijf, voornaam = (r.o.klant.naam || '').split(' ')[0], n = '\n';
+      var b1 = 'Goedendag ' + voornaam + ',' + n + n + 'Hierbij ontvangt u onze offerte' + (r.o.titel ? ' voor de ' + r.o.titel : '') + ':' + n + r.link + n + n +
+        (Number(r.o.aanbetalingPercentage) ? 'Via deze link bekijkt u de offerte, geeft u akkoord en voldoet u de aanbetaling. Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken.' : 'Via deze link bekijkt u de offerte en geeft u akkoord.') + n + n +
+        'Heeft u vragen? Neem gerust contact met ons op via ' + b.telefoon + '.' + n + n + 'Met vriendelijke groet,' + n + b.naam;
+      el.innerHTML = '<div id="offOnline"></div>' +
+        '<div class="grid"><label class="full">Bericht aan de klant<textarea readonly id="offB1" style="min-height:190px">' + esc(b1) + '</textarea></label></div>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap">' +
+        (r.o.klant.email ? '<a class="btn" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Uw offerte van ' + b.naam) + '&body=' + encodeURIComponent(b1) + '">Per e-mail sturen</a>' : '') +
+        (r.o.klant.telefoon ? '<a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/' + esc(waNummer(r.o.klant.telefoon)) + '?text=' + encodeURIComponent(b1) + '">Via WhatsApp sturen</a>' : '') +
+        '<button class="btn light" type="button" data-kopieer="offB1">Kopieer bericht</button>' +
         '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(r.link) + '">Bekijk als klant</a></p>' +
-        '<div class="sub"><h3>Na het akkoord van de klant: bevestiging sturen</h3><p class="hint">Heeft de klant akkoord gegeven? Stuur dan deze bevestiging. Zo heeft de klant de afspraken en uw algemene voorwaarden op papier (per e-mail), zoals de wet vraagt bij een akkoord via internet.</p>' +
+        '<div class="sub"><h3>Na ontvangst van de aanbetaling: bevestiging sturen</h3><p class="hint">Is de aanbetaling binnen? Stuur dan deze bevestiging. Zo heeft de klant de afspraken en uw algemene voorwaarden per e-mail, zoals de wet vraagt bij een akkoord via internet.</p>' +
         '<textarea readonly id="offB3" style="min-height:220px;width:100%">' + esc(bevestiging(r)) + '</textarea>' +
-        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + (r.o.klant.email ? '<a class="btn" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Bevestiging van uw opdracht – offerte ' + r.nr + ' – ElektroKlik') + '&body=' + encodeURIComponent(bevestiging(r)) + '">Bevestiging sturen</a>' : '') +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + (r.o.klant.email ? '<a class="btn" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Bevestiging van uw opdracht – offerte ' + r.nr + ' – ' + b.naam) + '&body=' + encodeURIComponent(bevestiging(r)) + '">Bevestiging sturen</a>' : '') +
         '<button class="btn light" type="button" data-kopieer="offB3">Kopieer bevestiging</button></p></div>';
     }
     function bevestiging(r) {
-      var o = r.o, tt = EKOfferte.totalen(o), b = inst.bedrijf, voornaam = (o.klant.naam || '').split(' ')[0], n = '\n';
+      var o = r.o, tt = EKOfferte.totalen(o), b = inst.bedrijf, voornaam = (o.klant.naam || '').split(' ')[0], n = '\n', aanb = Number(o.aanbetalingPercentage);
       var regels = o.regels.filter(function (x) { return x.omschrijving || Number(x.bedrag); }).map(function (x) { return '- ' + x.omschrijving + ': ' + EKOfferte.euro(x.bedrag); }).join(n);
       return 'Goedendag ' + voornaam + ',' + n + n +
-        'Hartelijk dank voor uw akkoord op onze offerte ' + r.nr + (r.verstuurdeVersie > 1 ? ' (versie ' + r.verstuurdeVersie + ')' : '') + '. Hierbij bevestigen wij uw opdracht.' + n + n +
+        'Hartelijk dank voor uw akkoord op onze offerte ' + r.nr + (r.verstuurdeVersie > 1 ? ' (versie ' + r.verstuurdeVersie + ')' : '') +
+        (aanb ? ' en voor uw aanbetaling van ' + EKOfferte.euro(tt.aanbetaling) + ', die wij in goede orde hebben ontvangen' : '') + '. Hierbij bevestigen wij uw opdracht.' + n + n +
         (o.titel ? o.titel + n : '') + regels + n + 'Totaal inclusief btw: ' + EKOfferte.euro(tt.totaal) + n + n +
-        (Number(o.aanbetalingPercentage) ? 'Betaling' + n + '- Aanbetaling (' + o.aanbetalingPercentage + '%): ' + EKOfferte.euro(tt.aanbetaling) + (o.betaallink ? '. U kunt deze voldoen via: ' + o.betaallink : '') + n + '- Na de installatie: ' + EKOfferte.euro(tt.rest) + n + n : '') +
+        (aanb ? 'Betaling' + n + '- Aanbetaling (' + o.aanbetalingPercentage + '%): ' + EKOfferte.euro(tt.aanbetaling) + ', ontvangen' + n + '- Na de installatie: ' + EKOfferte.euro(tt.rest) + n + n : '') +
         (o.installatiedatum ? 'Voorgestelde installatie: ' + o.installatiedatum + n + n : '') +
         ((o.garantie || []).length ? 'Garantie' + n + o.garantie.map(function (g) { return '- ' + g; }).join(n) + n + n : '') +
         (inst.voorwaardenUrl ? 'Op deze opdracht zijn onze algemene voorwaarden van toepassing, met onder meer informatie over de betaling, de garantie en uw bedenktijd: ' + inst.voorwaardenUrl + n + n : '') +
@@ -472,6 +516,8 @@
         '<label>Standaard aanbetaling (%)<input type="number" min="0" data-offinst="aanbetalingPercentage" value="' + esc(inst.aanbetalingPercentage) + '"></label>' +
         '<label class="full">Adres van uw algemene voorwaarden<small>Leeg laten zolang ze niet op de website staan.</small><input type="url" data-offinst="voorwaardenUrl" value="' + esc(inst.voorwaardenUrl) + '"></label>' +
         '<label class="full">Adres van uw garantievoorwaarden<input type="url" data-offinst="garantieUrl" value="' + esc(inst.garantieUrl) + '"></label>' +
+        '<label>GitHub-repository<small>Hier wordt de versleutelde offerte bewaard.</small><input type="text" data-offinst="repo" value="' + esc(inst.repo) + '"></label>' +
+        '<label>Branch<input type="text" data-offinst="branch" value="' + esc(inst.branch) + '"></label>' +
         '<label class="full">Standaard garantieregels (één per regel)<textarea data-offinst="garantie" data-lines="1">' + esc(inst.garantie.join('\n')) + '</textarea></label>' +
         ['naam', 'adres', 'kvk', 'btw', 'telefoon', 'telefoonLink', 'email'].map(function (k) { return '<label>' + { naam: 'Bedrijfsnaam', adres: 'Adres', kvk: 'KvK-nummer', btw: 'Btw-nummer', telefoon: 'Telefoon (zichtbaar)', telefoonLink: 'Telefoon (link, met +31)', email: 'E-mail' }[k] + '<input type="text" data-offbedrijf="' + k + '" value="' + esc(b[k]) + '"></label>'; }).join('') +
         '</div><p class="hint" style="margin-top:8px">Wijzigingen worden direct bewaard en gelden voor nieuwe links.</p></div>';
@@ -498,7 +544,12 @@
         var t = e.target;
         if (t.id === 'offNieuw') { var r = leeg(); data.items[r.nr] = r; bewaar(); lijst(); open(r.nr); }
         var o = t.closest('[data-offopen]'); if (o) open(o.getAttribute('data-offopen'));
-        var w = t.closest('[data-offwis]'); if (w) { var nr = w.getAttribute('data-offwis'); if (confirm('Offerte ' + nr + ' uit dit overzicht verwijderen? Een al verstuurde link blijft werken tot de geldigheidsdatum.')) { delete data.items[nr]; bewaar(); lijst(); if (bewerk === nr) { bewerk = null; $('#offEditor').innerHTML = ''; } } }
+        var w = t.closest('[data-offwis]'); if (w) {
+          var nr = w.getAttribute('data-offwis'), rw2 = data.items[nr];
+          var weg = function () { delete data.items[nr]; bewaar(); lijst(); if (bewerk === nr) { bewerk = null; $('#offEditor').innerHTML = ''; } };
+          if (rw2 && rw2.gepubliceerd && rw2.id) { if (confirm('Offerte ' + nr + ' verwijderen? De offerte wordt ook van de website gehaald, zodat de link niet meer werkt.')) gh('uw-offerte/o/' + rw2.id + '.json', 'DELETE', { message: 'Offerte verwijderd via beheer' }).then(weg).catch(function (e) { alert('Offline halen is niet gelukt: ' + e.message); }); }
+          else if (confirm('Offerte ' + nr + ' uit dit overzicht verwijderen?')) weg();
+        }
         if (t.closest('[data-offsluit]')) { bewerk = null; $('#offEditor').innerHTML = ''; }
         if (t.id === 'offRegelPlus') { data.items[bewerk].o.regels.push({ omschrijving: '', bedrag: 0 }); bewaar(); open(bewerk); }
         var rw = t.closest('[data-offregelwis]'); if (rw) { data.items[bewerk].o.regels.splice(+rw.getAttribute('data-offregelwis'), 1); bewaar(); open(bewerk); }

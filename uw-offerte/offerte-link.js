@@ -1,8 +1,9 @@
 /* ElektroKlik – offertelink
- * De offerte staat versleuteld in de link zelf (na het #-teken). Er wordt niets op de website of op GitHub opgeslagen.
- * Versleuteling: AES-GCM 256 bit, sleutel afgeleid van de code (8 tekens) met PBKDF2-SHA256.
- * Zonder de juiste code is de inhoud onleesbaar; wie iets in de link verandert, krijgt een foutmelding.
- * Het deel na # wordt door browsers nooit naar een server gestuurd.
+ * Versie 2 (standaard): korte link  /uw-offerte/#<id>.<sleutel>
+ *   De offerte staat versleuteld (AES-GCM, willekeurige 128-bits sleutel) in /uw-offerte/o/<id>.json op de website.
+ *   De sleutel staat alleen in de link, na het #-teken; dat deel stuurt een browser nooit naar een server.
+ *   Zonder de volledige link is het bestand onleesbaar; wie iets aanpast, krijgt een foutmelding.
+ * Versie 1 (oude links): de offerte zit in de link zelf (#o=…) en wordt geopend met een code van 8 tekens.
  */
 (function (root) {
   'use strict';
@@ -52,6 +53,34 @@
       .then(function (buf) { return JSON.parse(dec.decode(buf)); })
       .catch(function () { throw Object.assign(new Error('Code onjuist of link aangepast'), { soort: 'code' }); });
   }
+  /* --- Versie 2: korte link met sleutel --- */
+  function nieuweId() {
+    var t = 'abcdefghjkmnpqrstuvwxyz23456789', r = new Uint8Array(8), s = '';
+    crypto.getRandomValues(r);
+    for (var i = 0; i < 8; i++) s += t[r[i] % t.length];
+    return s;
+  }
+  function nieuweSleutel() { return b64url(crypto.getRandomValues(new Uint8Array(16))); }
+  function aesSleutel(sleutelB64) { return crypto.subtle.importKey('raw', vanB64url(sleutelB64), { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']); }
+  /** offerte + sleutel → inhoud van het bestand o/<id>.json */
+  function versleutelBestand(offerte, sleutelB64) {
+    var iv = crypto.getRandomValues(new Uint8Array(12));
+    return aesSleutel(sleutelB64).then(function (k) { return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, k, enc.encode(JSON.stringify(offerte))); })
+      .then(function (data) { return JSON.stringify({ v: 2, iv: b64url(iv), data: b64url(data) }); });
+  }
+  function ontsleutelBestand(bestand, sleutelB64) {
+    var b; try { b = typeof bestand === 'string' ? JSON.parse(bestand) : bestand; } catch (e) { b = null; }
+    if (!b || b.v !== 2) return Promise.reject(Object.assign(new Error('Onbekend bestand'), { soort: 'link' }));
+    return aesSleutel(sleutelB64).then(function (k) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: vanB64url(b.iv) }, k, vanB64url(b.data)); })
+      .then(function (buf) { return JSON.parse(dec.decode(buf)); })
+      .catch(function () { throw Object.assign(new Error('Link aangepast of onvolledig'), { soort: 'link' }); });
+  }
+  /** "#k7mp4qxr.Xy3f…" → { id, sleutel } of null */
+  function leesKorteLink(hash) {
+    var m = String(hash || '').replace(/^#/, '').match(/^([a-z0-9]{8})\.([A-Za-z0-9_-]{22})$/);
+    return m ? { id: m[1], sleutel: m[2] } : null;
+  }
+
   /** Bedragen in hele centen om afrondingsfouten te voorkomen. */
   function totalen(offerte) {
     var cent = function (n) { return Math.round(Number(n || 0) * 100); };
@@ -63,5 +92,6 @@
   }
   function euro(n) { return '€ ' + Number(n).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-  root.EKOfferte = { versleutel: versleutel, ontsleutel: ontsleutel, nieuweCode: nieuweCode, normaliseer: normaliseer, totalen: totalen, euro: euro };
+  root.EKOfferte = { versleutel: versleutel, ontsleutel: ontsleutel, nieuweCode: nieuweCode, normaliseer: normaliseer, totalen: totalen, euro: euro,
+    nieuweId: nieuweId, nieuweSleutel: nieuweSleutel, versleutelBestand: versleutelBestand, ontsleutelBestand: ontsleutelBestand, leesKorteLink: leesKorteLink };
 })(typeof window !== 'undefined' ? window : this);

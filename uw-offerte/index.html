@@ -64,13 +64,24 @@
   <!-- 1. Code invoeren -->
   <section class="card" id="codeKaart" hidden>
     <h1>Uw offerte bekijken</h1>
-    <p>Vul de code in die u van ElektroKlik heeft ontvangen. Die staat in een apart bericht, bijvoorbeeld via WhatsApp.</p>
+    <p>Vul de code in die u van ElektroKlik heeft ontvangen.</p>
     <form id="codeForm" autocomplete="off">
       <label for="code">Code</label>
       <input type="text" id="code" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" maxlength="12" style="margin:6px 0 14px">
       <div><button class="btn" type="submit" id="codeKnop">Offerte openen</button></div>
       <p class="fout" id="codeFout" role="alert" hidden></p>
     </form>
+  </section>
+
+  <!-- Laden (korte link) -->
+  <section class="card" id="laadKaart" hidden><p style="margin:0">Uw offerte wordt geladen…</p></section>
+
+  <!-- Offerte (nog) niet beschikbaar -->
+  <section class="card" id="nietBeschikbaar" hidden>
+    <h1>Deze offerte is nog niet beschikbaar</h1>
+    <p>Heeft u de link zojuist ontvangen? Dan staat de offerte binnen een minuut voor u klaar. Probeer het zo opnieuw.</p>
+    <p><button class="btn" type="button" id="opnieuw">Opnieuw proberen</button></p>
+    <p class="mut" style="margin:0">Lukt het daarna nog niet? Neem contact met ons op via <a href="tel:+31850600572">085 060 05 72</a> of <a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a>.</p>
   </section>
 
   <!-- Onvolledige link -->
@@ -119,7 +130,7 @@
         <textarea id="opmerking" rows="3" placeholder="Bijvoorbeeld een voorkeur voor de installatiedatum" style="margin:6px 0 16px"></textarea>
         <input type="text" name="_gotcha" id="gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <button class="btn groot" type="submit" id="akkoordKnop">Akkoord geven</button>
-        <p class="mut" id="akkoordGerust" style="margin:12px 0 0;text-align:center">Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.</p>
+        <p class="mut" id="akkoordGerust" style="margin:12px 0 0;text-align:center">Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken.</p>
         <p class="fout" id="akkoordFout" role="alert" hidden></p>
       </form>
     </section>
@@ -143,7 +154,8 @@
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  var token = (location.hash.match(/[#&]o=([^&]+)/) || [])[1];
+  var kort = EKOfferte.leesKorteLink(location.hash);
+  var token = kort ? null : (location.hash.match(/[#&]o=([^&]+)/) || [])[1];
   var O = null, T = null;
 
   function datum(iso) { if (!iso) return ''; var d = new Date(iso + (iso.length === 10 ? 'T12:00:00' : '')); return isNaN(d) ? iso : d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
@@ -152,9 +164,24 @@
   function eerderAkkoord() { try { return JSON.parse(localStorage.getItem(sleutel()) || 'null'); } catch (e) { return null; } }
   function veiligeLink(u) { return /^https:\/\//i.test(String(u || '')) ? u : ''; }
 
-  if (!token) { $('linkFout').hidden = false; return; }
-  $('codeKaart').hidden = false;
-  $('code').focus();
+  function laadKort() {
+    $('nietBeschikbaar').hidden = true; $('laadKaart').hidden = false;
+    fetch('o/' + kort.id + '.json', { cache: 'no-store' }).then(function (r) {
+      if (r.status === 404) throw { soort: 'nog' };
+      if (!r.ok) throw { soort: 'net' };
+      return r.text();
+    }).then(function (t) { return EKOfferte.ontsleutelBestand(t, kort.sleutel); }).then(function (o) {
+      O = o; T = EKOfferte.totalen(o);
+      $('laadKaart').hidden = true; toon(); $('offerte').hidden = false;
+    }).catch(function (e) {
+      $('laadKaart').hidden = true;
+      if (e && e.soort === 'link') $('linkFout').hidden = false; else $('nietBeschikbaar').hidden = false;
+    });
+  }
+  $('opnieuw').addEventListener('click', laadKort);
+  if (kort) laadKort();
+  else if (token) { $('codeKaart').hidden = false; $('code').focus(); }
+  else $('linkFout').hidden = false;
 
   $('codeForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -237,7 +264,9 @@
   function naAkkoord(a) {
     $('akkoordKaart').hidden = true;
     $('statusMelding').innerHTML = '<div class="melding ok"><b>U heeft akkoord gegeven</b> op ' + esc(new Date(a.tijd).toLocaleString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })) + '.</div>';
-    $('betaalMelding').innerHTML = '<b>Bedankt voor uw akkoord.</b> U ontvangt van ons per e-mail een bevestiging met alle afspraken. Wij nemen contact met u op over de planning.';
+    $('betaalMelding').innerHTML = O.aanbetalingPercentage
+      ? '<b>Bedankt voor uw akkoord.</b> Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken. Daarna nemen wij contact met u op over de planning.'
+      : '<b>Bedankt voor uw akkoord.</b> U ontvangt van ons per e-mail een bevestiging met alle afspraken. Daarna nemen wij contact met u op over de planning.';
     var link = veiligeLink(O.betaallink);
     if (O.aanbetalingPercentage && link) {
       $('betaalTekst').textContent = 'U kunt de aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + ' direct voldoen met iDEAL. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast.';
@@ -245,7 +274,7 @@
     } else if (O.aanbetalingPercentage) {
       $('betaalTekst').textContent = 'U ontvangt van ons een betaalverzoek voor de aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + '.';
     } else {
-      $('betaalTekst').textContent = 'U hoeft nu niets te betalen. Wij nemen contact met u op over de planning.';
+      $('betaalTekst').textContent = 'U hoeft nu niets te betalen.';
     }
     $('betaalKaart').hidden = false;
   }
