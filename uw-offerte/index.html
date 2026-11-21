@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Uw offerte | ElektroKlik</title>
+<link rel="icon" href="../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --p: #0b7f75; --p2: #0e9a86; --ink: #0f1b2d; --mut: #5b6b80; --line: #e3e8ef; --bg: #f5f7fa; --err: #c62828; --warn: #8a4b00; --warnbg: #fff7e8; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font: 16px/1.6 'DM Sans', system-ui, sans-serif; color: #334155; background: var(--bg); }
+  header { background: linear-gradient(135deg, #0a6d7c, #0e9a86, #22bf83); padding: 18px 16px 70px; }
+  .top { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logo { background: #fff; border-radius: 10px; padding: 6px 10px; display: inline-flex; }
+  .logo img { height: 34px; width: auto; display: block; }
+  .top a.tel { color: #fff; font-weight: 700; text-decoration: none; font-size: .95rem; }
+  main { max-width: 860px; margin: -50px auto 40px; padding: 0 16px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 12px 32px rgba(15,27,45,.06); margin-bottom: 18px; }
+  h1 { font: 800 clamp(1.5rem, 4vw, 2rem)/1.2 'Exo 2', sans-serif; color: var(--ink); margin: 0 0 6px; }
+  h2 { font: 800 1.2rem/1.3 'Exo 2', sans-serif; color: var(--ink); margin: 0 0 12px; }
+  p { margin: 0 0 12px; }
+  .mut { color: var(--mut); font-size: .92rem; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 20px; margin: 16px 0 0; }
+  .meta div { font-size: .92rem; } .meta b { display: block; color: var(--ink); font-size: 1rem; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.b { text-align: right; white-space: nowrap; padding-left: 16px; color: var(--ink); font-weight: 600; }
+  tr.tot td { border-bottom: 0; border-top: 2px solid var(--ink); font: 800 1.25rem 'Exo 2', sans-serif; color: var(--ink); padding-top: 14px; }
+  tr.klein td { border-bottom: 0; padding: 4px 0; font-size: .92rem; color: var(--mut); font-weight: 400; }
+  .betaal { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .betaal div { background: var(--bg); border-radius: 12px; padding: 12px 14px; font-size: .92rem; }
+  .betaal b { display: block; font: 800 1.15rem 'Exo 2', sans-serif; color: var(--ink); }
+  ul.checks { list-style: none; padding: 0; margin: 0; }
+  ul.checks li { position: relative; padding-left: 28px; margin: 6px 0; }
+  ul.checks li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; background: #e6f5f3; color: var(--p); font-weight: 700; font-size: .8rem; display: flex; align-items: center; justify-content: center; margin-top: 3px; }
+  label { display: block; font-weight: 600; color: var(--ink); }
+  input[type=text], textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #cfd8e3; border-radius: 10px; font: inherit; color: var(--ink); background: #fff; }
+  input[type=text]:focus, textarea:focus { outline: none; border-color: var(--p); box-shadow: 0 0 0 3px rgba(11,127,117,.15); }
+  #code { font: 700 1.4rem/1 'DM Sans', monospace; letter-spacing: .12em; text-transform: uppercase; max-width: 260px; text-align: center; }
+  .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; color: #334155; margin: 12px 0; }
+  .check input { width: 22px; height: 22px; flex: none; margin-top: 2px; accent-color: var(--p); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 14px 22px; font: 700 1rem 'DM Sans', sans-serif; cursor: pointer; background: var(--p); color: #fff; text-decoration: none; min-height: 50px; }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn.groot { width: 100%; font-size: 1.05rem; }
+  .fout { color: var(--err); font-weight: 600; margin-top: 10px; }
+  .melding { border-radius: 12px; padding: 14px 16px; margin: 0 0 16px; }
+  .melding.ok { background: #e6f5f3; border: 1px solid #bfe3de; color: #0a5d56; }
+  .melding.warn { background: var(--warnbg); border: 1px solid #f3d199; color: var(--warn); }
+  .bedrijf { font-size: .85rem; color: var(--mut); line-height: 1.7; }
+  .bedrijf a { color: var(--p); }
+  [hidden] { display: none !important; }
+  @media (max-width: 560px) { .card { padding: 18px; } .betaal { grid-template-columns: 1fr; } }
+  @media print { header, #akkoordKaart, #betaalKaart, .noprint { display: none !important; } main { margin-top: 0; } .card { box-shadow: none; } }
+</style>
+</head>
+<body>
+<header><div class="top"><span class="logo"><img src="../logo.png" alt="ElektroKlik" width="109" height="34"></span><a class="tel" href="tel:+31850600572">085 060 05 72</a></div></header>
+<main id="inhoud">
+
+  <!-- 1. Code invoeren -->
+  <section class="card" id="codeKaart" hidden>
+    <h1>Uw offerte bekijken</h1>
+    <p>Vul de code in die u van ElektroKlik heeft ontvangen. Die staat in een apart bericht, bijvoorbeeld via WhatsApp.</p>
+    <form id="codeForm" autocomplete="off">
+      <label for="code">Code</label>
+      <input type="text" id="code" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" maxlength="12" style="margin:6px 0 14px">
+      <div><button class="btn" type="submit" id="codeKnop">Offerte openen</button></div>
+      <p class="fout" id="codeFout" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <!-- Onvolledige link -->
+  <section class="card" id="linkFout" hidden>
+    <h1>Deze link is niet volledig</h1>
+    <p>Open de link uit uw bericht opnieuw, of neem contact met ons op via <a href="tel:+31850600572">085 060 05 72</a> of <a href="mailto:info@elektroklik.nl">info@elektroklik.nl</a>.</p>
+  </section>
+
+  <!-- 2. De offerte -->
+  <div id="offerte" hidden>
+    <section class="card">
+      <div id="statusMelding"></div>
+      <h1 id="oTitel">Offerte</h1>
+      <p class="mut" id="oSub"></p>
+      <div class="meta" id="oMeta"></div>
+    </section>
+
+    <section class="card">
+      <h2>Prijs</h2>
+      <table><tbody id="oRegels"></tbody></table>
+      <div class="betaal" id="oBetaal"></div>
+    </section>
+
+    <section class="card" id="oInbegrepenKaart" hidden>
+      <h2>Wat is inbegrepen</h2>
+      <ul class="checks" id="oInbegrepen"></ul>
+    </section>
+
+    <section class="card" id="oOpmerkingKaart" hidden>
+      <h2>Toelichting</h2>
+      <p id="oOpmerking" style="white-space:pre-line;margin:0"></p>
+    </section>
+
+    <section class="card">
+      <h2>Garantie en betaling</h2>
+      <ul class="checks" id="oAfspraken"></ul>
+    </section>
+
+    <!-- 3. Akkoord -->
+    <section class="card" id="akkoordKaart">
+      <h2>Akkoord geven</h2>
+      <form id="akkoordForm">
+        <label class="check"><input type="checkbox" id="akkoord"><span id="akkoordTekst">Ik ga akkoord met deze offerte.</span></label>
+        <label class="check"><input type="checkbox" id="bedenktijd"><span>Ik wil graag dat ElektroKlik de laadpaal al binnen de bedenktijd van 14 dagen installeert.</span></label>
+        <p class="mut" style="margin:-4px 0 14px 32px">Als consument heeft u na uw akkoord 14 dagen bedenktijd. Vinkt u dit aan en ziet u na de start van de werkzaamheden toch af van de opdracht, dan betaalt u alleen voor wat al is uitgevoerd.</p>
+        <label for="opmerking" style="font-weight:600">Opmerking <span class="mut" style="font-weight:400">(optioneel)</span></label>
+        <textarea id="opmerking" rows="3" placeholder="Bijvoorbeeld een voorkeur voor de installatiedatum" style="margin:6px 0 16px"></textarea>
+        <input type="text" name="_gotcha" id="gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+        <button class="btn groot" type="submit" id="akkoordKnop">Akkoord geven</button>
+        <p class="fout" id="akkoordFout" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <!-- 4. Aanbetaling -->
+    <section class="card" id="betaalKaart" hidden>
+      <div class="melding ok" id="betaalMelding"></div>
+      <h2>Aanbetaling</h2>
+      <p id="betaalTekst"></p>
+      <a class="btn groot" id="betaalKnop" href="#" target="_blank" rel="noopener" hidden>Aanbetaling betalen</a>
+    </section>
+
+    <section class="card">
+      <div class="bedrijf" id="oBedrijf"></div>
+      <p class="noprint" style="margin:12px 0 0"><button class="btn" type="button" onclick="window.print()" style="background:#fff;color:var(--ink);border:1px solid #cfd8e3">Afdrukken of opslaan als pdf</button></p>
+    </section>
+  </div>
+</main>
+<script src="offerte-link.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var token = (location.hash.match(/[#&]o=([^&]+)/) || [])[1];
+  var O = null, T = null;
+
+  function datum(iso) { if (!iso) return ''; var d = new Date(iso + (iso.length === 10 ? 'T12:00:00' : '')); return isNaN(d) ? iso : d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
+  function vandaag() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function sleutel() { return 'ek_offerte_akkoord_' + O.nr + '_v' + (O.versie || 1); }
+  function eerderAkkoord() { try { return JSON.parse(localStorage.getItem(sleutel()) || 'null'); } catch (e) { return null; } }
+  function veiligeLink(u) { return /^https:\/\//i.test(String(u || '')) ? u : ''; }
+
+  if (!token) { $('linkFout').hidden = false; return; }
+  $('codeKaart').hidden = false;
+  $('code').focus();
+
+  $('codeForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = $('code').value;
+    $('codeFout').hidden = true;
+    if (EKOfferte.normaliseer(code).length !== 8) { $('codeFout').textContent = 'De code bestaat uit 8 tekens, bijvoorbeeld AB12-CD34.'; $('codeFout').hidden = false; return; }
+    $('codeKnop').disabled = true; $('codeKnop').textContent = 'Een moment…';
+    EKOfferte.ontsleutel(token, code).then(function (o) {
+      O = o; T = EKOfferte.totalen(o);
+      $('codeKaart').hidden = true; toon(); $('offerte').hidden = false; window.scrollTo(0, 0);
+    }).catch(function (err) {
+      $('codeKnop').disabled = false; $('codeKnop').textContent = 'Offerte openen';
+      $('codeFout').textContent = err.soort === 'link' ? 'Deze link is niet volledig. Open de link uit uw bericht opnieuw.' : 'Deze code klopt niet. Controleer de code in uw bericht en probeer het opnieuw.';
+      $('codeFout').hidden = false;
+    });
+  });
+
+  function toon() {
+    var b = O.bedrijf || {}, k = O.klant || {};
+    document.title = 'Offerte ' + O.nr + ' | ElektroKlik';
+    $('oTitel').textContent = O.titel ? O.titel : 'Offerte ' + O.nr;
+    $('oSub').textContent = 'Offerte ' + O.nr + (O.versie > 1 ? ' (versie ' + O.versie + ')' : '') + ' van ' + datum(O.datum);
+    $('oMeta').innerHTML = '<div>Voor<b>' + esc(k.naam) + '</b>' + esc(k.adres || '') + '</div>' +
+      '<div>Geldig tot<b>' + esc(datum(O.geldigTot)) + '</b></div>' +
+      (O.installatiedatum ? '<div>Voorgestelde installatie<b>' + esc(O.installatiedatum) + '</b></div>' : '');
+    $('oRegels').innerHTML = (O.regels || []).map(function (r) { return '<tr><td>' + esc(r.omschrijving) + '</td><td class="b">' + EKOfferte.euro(r.bedrag) + '</td></tr>'; }).join('') +
+      '<tr class="tot"><td>Totaal inclusief btw</td><td class="b">' + EKOfferte.euro(T.totaal) + '</td></tr>' +
+      '<tr class="klein"><td>Waarvan ' + (O.btwPercentage == null ? 21 : O.btwPercentage) + '% btw</td><td class="b" style="font-weight:400">' + EKOfferte.euro(T.btw) + '</td></tr>';
+    $('oBetaal').innerHTML = O.aanbetalingPercentage ? '<div>Aanbetaling na uw akkoord (' + O.aanbetalingPercentage + '%)<b>' + EKOfferte.euro(T.aanbetaling) + '</b></div><div>Na de installatie<b>' + EKOfferte.euro(T.rest) + '</b></div>' : '';
+    if ((O.inbegrepen || []).length) { $('oInbegrepen').innerHTML = O.inbegrepen.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join(''); $('oInbegrepenKaart').hidden = false; }
+    if (O.opmerking) { $('oOpmerking').textContent = O.opmerking; $('oOpmerkingKaart').hidden = false; }
+    var afspraken = [];
+    if (O.aanbetalingPercentage) afspraken.push('Na uw akkoord betaalt u ' + O.aanbetalingPercentage + '% aanbetaling. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast. De rest betaalt u na de installatie.');
+    afspraken.push('Blijkt bij de installatie dat er meer werk nodig is, dan hoort u dat vooraf. Wij voeren dat alleen uit na uw akkoord.');
+    (O.garantie || []).forEach(function (g) { afspraken.push(g); });
+    $('oAfspraken').innerHTML = afspraken.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
+      (veiligeLink(O.garantieUrl) ? '<li><a href="' + esc(O.garantieUrl) + '" target="_blank" rel="noopener">Lees de garantievoorwaarden</a></li>' : '');
+    var av = veiligeLink(O.voorwaardenUrl);
+    $('akkoordTekst').innerHTML = 'Ik ga akkoord met deze offerte' + (av ? ' en de <a href="' + esc(av) + '" target="_blank" rel="noopener">algemene voorwaarden</a>' : '') + '.';
+    $('oBedrijf').innerHTML = '<b>' + esc(b.naam || 'ElektroKlik') + '</b><br>' + esc(b.adres || '') + (b.kvk ? '<br>KvK ' + esc(b.kvk) : '') + (b.btw ? ' · btw ' + esc(b.btw) : '') +
+      '<br><a href="tel:' + esc(b.telefoonLink || '+31850600572') + '">' + esc(b.telefoon || '085 060 05 72') + '</a> · <a href="mailto:' + esc(b.email || 'info@elektroklik.nl') + '">' + esc(b.email || 'info@elektroklik.nl') + '</a>';
+    var verlopen = O.geldigTot && vandaag() > O.geldigTot;
+    var a = eerderAkkoord();
+    if (a) return naAkkoord(a);
+    if (verlopen) {
+      $('statusMelding').innerHTML = '<div class="melding warn">Deze offerte is verlopen op ' + esc(datum(O.geldigTot)) + '. Neem contact met ons op voor een nieuwe offerte.</div>';
+      $('akkoordKaart').hidden = true;
+    }
+  }
+
+  $('akkoordForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('akkoordFout').hidden = true;
+    if (!$('akkoord').checked) { $('akkoordFout').textContent = 'Vink aan dat u akkoord gaat met de offerte.'; $('akkoordFout').hidden = false; return; }
+    var knop = $('akkoordKnop'); knop.disabled = true; knop.textContent = 'Bezig met versturen…';
+    var nu = new Date();
+    var fd = new FormData(), add = function (k, v) { fd.append(k, v == null ? '' : String(v)); };
+    add('_subject', 'Akkoord op offerte ' + O.nr + (O.versie > 1 ? ' (versie ' + O.versie + ')' : '') + ' – ' + ((O.klant || {}).naam || ''));
+    if ((O.klant || {}).email) { add('_replyto', O.klant.email); add('email', O.klant.email); }
+    add('_gotcha', $('gotcha').value);
+    add('Offertenummer', O.nr); add('Versie', O.versie || 1);
+    add('Bij aanvraag', O.aanvraag || '-');
+    add('Naam', (O.klant || {}).naam); add('Installatieadres', (O.klant || {}).adres);
+    add('Totaalbedrag incl. btw', EKOfferte.euro(T.totaal));
+    add('Aanbetaling', O.aanbetalingPercentage ? EKOfferte.euro(T.aanbetaling) + ' (' + O.aanbetalingPercentage + '%)' : '-');
+    add('Akkoord gegeven op', nu.toLocaleString('nl-NL') + ' (' + nu.toISOString() + ')');
+    add('Installatie binnen bedenktijd', $('bedenktijd').checked ? 'Ja, de klant wil dat er binnen de bedenktijd wordt geïnstalleerd' : 'Nee');
+    add('Opmerking klant', $('opmerking').value.trim() || '-');
+    add('Offerteregels', (O.regels || []).map(function (r) { return r.omschrijving + ': ' + EKOfferte.euro(r.bedrag); }).join('\n'));
+    fetch(O.formEndpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var a = { tijd: nu.toISOString(), bedenktijd: $('bedenktijd').checked };
+      try { localStorage.setItem(sleutel(), JSON.stringify(a)); } catch (x) {}
+      naAkkoord(a);
+    }).catch(function () {
+      knop.disabled = false; knop.textContent = 'Akkoord geven';
+      $('akkoordFout').innerHTML = 'Uw akkoord kon niet worden verstuurd. Probeer het over een moment opnieuw, of laat het ons weten via <a href="tel:+31850600572">085 060 05 72</a> of <a href="mailto:info@elektroklik.nl?subject=' + encodeURIComponent('Akkoord op offerte ' + O.nr) + '">info@elektroklik.nl</a>.';
+      $('akkoordFout').hidden = false;
+    });
+  });
+
+  function naAkkoord(a) {
+    $('akkoordKaart').hidden = true;
+    $('statusMelding').innerHTML = '<div class="melding ok"><b>U heeft akkoord gegeven</b> op ' + esc(new Date(a.tijd).toLocaleString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })) + '.</div>';
+    $('betaalMelding').innerHTML = '<b>Bedankt voor uw akkoord.</b> Wij hebben uw akkoord ontvangen en nemen contact met u op over de planning.';
+    var link = veiligeLink(O.betaallink);
+    if (O.aanbetalingPercentage && link) {
+      $('betaalTekst').textContent = 'U kunt de aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + ' direct voldoen met iDEAL. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast.';
+      $('betaalKnop').href = link; $('betaalKnop').textContent = 'Aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + ' betalen'; $('betaalKnop').hidden = false;
+    } else if (O.aanbetalingPercentage) {
+      $('betaalTekst').textContent = 'U ontvangt van ons een betaalverzoek voor de aanbetaling van ' + EKOfferte.euro(T.aanbetaling) + '.';
+    } else {
+      $('betaalTekst').textContent = 'U hoeft nu niets te betalen. Wij nemen contact met u op over de planning.';
+    }
+    $('betaalKaart').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

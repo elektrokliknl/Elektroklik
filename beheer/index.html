@@ -65,6 +65,7 @@
   <div id="panels"></div>
 </main>
 <script src="../laadpalen/assets/pricing.js"></script>
+<script src="../uw-offerte/offerte-link.js"></script>
 <script>
 (function () {
   'use strict';
@@ -89,7 +90,7 @@
   }
 
   var TABS = [
-    ['aanvragen', 'Aanvragen'], ['algemeen', 'Algemeen'], ['producten', 'Producten'], ['prijsregels', 'Installatie en toeslagen'],
+    ['aanvragen', 'Aanvragen'], ['offertes', 'Offertes'], ['algemeen', 'Algemeen'], ['producten', 'Producten'], ['prijsregels', 'Installatie en toeslagen'],
     ['opties', 'Extra opties'], ['marge', 'Kosten en marge'], ['test', 'Prijs testen']
   ];
 
@@ -158,7 +159,7 @@
     if (id === 'aanvragen') {
       h += '<div class="card"><h2>Aanvragen</h2>' +
         '<p class="hint">Aanvragen komen binnen via Formspree (per e-mail en in het <a href="https://formspree.io/forms" target="_blank" rel="noopener">Formspree-dashboard</a>). Exporteer daar de inzendingen als CSV en importeer ze hier. U kunt per aanvraag de status bijhouden, notities maken en later ontvangen foto’s toevoegen.</p>' +
-        '<div class="banner warn">Dit overzicht wordt bewaard in <b>deze browser op deze computer</b>. Gebruik “Exporteer overzicht” als back-up of om het op een andere computer te openen. Voor een centraal systeem met automatische opslag is een kleine server-koppeling nodig (zie het opleverdocument).</div>' +
+        '<div class="banner warn">Dit overzicht wordt bewaard in <b>deze browser op deze computer</b>. Gebruik “Back-up (JSON)” en “Back-up terugzetten” om het op een andere computer te openen. Met ✕ verwijdert u een aanvraag uit dit overzicht; de e-mail en de inzending in Formspree blijven bestaan.</div>' +
         '<p style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" style="display:inline-block">CSV uit Formspree importeren<input type="file" id="regCsv" accept=".csv,text/csv" hidden></label>' +
         '<button class="btn light" type="button" id="regPlakOpen">Eén aanvraag plakken</button>' +
         '<button class="btn light" type="button" id="regExport">Exporteer overzicht (CSV)</button>' +
@@ -167,6 +168,17 @@
         '<div id="regPlak" hidden><textarea id="regPlakIn" placeholder="Plak hier het veld “Configuratie (technisch)” uit de e-mail"></textarea><p><button class="btn" type="button" id="regPlakGo">Toevoegen</button></p></div>' +
         '<p style="margin:10px 0"><input type="search" id="regZoek" placeholder="Zoek op naam, aanvraagnummer, plaats of laadpaal" style="max-width:420px"> <select id="regFilter" style="max-width:220px;display:inline-block"><option value="">Alle statussen</option>' + STATUSSEN.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select></p>' +
         '<div id="regLijst"></div><div id="regDetail"></div></div>';
+    }
+    if (id === 'offertes') {
+      h += '<div class="card"><h2>Offertes</h2>' +
+        '<p class="hint">Maak hier een offerte. U krijgt een link en een aparte code voor de klant. De klant bekijkt de offerte, geeft akkoord en betaalt de aanbetaling via uw Tikkie-link. Bij een akkoord ontvangt u direct een e-mail.</p>' +
+        '<div class="banner warn">Dit overzicht wordt bewaard in <b>deze browser op deze computer</b>. De offerte zelf zit in de link en werkt altijd, ook als dit overzicht leeg is. Gebruik “Back-up maken” om het overzicht op een andere computer te openen.</div>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="offNieuw">Nieuwe offerte</button>' +
+        '<select id="offVanAanvraag" style="max-width:340px;display:inline-block;margin:0"><option value="">Offerte maken van een aanvraag…</option></select>' +
+        '<button class="btn light" type="button" id="offInstOpen">Instellingen</button>' +
+        '<button class="btn light" type="button" id="offBackup">Back-up maken</button>' +
+        '<label class="btn light" style="display:inline-block">Back-up terugzetten<input type="file" id="offRestore" accept=".json,application/json" hidden></label></p>' +
+        '<div id="offInst" hidden></div><div id="offLijst"></div><div id="offEditor"></div></div>';
     }
     if (id === 'test') {
       h += '<div class="card"><h2>Prijs testen</h2><p class="hint">Plak het veld “Configuratie (technisch)” uit een aanvraag om de prijs met de huidige instellingen na te rekenen, of open de configurator.</p>' +
@@ -237,7 +249,7 @@
       el.innerHTML = '<table><thead><tr><th>Aanvraag</th><th>Klant</th><th>Laadpaal</th><th>Route</th><th class="num">Prijsindicatie</th><th>Status</th><th></th></tr></thead><tbody>' + items.map(function (a) {
         var st = a.tech && a.tech.staat || {}, p = EKPricing.product(CFG, st.product);
         return '<tr><td><b>' + esc(a.ref) + '</b><br><small>' + esc(String(a.datum).slice(0, 16)) + '</small></td><td>' + esc(a.naam) + '<br><small>' + esc(a.adres) + '</small></td><td>' + esc(p ? p.naam : (a.velden && a.velden.Laadpaal) || '–') + '</td><td>' + (a.tech && a.tech.route === 'offerte' ? 'Offerte (meterkast)' : 'Standaard') + '</td><td class="num">' + (a.tech && a.tech.route !== 'offerte' ? eur(a.tech.totaal) : '–') + '</td>' +
-          '<td><select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td><td><button class="btn light" type="button" data-open="' + esc(a.ref) + '">Details</button></td></tr>';
+          '<td><select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td><td style="white-space:nowrap"><button class="btn light" type="button" data-open="' + esc(a.ref) + '">Details</button> <button class="btn light" type="button" data-regwis="' + esc(a.ref) + '" title="Verwijderen">✕</button></td></tr>';
       }).join('') + '</tbody></table>';
     }
     function detail(ref) {
@@ -272,6 +284,14 @@
         el.innerHTML = l.length ? l.map(function (f) { var u = URL.createObjectURL(f.blob); return '<figure style="margin:0;width:150px"><a href="' + u + '" download="' + esc(ref + '-' + f.naam) + '">' + (/^image\//.test(f.blob.type) ? '<img src="' + u + '" alt="" style="width:150px;height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">' : '📄 ' + esc(f.naam)) + '</a><figcaption style="font-size:.8rem">' + esc(f.soort) + ' · ' + esc(f.datum.slice(0, 10)) + ' <button type="button" class="btn light" style="padding:2px 6px" data-fotowis="' + f.id + '">✕</button></figcaption></figure>'; }).join('') : '<p class="hint">Nog geen later ontvangen foto’s.</p>';
       }).catch(function () { $('#regFotos').innerHTML = '<p class="bad">Foto’s opslaan wordt in deze browser niet ondersteund.</p>'; });
     }
+    /* Aanvraag uit dit overzicht verwijderen, met de later toegevoegde foto's */
+    function verwijder(ref) {
+      if (!data.items[ref]) return Promise.resolve();
+      delete data.items[ref]; bewaar();
+      if (open === ref) { open = null; var d = $('#regDetail'); if (d) d.innerHTML = ''; }
+      lijst();
+      return fotos(ref).then(function (l) { return Promise.all(l.map(function (f) { return fotoWis(f.id); })); }).catch(function () {});
+    }
     function exportCsv() {
       var kop = ['Aanvraagnummer', 'Datum', 'Status', 'Naam', 'E-mail', 'Telefoon', 'Adres', 'Laadpaal', 'Route', 'Prijsindicatie', 'gclid', 'Notities'];
       var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
@@ -302,11 +322,176 @@
         var fw = e.target.closest('[data-fotowis]'); if (fw && confirm('Deze foto verwijderen?')) fotoWis(Number(fw.getAttribute('data-fotowis'))).then(function () { toonFotos(open); });
         if (e.target.id === 'regPlakOpen') $('#regPlak').hidden = !$('#regPlak').hidden;
         if (e.target.id === 'regPlakGo') { try { var tech = JSON.parse($('#regPlakIn').value); if (!tech.ref) throw 0; voegToe({ ref: tech.ref, datum: new Date().toISOString().slice(0, 16), naam: tech.klant && tech.klant.naam, email: tech.klant && tech.klant.email, telefoon: tech.klant && tech.klant.telefoon, adres: tech.klant && tech.klant.adres, tech: tech, velden: {}, bron: 'handmatig' }); bewaar(); lijst(); $('#regPlakIn').value = ''; } catch (er) { alert('Plak het volledige veld “Configuratie (technisch)” uit de e-mail.'); } }
+        var rw = e.target.closest('[data-regwis]'); if (rw) { var wref = rw.getAttribute('data-regwis'); if (confirm('Aanvraag ' + wref + ' uit dit overzicht verwijderen, met de foto’s die u hier heeft toegevoegd? De e-mail en de inzending in Formspree blijven bestaan.')) verwijder(wref); }
         if (e.target.id === 'regExport') exportCsv();
         if (e.target.id === 'regBackup') download('aanvragen-backup.json', JSON.stringify(data, null, 1), 'application/json');
       });
     }
-    return { init: init, _csv: csv, _uitRij: uitRij };
+    return { init: init, _csv: csv, _uitRij: uitRij, verwijder: verwijder };
+  })();
+
+  /* ===================== Offertes ===================== */
+  var OFF = (function () {
+    var KEY = 'ek_offertes_v1', IKEY = 'ek_offerte_instellingen_v1', data = { items: {} }, inst = null, bewerk = null;
+    var STATUS = ['Concept', 'Verstuurd', 'Akkoord', 'Betaald', 'Geannuleerd'];
+    function standaardInst() {
+      return {
+        geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: '',
+        garantieUrl: 'https://www.elektroklik.nl/laadpalen/garantie/',
+        garantie: ['2 jaar garantie van ElektroKlik op ons installatiewerk, vanaf de datum van oplevering.'],
+        bedrijf: { naam: 'ElektroKlik', adres: 'Netwerklaan 661, Amersfoort', kvk: '81585802', btw: 'NL003586894B15', telefoon: '085 060 05 72', telefoonLink: '+31850600572', email: 'info@elektroklik.nl' }
+      };
+    }
+    function laad() {
+      try { data = JSON.parse(localStorage.getItem(KEY) || '{"items":{}}'); } catch (e) { data = { items: {} }; }
+      try { inst = Object.assign(standaardInst(), JSON.parse(localStorage.getItem(IKEY) || '{}')); } catch (e) { inst = standaardInst(); }
+    }
+    function bewaar() { try { localStorage.setItem(KEY, JSON.stringify(data)); localStorage.setItem(IKEY, JSON.stringify(inst)); } catch (e) { alert('Opslaan in deze browser is niet gelukt.'); } }
+    function vandaag(plus) { var d = new Date(); d.setDate(d.getDate() + (plus || 0)); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+    function nieuwNr() {
+      var t = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', r = new Uint8Array(4), s = ''; crypto.getRandomValues(r);
+      for (var i = 0; i < 4; i++) s += t[r[i] % t.length];
+      return 'OF-' + vandaag().slice(2).replace(/-/g, '') + '-' + s;
+    }
+    function leeg() {
+      return { nr: nieuwNr(), versie: 1, status: 'Concept', aangemaakt: new Date().toISOString(),
+        o: { titel: '', aanvraag: '', klant: { naam: '', email: '', telefoon: '', adres: '' }, regels: [{ omschrijving: '', bedrag: 0 }],
+          inbegrepen: (CFG.standaardInstallatie.inbegrepen || []).slice(), garantie: inst.garantie.slice(), installatiedatum: '', opmerking: '',
+          geldigTot: vandaag(inst.geldigheidDagen), aanbetalingPercentage: inst.aanbetalingPercentage, betaallink: '' } };
+    }
+    function vanAanvraag(ref) {
+      var reg = {}; try { reg = JSON.parse(localStorage.getItem('ek_register_v1') || '{"items":{}}').items || {}; } catch (e) {}
+      var a = reg[ref]; if (!a) return;
+      var r = leeg(), t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product);
+      r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
+      if (p) { r.o.titel = p.naam + (st.locatie === 'paal' ? ' op een montagepaal' : '') + ', inclusief installatie'; var g = (p.specs && p.specs.garantie) || ''; if (/^\d+ jaar/.test(g)) r.o.garantie.push(g.charAt(0).toUpperCase() + g.slice(1) + ' op de ' + p.naam + '.'); }
+      if ((t.regels || []).length) r.o.regels = t.regels.map(function (x) { return { omschrijving: x.label, bedrag: x.bedrag }; });
+      data.items[r.nr] = r; bewaar(); open(r.nr);
+    }
+    function lijst() {
+      var el = $('#offLijst'); if (!el) return;
+      var items = Object.keys(data.items).map(function (k) { return data.items[k]; }).sort(function (a, b) { return String(b.aangemaakt).localeCompare(String(a.aangemaakt)); });
+      if (!items.length) { el.innerHTML = '<p class="hint">Nog geen offertes. Klik op “Nieuwe offerte” of kies een aanvraag.</p>'; return; }
+      el.innerHTML = '<table><thead><tr><th>Offerte</th><th>Klant</th><th class="num">Totaal</th><th>Geldig tot</th><th>Status</th><th></th></tr></thead><tbody>' + items.map(function (r) {
+        var tt = EKOfferte.totalen(r.o);
+        return '<tr><td><b>' + esc(r.nr) + '</b>' + (r.versie > 1 ? ' <small>v' + r.versie + '</small>' : '') + '<br><small>' + esc(String(r.aangemaakt).slice(0, 10)) + '</small></td><td>' + esc(r.o.klant.naam) + '<br><small>' + esc(r.o.klant.adres) + '</small></td><td class="num">' + eur(tt.totaal) + '</td><td>' + esc(r.o.geldigTot) + '</td>' +
+          '<td><select data-offstatus="' + esc(r.nr) + '">' + STATUS.map(function (x) { return '<option' + (x === r.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td>' +
+          '<td style="white-space:nowrap"><button class="btn light" type="button" data-offopen="' + esc(r.nr) + '">Openen</button> <button class="btn light" type="button" data-offwis="' + esc(r.nr) + '" title="Verwijderen">✕</button></td></tr>';
+      }).join('') + '</tbody></table>';
+    }
+    function vulAanvragen() {
+      var sel = $('#offVanAanvraag'); if (!sel) return;
+      var reg = {}; try { reg = JSON.parse(localStorage.getItem('ek_register_v1') || '{"items":{}}').items || {}; } catch (e) {}
+      sel.innerHTML = '<option value="">Offerte maken van een aanvraag…</option>' + Object.keys(reg).map(function (k) { return reg[k]; })
+        .sort(function (a, b) { return String(b.datum || b.ref).localeCompare(String(a.datum || a.ref)); })
+        .map(function (a) { return '<option value="' + esc(a.ref) + '">' + esc(a.ref + ' – ' + (a.naam || '')) + '</option>'; }).join('');
+    }
+    function veld(pad, label, waarde, type, hint) {
+      return '<label' + (type === 'textarea' || type === 'lines' ? ' class="full"' : '') + '>' + label + (hint ? '<small>' + hint + '</small>' : '') +
+        (type === 'textarea' || type === 'lines' ? '<textarea data-off="' + pad + '"' + (type === 'lines' ? ' data-lines="1"' : '') + '>' + esc(type === 'lines' ? (waarde || []).join('\n') : waarde) + '</textarea>'
+          : '<input type="' + (type || 'text') + '" data-off="' + pad + '" value="' + esc(waarde) + '"' + (type === 'number' ? ' min="0" step="1" data-num="1"' : '') + '>') + '</label>';
+    }
+    function open(nr) {
+      bewerk = nr; var r = data.items[nr], o = r.o, el = $('#offEditor');
+      el.innerHTML = '<div class="sub"><h3>Offerte ' + esc(r.nr) + (r.versie > 1 ? ' (versie ' + r.versie + ')' : '') + ' <button class="btn light" type="button" data-offsluit>Sluiten</button></h3>' +
+        (r.token ? '<div class="banner warn">Deze offerte is al verstuurd. Past u iets aan en maakt u daarna een nieuwe link, dan wordt het <b>versie ' + (r.versie + 1) + '</b>. De oude link blijft werken tot ' + esc(o.geldigTot) + '; in de akkoordmail ziet u altijd welke versie de klant heeft geaccepteerd.</div>' : '') +
+        '<div class="grid">' + veld('titel', 'Titel', o.titel, 'text', 'Bijv. Zaptec Go 2 op een montagepaal, inclusief installatie') + veld('aanvraag', 'Bij aanvraag', o.aanvraag) +
+        veld('klant.naam', 'Naam klant', o.klant.naam) + veld('klant.email', 'E-mail klant', o.klant.email, 'email') + veld('klant.telefoon', 'Telefoon klant', o.klant.telefoon) + veld('klant.adres', 'Installatieadres', o.klant.adres) + '</div>' +
+        '<h3 style="margin-top:16px">Regels <small style="font-weight:400;color:var(--mut)">(bedragen inclusief btw)</small></h3><table><tbody id="offRegels">' + o.regels.map(function (x, i) {
+          return '<tr><td><input type="text" data-offregel="' + i + '" data-k="omschrijving" value="' + esc(x.omschrijving) + '" placeholder="Omschrijving"></td><td style="width:150px"><input type="number" step="0.01" min="0" data-offregel="' + i + '" data-k="bedrag" value="' + esc(x.bedrag) + '"></td><td style="width:40px"><button class="btn light" type="button" data-offregelwis="' + i + '" title="Regel verwijderen">✕</button></td></tr>';
+        }).join('') + '</tbody></table><p><button class="btn light" type="button" id="offRegelPlus">Regel toevoegen</button></p><div id="offTotalen"></div>' +
+        '<div class="grid" style="margin-top:12px">' + veld('geldigTot', 'Geldig tot', o.geldigTot, 'date') + veld('aanbetalingPercentage', 'Aanbetaling (%)', o.aanbetalingPercentage, 'number') +
+        veld('installatiedatum', 'Voorgestelde installatie', o.installatiedatum, 'text', 'Bijv. dinsdag 9 december, of week 50') +
+        veld('betaallink', 'Tikkie-link voor de aanbetaling', o.betaallink, 'url', 'Maak in Tikkie Zakelijk een verzoek voor precies het aanbetalingsbedrag en plak de link hier. Let op de geldigheid van de Tikkie.') +
+        veld('inbegrepen', 'Wat is inbegrepen (één per regel)', o.inbegrepen, 'lines') + veld('garantie', 'Garantie (één per regel)', o.garantie, 'lines') +
+        veld('opmerking', 'Toelichting voor de klant (optioneel)', o.opmerking, 'textarea') + '</div>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn" type="button" id="offLink">' + (r.token ? 'Nieuwe link maken (versie ' + (r.versie + 1) + ')' : 'Link en code maken') + '</button></p>' +
+        '<div id="offResultaat"></div></div>';
+      totalen(); if (r.token) toonResultaat(r);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function totalen() {
+      var r = data.items[bewerk], el = $('#offTotalen'); if (!r || !el) return;
+      var tt = EKOfferte.totalen(r.o);
+      el.innerHTML = '<table><tr><th>Totaal incl. btw</th><td class="num"><b>' + eur(tt.totaal) + '</b></td></tr><tr><td>Waarvan btw</td><td class="num">' + eur(tt.btw) + '</td></tr><tr><td>Aanbetaling (' + esc(r.o.aanbetalingPercentage) + '%)</td><td class="num"><b>' + eur(tt.aanbetaling) + '</b></td></tr><tr><td>Na de installatie</td><td class="num">' + eur(tt.rest) + '</td></tr></table>';
+    }
+    function maakLink() {
+      var r = data.items[bewerk], o = r.o;
+      if (!o.klant.naam || !o.regels.some(function (x) { return x.omschrijving && Number(x.bedrag) > 0; })) return alert('Vul ten minste de naam van de klant en één regel met een bedrag in.');
+      if (o.betaallink && !/^https:\/\//i.test(o.betaallink)) return alert('De Tikkie-link moet beginnen met https://');
+      if (r.token) { r.versie++; }
+      var code = EKOfferte.nieuweCode();
+      var offerte = { nr: r.nr, versie: r.versie, datum: vandaag(), geldigTot: o.geldigTot, aanvraag: o.aanvraag, titel: o.titel, klant: o.klant,
+        regels: o.regels.filter(function (x) { return x.omschrijving || Number(x.bedrag); }).map(function (x) { return { omschrijving: x.omschrijving, bedrag: Math.round(Number(x.bedrag) * 100) / 100 }; }),
+        btwPercentage: CFG.instellingen.btwPercentage, aanbetalingPercentage: Number(o.aanbetalingPercentage) || 0, inbegrepen: o.inbegrepen, garantie: o.garantie,
+        installatiedatum: o.installatiedatum, opmerking: o.opmerking, betaallink: o.betaallink, voorwaardenUrl: inst.voorwaardenUrl, garantieUrl: inst.garantieUrl,
+        bedrijf: inst.bedrijf, formEndpoint: CFG.instellingen.formEndpoint };
+      $('#offLink').disabled = true; $('#offLink').textContent = 'Bezig…';
+      EKOfferte.versleutel(offerte, code).then(function (token) {
+        r.token = token; r.code = code; r.link = location.origin + '/uw-offerte/#o=' + token; r.verstuurd = new Date().toISOString(); r.verstuurdeVersie = r.versie;
+        if (r.status === 'Concept') r.status = 'Verstuurd';
+        bewaar(); lijst(); open(r.nr);
+      });
+    }
+    function toonResultaat(r) {
+      var el = $('#offResultaat'); if (!el) return;
+      var voornaam = (r.o.klant.naam || '').split(' ')[0];
+      var b1 = 'Goedendag ' + (voornaam || '') + ',\n\nHierbij uw offerte van ElektroKlik' + (r.o.titel ? ' voor de ' + r.o.titel.charAt(0).toLowerCase() + r.o.titel.slice(1) : '') + ':\n' + r.link + '\n\nDe code om de offerte te openen stuur ik u in een apart bericht. In de offerte kunt u direct akkoord geven' + (r.o.betaallink ? ' en de aanbetaling voldoen' : '') + '.\n\nMet vriendelijke groet,\nElektroKlik';
+      var b2 = 'De code voor uw offerte ' + r.nr + ' is: ' + r.code;
+      el.innerHTML = '<div class="banner ok"><b>Versie ' + r.verstuurdeVersie + ' klaar om te versturen.</b> Stuur de link en de code in twee aparte berichten, bijvoorbeeld de link per e-mail en de code via WhatsApp.</div>' +
+        '<div class="grid"><label class="full">Bericht 1: de link<textarea readonly id="offB1" style="min-height:150px">' + esc(b1) + '</textarea></label>' +
+        '<label class="full">Bericht 2: de code<textarea readonly id="offB2" style="min-height:50px">' + esc(b2) + '</textarea></label></div>' +
+        '<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" data-kopieer="offB1">Kopieer bericht 1</button><button class="btn" type="button" data-kopieer="offB2">Kopieer bericht 2</button>' +
+        (r.o.klant.telefoon ? '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/' + esc(waNummer(r.o.klant.telefoon)) + '?text=' + encodeURIComponent(b2) + '">Code via WhatsApp sturen</a>' : '') +
+        (r.o.klant.email ? '<a class="btn light" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Uw offerte ' + r.nr + ' van ElektroKlik') + '&body=' + encodeURIComponent(b1) + '">Link per e-mail sturen</a>' : '') +
+        '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(r.link) + '">Bekijk als klant</a></p>';
+    }
+    function waNummer(t) { var n = String(t).replace(/[^0-9+]/g, ''); if (n.indexOf('+') === 0) return n.slice(1); if (n.indexOf('00') === 0) return n.slice(2); if (n.indexOf('0') === 0) return '31' + n.slice(1); return n; }
+    function toonInst() {
+      var el = $('#offInst'); el.hidden = !el.hidden; if (el.hidden) return;
+      var b = inst.bedrijf;
+      el.innerHTML = '<div class="sub"><h3>Instellingen voor nieuwe offertes</h3><div class="grid">' +
+        '<label>Standaard geldig (dagen)<input type="number" min="1" data-offinst="geldigheidDagen" value="' + esc(inst.geldigheidDagen) + '"></label>' +
+        '<label>Standaard aanbetaling (%)<input type="number" min="0" data-offinst="aanbetalingPercentage" value="' + esc(inst.aanbetalingPercentage) + '"></label>' +
+        '<label class="full">Adres van uw algemene voorwaarden<small>Leeg laten zolang ze niet op de website staan.</small><input type="url" data-offinst="voorwaardenUrl" value="' + esc(inst.voorwaardenUrl) + '"></label>' +
+        '<label class="full">Adres van uw garantievoorwaarden<input type="url" data-offinst="garantieUrl" value="' + esc(inst.garantieUrl) + '"></label>' +
+        '<label class="full">Standaard garantieregels (één per regel)<textarea data-offinst="garantie" data-lines="1">' + esc(inst.garantie.join('\n')) + '</textarea></label>' +
+        ['naam', 'adres', 'kvk', 'btw', 'telefoon', 'telefoonLink', 'email'].map(function (k) { return '<label>' + { naam: 'Bedrijfsnaam', adres: 'Adres', kvk: 'KvK-nummer', btw: 'Btw-nummer', telefoon: 'Telefoon (zichtbaar)', telefoonLink: 'Telefoon (link, met +31)', email: 'E-mail' }[k] + '<input type="text" data-offbedrijf="' + k + '" value="' + esc(b[k]) + '"></label>'; }).join('') +
+        '</div><p class="hint" style="margin-top:8px">Wijzigingen worden direct bewaard en gelden voor nieuwe links.</p></div>';
+    }
+    function zetPad(o, pad, v) { var ks = pad.split('.'); for (var i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks[ks.length - 1]] = v; }
+    var gebonden = false;
+    function init() {
+      laad(); lijst(); vulAanvragen();
+      if (gebonden) return; gebonden = true;
+      document.addEventListener('input', function (e) {
+        var t = e.target, r = bewerk && data.items[bewerk];
+        if (t.hasAttribute('data-off') && r) { var v = t.hasAttribute('data-lines') ? t.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean) : (t.hasAttribute('data-num') ? Number(t.value) : t.value); zetPad(r.o, t.getAttribute('data-off'), v); bewaar(); totalen(); }
+        if (t.hasAttribute('data-offregel') && r) { var i = +t.getAttribute('data-offregel'), k = t.getAttribute('data-k'); r.o.regels[i][k] = k === 'bedrag' ? Number(t.value) : t.value; bewaar(); totalen(); }
+        if (t.hasAttribute('data-offinst')) { var ik = t.getAttribute('data-offinst'); inst[ik] = t.hasAttribute('data-lines') ? t.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean) : (t.type === 'number' ? Number(t.value) : t.value); bewaar(); }
+        if (t.hasAttribute('data-offbedrijf')) { inst.bedrijf[t.getAttribute('data-offbedrijf')] = t.value; bewaar(); }
+      });
+      document.addEventListener('change', function (e) {
+        var t = e.target;
+        if (t.id === 'offVanAanvraag' && t.value) { vanAanvraag(t.value); lijst(); t.value = ''; }
+        if (t.hasAttribute && t.hasAttribute('data-offstatus')) { data.items[t.getAttribute('data-offstatus')].status = t.value; bewaar(); }
+        if (t.id === 'offRestore' && t.files[0]) { t.files[0].text().then(function (txt) { try { var d = JSON.parse(txt); Object.keys(d.items || {}).forEach(function (k) { data.items[k] = d.items[k]; }); if (d.instellingen) inst = Object.assign(standaardInst(), d.instellingen); bewaar(); lijst(); alert('Back-up teruggezet.'); } catch (er) { alert('Dit is geen geldige back-up.'); } t.value = ''; }); }
+      });
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (t.id === 'offNieuw') { var r = leeg(); data.items[r.nr] = r; bewaar(); lijst(); open(r.nr); }
+        var o = t.closest('[data-offopen]'); if (o) open(o.getAttribute('data-offopen'));
+        var w = t.closest('[data-offwis]'); if (w) { var nr = w.getAttribute('data-offwis'); if (confirm('Offerte ' + nr + ' uit dit overzicht verwijderen? Een al verstuurde link blijft werken tot de geldigheidsdatum.')) { delete data.items[nr]; bewaar(); lijst(); if (bewerk === nr) { bewerk = null; $('#offEditor').innerHTML = ''; } } }
+        if (t.closest('[data-offsluit]')) { bewerk = null; $('#offEditor').innerHTML = ''; }
+        if (t.id === 'offRegelPlus') { data.items[bewerk].o.regels.push({ omschrijving: '', bedrag: 0 }); bewaar(); open(bewerk); }
+        var rw = t.closest('[data-offregelwis]'); if (rw) { data.items[bewerk].o.regels.splice(+rw.getAttribute('data-offregelwis'), 1); bewaar(); open(bewerk); }
+        if (t.id === 'offLink') maakLink();
+        if (t.id === 'offInstOpen') toonInst();
+        if (t.id === 'offBackup') { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({ items: data.items, instellingen: inst }, null, 1)], { type: 'application/json' })); a.download = 'offertes-backup.json'; a.click(); }
+        var k = t.closest('[data-kopieer]'); if (k) { var ta = $('#' + k.getAttribute('data-kopieer')); ta.select(); (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(function () { k.textContent = 'Gekopieerd ✓'; }, function () { document.execCommand('copy'); k.textContent = 'Gekopieerd ✓'; }); }
+      });
+    }
+    return { init: init };
   })();
 
   function margeTabel() {
@@ -340,6 +525,7 @@
     $('#panels').innerHTML = paneel(id);
     margeTabel();
     if (id === 'aanvragen') REG.init();
+    if (id === 'offertes') OFF.init();
     if (id === 'test') $('#testGo').addEventListener('click', function () {
       try {
         var o = JSON.parse($('#testIn').value); var st = o.staat || o;
