@@ -186,7 +186,6 @@
     if (O.opmerking) { $('oOpmerking').textContent = O.opmerking; $('oOpmerkingKaart').hidden = false; }
     var afspraken = [];
     if (O.aanbetalingPercentage) afspraken.push('Na uw akkoord betaalt u ' + O.aanbetalingPercentage + '% aanbetaling. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast. De rest betaalt u na de installatie.');
-    afspraken.push('Blijkt bij de installatie dat er meer werk nodig is, dan hoort u dat vooraf. Wij voeren dat alleen uit na uw akkoord.');
     (O.garantie || []).forEach(function (g) { afspraken.push(g); });
     $('oAfspraken').innerHTML = afspraken.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
       (veiligeLink(O.garantieUrl) ? '<li><a href="' + esc(O.garantieUrl) + '" target="_blank" rel="noopener">Lees de garantievoorwaarden</a></li>' : '');

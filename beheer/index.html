@@ -338,7 +338,7 @@
       return {
         geldigheidDagen: 14, aanbetalingPercentage: 30, voorwaardenUrl: '',
         garantieUrl: 'https://www.elektroklik.nl/laadpalen/garantie/',
-        garantie: ['2 jaar garantie van ElektroKlik op ons installatiewerk, vanaf de datum van oplevering.'],
+        garantie: ['Op de installatie krijgt u 2 jaar garantie van ElektroKlik.'],
         bedrijf: { naam: 'ElektroKlik', adres: 'Netwerklaan 661, Amersfoort', kvk: '81585802', btw: 'NL003586894B15', telefoon: '085 060 05 72', telefoonLink: '+31850600572', email: 'info@elektroklik.nl' }
       };
     }
@@ -366,7 +366,7 @@
       r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
       if (p) { r.o.titel = p.naam + (st.locatie === 'paal' ? ' op een montagepaal' : '') + ', inclusief installatie'; var g = (p.specs && p.specs.garantie) || ''; if (/^\d+ jaar/.test(g)) r.o.garantie.push(g.charAt(0).toUpperCase() + g.slice(1) + ' op de ' + p.naam + '.'); }
       if ((t.regels || []).length) r.o.regels = t.regels.map(function (x) { return { omschrijving: x.label, bedrag: x.bedrag }; });
-      if (st.locatie === 'paal') r.o.inbegrepen = r.o.inbegrepen.map(function (x) { return /^Montage van de laadpaal/i.test(x) ? 'Plaatsing van de montagepaal en montage van de laadpaal op de paal' : x; });
+      if (st.locatie === 'paal') r.o.inbegrepen = r.o.inbegrepen.map(function (x) { return /^Montage van de laadpaal/i.test(x) ? 'Plaatsing van uw laadstation op een montagepaal' : x; });
       data.items[r.nr] = r; bewaar(); open(r.nr);
     }
     function lijst() {

@@ -53,8 +53,9 @@ const AANVRAAG = { ref: 'EK-261121-TEST9', datum: '2026-11-21 10:00', naam: 'Jan
   for (const t of ['Zaptec Go 2 op een montagepaal', 'Jan de Tester', '€ 2.184,00', '€ 655,20', '€ 1.528,80', 'dinsdag 9 december', 'KvK 81585802', 'NL003586894B15', '5 jaar fabrieksgarantie']) assert(tekst.includes(t), 'mist op offerte: ' + t);
   assert(!(await k.isVisible('#betaalKnop')), 'betaalknop pas na akkoord');
   const inb = await k.textContent('#oInbegrepen');
-  assert(inb.includes('Plaatsing van de montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
+  assert(inb.includes('Plaatsing van uw laadstation op een montagepaal') && !inb.includes('buitenmuur'), 'bij een montagepaal geen tekst over de buitenmuur');
   assert(!(await k.$('button[onclick*="print"]')), 'geen afdrukknop');
+  assert(!tekst.includes('meer werk nodig') && tekst.includes('Op de installatie krijgt u 2 jaar garantie van ElektroKlik.'));
   await k.screenshot({ path: path.join(__dirname, 'screenshots/klant-offerte.png'), fullPage: true });
 
   // 3) Akkoord
