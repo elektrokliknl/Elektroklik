@@ -68,7 +68,7 @@ async function sendToMail(data) {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(Object.assign({}, data, { Cookies: (function(){var v=null;try{v=localStorage.getItem('ek_consent_v1');}catch(e){}return v==='granted'?'Toegestaan (Google kon deze aanvraag meten)':(v==='denied'?'Geweigerd: alleen noodzakelijk (Google kon deze aanvraag niet meten)':'Geen keuze gemaakt (Google kon deze aanvraag niet meten)');})() }))
   });
 
   if (!response.ok) throw new Error('Verzenden mislukt');

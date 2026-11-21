@@ -34,7 +34,7 @@
     gtag('config', 'G-84ZN73CE1T');
     gtag('config', 'AW-18199719989');
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-84ZN73CE1T"></script>
+  <script async src="https://www.googletagmanager.com/gtm.js?id=AW-18199719989"></script>
   <!-- Meta Pixel: pas actief na toestemming -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -138,7 +138,7 @@
     (a.foutUpload ? '<div class="notice notice-warn" style="margin-top:14px">Uw foto’s konden niet worden meegestuurd. Wilt u ze per e-mail of WhatsApp naar ons sturen, met uw aanvraagnummer?</div>' : '') +
     (!a.fotos || a.foutUpload ? '<div class="later-box no-print" style="margin-top:16px"><h3>Foto’s later versturen?</h3><p>Stuur ze naar <a href="mailto:info@elektroklik.nl?subject=' + encodeURIComponent('Foto’s bij aanvraag ' + a.referentie) + '">info@elektroklik.nl</a> of via WhatsApp, met uw aanvraagnummer.</p><a class="btn btn-ghost" href="' + wa + '" target="_blank" rel="noopener">Foto’s later via WhatsApp versturen</a></div>' : '');
   // Meestal al gemeten direct na het versturen; EK.meetAanvraag meet elke aanvraag maar één keer.
-  EK.meetAanvraag(a);
+  if (a.status === 'verstuurd') EK.meetAanvraag(a);
   document.getElementById('thanksTitle').focus();
 })();
 </script>

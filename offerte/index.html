@@ -38,7 +38,7 @@
     try{if(localStorage.getItem('ek_consent_v1')!=='granted')fbq('consent','revoke');}catch(e){fbq('consent','revoke');}fbq('init','1869941847011402');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1869941847011402&ev=PageView&noscript=1"/></noscript>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-84ZN73CE1T"></script>
+  <script async src="https://www.googletagmanager.com/gtm.js?id=AW-18199719989"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-84ZN73CE1T');gtag('config','AW-18199719989');</script>
   <style>
     /* ===== FUNNEL (zelfde als homepage) ===== */
@@ -1064,6 +1064,7 @@
     var form = document.getElementById('homeFunnelForm');
     var data = new FormData(form);
     data.append('_subject', 'Offerte aanvraag homepage – ' + (document.getElementById('hf-naam').value || ''));
+    data.append('Cookies', (function(){var v=null;try{v=localStorage.getItem('ek_consent_v1');}catch(e){}return v==='granted'?'Toegestaan (Google kon deze aanvraag meten)':(v==='denied'?'Geweigerd: alleen noodzakelijk (Google kon deze aanvraag niet meten)':'Geen keuze gemaakt (Google kon deze aanvraag niet meten)');})());
 
     fetch('https://formspree.io/f/xjgzdzww', {
       method:'POST', body: data, headers:{'Accept':'application/json'}

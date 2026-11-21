@@ -487,6 +487,7 @@
     add('Interne bijzonderheden', r.intern.join('\n') || '-');
     add('Opmerkingen klant', G.opmerkingen.trim() || '-');
     add('Foto’s', 'Volgen eventueel in een aparte e-mail “Foto’s bij aanvraag ' + REF + '” (de klant kan ze na het versturen toevoegen, of later mailen of WhatsAppen)');
+    add('Cookies', (function(){var v=null;try{v=localStorage.getItem('ek_consent_v1');}catch(e){}return v==='granted'?'Toegestaan (Google kon deze aanvraag meten)':(v==='denied'?'Geweigerd: alleen noodzakelijk (Google kon deze aanvraag niet meten)':'Geen keuze gemaakt (Google kon deze aanvraag niet meten)');})());
     add('Prijsconfiguratie versie', cfg.versie);
     var ids = EK.clickIds(); if (Object.keys(ids).length) add('Advertentie-ID’s', JSON.stringify(ids));
     add('Configuratie (technisch)', JSON.stringify({ ref: REF, route: r.route, staat: S, totaal: r.totaal, regels: r.regels, intern: r.intern, versie: cfg.versie, klant: { naam: G.voornaam + ' ' + G.achternaam, email: G.email, telefoon: G.telefoon, adres: G.straat + ' ' + G.huisnummer + ', ' + G.postcode + ' ' + G.plaats } }));
