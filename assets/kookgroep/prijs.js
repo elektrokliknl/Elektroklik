@@ -19,7 +19,7 @@
   var TYPES = ['1fase', '2fase', '3fase'];
 
   function leegeStaat() {
-    return { werk: null, hulpAansluiting: null, hulpWerkte: null, woningFase: null, kookplaatType: null,
+    return { werk: null, hulpAansluiting: null, hulpWerkte: null, woningFase: null, kookplaatType: null, meterkastRuimte: null,
       afstand: null, meters: null, kruipruimte: null, route: null, kookplaatAansluiten: null, merkModel: '' };
   }
   function geldigeMeters(config, m) {
@@ -85,6 +85,12 @@
         }
         if (staat.woningFase === 'onbekend') r.aandachtspunten.push('Type aansluiting van de woning (1-fase of 3-fase) onbekend: controleren aan de hand van de foto van de meterkast.');
       }
+      // Plek in de meterkast voor de nieuwe kookgroep
+      if (!staat.meterkastRuimte) r.ontbreekt.push('meterkastRuimte');
+      else if (staat.meterkastRuimte !== 'ja') {
+        regel('Uitbreiding van de meterkast, als dat nodig is', 0, null, 'Niet inbegrepen. Wij beoordelen dit aan de hand van de foto van uw meterkast');
+        r.aandachtspunten.push(staat.meterkastRuimte === 'nee' ? 'Klant geeft aan dat er geen plek meer is in de meterkast: uitbreiding nodig (niet inbegrepen).' : 'Onbekend of er plek is in de meterkast voor de nieuwe kookgroep: beoordelen aan de hand van de foto van de meterkast.');
+      }
       // 2. Kabelafstand
       var m = geldigeMeters(config, staat.meters);
       var cat = (config.kabel.categorieen || []).filter(function (k) { return k.id === staat.afstand; })[0];
@@ -122,6 +128,31 @@
     return r;
   }
 
+  /** Gekozen antwoorden als leesbare regels [vraag, antwoord] (configurator, e-mail en beheer). */
+  function keuzes(config, staat) {
+    var rij = [];
+    var lab = function (id) { var m = { '1': '1-fase', '3': '3-fase', onbekend: 'Weet ik niet', ja: 'Ja', nee: 'Nee', '1fase': '1-fase kookaansluiting', '2fase': '2-fase kookgroep', '3fase': '3-fase krachtgroep', perilex: 'Perilex-stopcontact', kabel: 'Kabel of aansluitdoos', geen: 'Geen aansluiting' }; return m[id] || id || '–'; };
+    var werk = { aansluiten: config.werk.aansluiten.label, perilex: config.werk.perilex.label, compleet: 'Complete kookgroep met Perilex', weetniet: 'Ik weet niet precies wat ik nodig heb' }[staat.werk];
+    rij.push(['Werkzaamheden', werk || '–']);
+    if (staat.werk === 'weetniet') { rij.push(['In de keuken nu', lab(staat.hulpAansluiting)]); if (staat.hulpWerkte) rij.push(['Werkte er eerder een kookplaat op', lab(staat.hulpWerkte)]); }
+    if (staat.werk === 'compleet') {
+      rij.push(['Aansluiting woning', lab(staat.woningFase)]); rij.push(['Kookplaat heeft nodig', lab(staat.kookplaatType)]);
+      rij.push(['Plek in de meterkast', lab(staat.meterkastRuimte)]);
+      var m = geldigeMeters(config, staat.meters), cat = config.kabel.categorieen.filter(function (k) { return k.id === staat.afstand; })[0];
+      rij.push(['Afstand meterkast–keuken', m ? 'circa ' + m + ' meter' : (cat ? cat.label : '–')]);
+      rij.push(['Kruipruimte', lab(staat.kruipruimte)]); if (staat.kruipruimte && staat.kruipruimte !== 'ja' && config.kabelroute[staat.route]) rij.push(['Kabelroute', config.kabelroute[staat.route].label]);
+      rij.push(['Kookplaat aansluiten', lab(staat.kookplaatAansluiten)]);
+    }
+    if (staat.merkModel) rij.push(['Merk en type kookplaat', staat.merkModel]);
+    return rij;
+  }
+  /** Korte omschrijving van het werk, bijvoorbeeld als titel van een offerte. */
+  function omschrijving(config, staat) {
+    if (staat.werk === 'aansluiten' || staat.werk === 'perilex') return config.werk[staat.werk].label;
+    if (staat.werk === 'compleet') return (config.compleet[staat.kookplaatType] ? config.compleet[staat.kookplaatType].label : 'Complete kookgroep met Perilex') + (staat.kookplaatAansluiten === 'ja' ? ', inclusief aansluiten van uw kookplaat' : '');
+    return 'Kookgroep of Perilex-aansluiting';
+  }
+
   /** Korte tekst voor de prijsbalk en de e-mail. */
   function prijsTekst(r) {
     if (r.modus === 'leeg') return '';
@@ -131,5 +162,5 @@
     return euro(r.min);
   }
 
-  return { leegeStaat: leegeStaat, bereken: bereken, advies: advies, prijsTekst: prijsTekst, euro: euro, geldigeMeters: geldigeMeters };
+  return { leegeStaat: leegeStaat, bereken: bereken, advies: advies, prijsTekst: prijsTekst, euro: euro, geldigeMeters: geldigeMeters, keuzes: keuzes, omschrijving: omschrijving };
 });

@@ -30,7 +30,7 @@ async function gegevens(p) {
   for (const [k, v] of Object.entries({ voornaam: 'Test', achternaam: 'Klant', email: 'test@voorbeeld.nl', telefoon: '06 12345678', postcode: '3811 AB', huisnummer: '12' })) await p.fill('#kg-' + k, v);
   await p.check('#kg-akkoord');
 }
-const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.replace(/[’']/g, '.') + '"\\r\\n\\r\\n([^\\r]*)')); return m ? m[1] : null; };
+const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[’']/g, '.') + '"\\r\\n\\r\\n([^\\r]*)')); return m ? m[1] : null; };
 
 (async () => {
   const b = await chromium.launch();
@@ -48,7 +48,7 @@ const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.r
 
   // 1) A: alleen kookplaat aansluiten, met foto
   { const { ctx, p, st } = await nieuw(b, { viewport: { width: 1280, height: 900 } });
-    await kies(p, 'werk', 'aansluiten'); assert.strictEqual(await prijs(p), '€ 109');
+    await kies(p, 'werk', 'aansluiten'); assert.strictEqual(await prijs(p), '€ 109'); assert((await p.textContent('#kg-stap')).includes('Inclusief Perilex-stekker'), 'stekker bij A');
     await volgende(p); assert((await titel(p)).includes('kookplaat'));
     assert(!(await p.$('input[name="kookplaatAansluiten"]')), 'geen extra kookplaattoeslag bij A');
     await p.fill('#kg-merk', 'Bosch PIE631FB1E'); await volgende(p);
@@ -82,12 +82,15 @@ const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.r
   // 3) C: complete kookgroep – voorbeeld uit de opdracht (€ 380) en varianten
   { const { ctx, p, st } = await nieuw(b, { viewport: { width: 1280, height: 900 } });
     await kies(p, 'werk', 'compleet'); assert.strictEqual(await prijs(p), 'Vanaf € 259');
-    await volgende(p); await volgende(p); assert(await p.isVisible('#kgf-woningFase') && await p.isVisible('#kgf-kookplaatType'));
+    await volgende(p); await volgende(p); assert(await p.isVisible('#kgf-woningFase') && await p.isVisible('#kgf-kookplaatType') && await p.isVisible('#kgf-meterkastRuimte'));
     await kies(p, 'woningFase', '1'); await kies(p, 'kookplaatType', '3fase');
     assert((await p.textContent('#kg-stap')).includes('netbeheerder'), 'waarschuwing 3-fase in 1-fase woning');
     assert.strictEqual(await prijs(p), 'Prijs op aanvraag');
     await kies(p, 'kookplaatType', 'onbekend'); assert.strictEqual(await prijs(p), 'Vanaf € 259');
     await kies(p, 'kookplaatType', '2fase'); assert.strictEqual(await prijs(p), 'Vanaf € 299');
+    await kies(p, 'meterkastRuimte', 'nee'); assert((await p.textContent('#kg-stap')).includes('uitbreiding van de meterkast'), 'melding meterkast vol');
+    await p.click('#kg-opbouwknop'); assert((await p.textContent('#kg-opbouw')).includes('Na beoordeling'), 'meterkastuitbreiding na beoordeling'); await p.click('#kg-opbouwknop');
+    await kies(p, 'meterkastRuimte', 'ja'); assert(!(await p.textContent('#kg-stap')).includes('uitbreiding van de meterkast'));
     await volgende(p); await kies(p, 'afstand', '6-10'); assert.strictEqual(await prijs(p), 'Vanaf € 311');
     await p.fill('#kg-meters', '8'); assert.strictEqual(await prijs(p), 'Vanaf € 335');
     await p.fill('#kg-meters', '2.5'); await volgende(p); assert(await p.isVisible('#kgf-meters'), 'ongeldig aantal meters');
@@ -111,8 +114,9 @@ const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.r
     await gegevens(p); await p.setInputFiles('#kgu-meterkast', FOTO); await p.waitForSelector('.kg-fotos img');
     await volgende(p); await p.waitForSelector('.kg-klaar');
     const post = st.posts[0];
-    for (const [k, v] of [['Aansluiting woning', '3-fase'], ['Kookplaat heeft nodig', '3-fase krachtgroep'], ['Afstand meterkast–keuken', 'circa 8 meter'], ['Kookplaat aansluiten', 'Ja'], ['Prijsindicatie incl. btw', '€ 430']]) assert.strictEqual(veld(post, k), v, k);
+    for (const [k, v] of [['Aansluiting woning', '3-fase'], ['Kookplaat heeft nodig', '3-fase krachtgroep'], ['Plek in de meterkast', 'Ja'], ['Afstand meterkast–keuken', 'circa 8 meter'], ['Kookplaat aansluiten', 'Ja'], ['Prijsindicatie incl. btw', '€ 430']]) assert.strictEqual(veld(post, k), v, k);
     assert(post.includes('Extra kabel: 3 meter') && post.includes('Configuratie (kookgroep)'));
+    const tech = JSON.parse(veld(post, 'Configuratie (kookgroep)')); assert.strictEqual(tech.soort, 'kookgroep'); assert.strictEqual(tech.klant.email, veld(post, 'email'));
     console.log('C ok'); assert(!st.errs.length, st.errs.join()); await ctx.close(); }
 
   // 4) D: weet niet → advies → verder als A; en "weet ik niet" → offerte op maat

@@ -66,10 +66,11 @@
 </main>
 <script src="../laadpalen/assets/pricing.js"></script>
 <script src="../uw-offerte/offerte-link.js"></script>
+<script src="../assets/kookgroep/prijs.js"></script>
 <script>
 (function () {
   'use strict';
-  var CFG = null, ORIG = '';
+  var CFG = null, ORIG = '', KGC = null; // KGC = prijzen kookgroep/Perilex (assets/kookgroep/config.json)
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var eur = function (n) { return '€ ' + (Math.round(Number(n) * 100) / 100).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
@@ -165,7 +166,7 @@
         '<button class="btn light" type="button" id="regExport">Exporteer overzicht (CSV)</button>' +
         '<button class="btn light" type="button" id="regBackup">Back-up (JSON)</button>' +
         '<label class="btn light" style="display:inline-block">Back-up terugzetten<input type="file" id="regRestore" accept=".json,application/json" hidden></label></p>' +
-        '<div id="regPlak" hidden><textarea id="regPlakIn" placeholder="Plak hier het veld “Configuratie (technisch)” uit de e-mail"></textarea><p><button class="btn" type="button" id="regPlakGo">Toevoegen</button></p></div>' +
+        '<div id="regPlak" hidden><textarea id="regPlakIn" placeholder="Plak hier het veld “Configuratie (technisch)” of “Configuratie (kookgroep)” uit de e-mail"></textarea><p><button class="btn" type="button" id="regPlakGo">Toevoegen</button></p></div>' +
         '<p style="margin:10px 0"><input type="search" id="regZoek" placeholder="Zoek op naam, aanvraagnummer, plaats of laadpaal" style="max-width:420px"> <select id="regFilter" style="max-width:220px;display:inline-block"><option value="">Alle statussen</option>' + STATUSSEN.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select></p>' +
         '<div id="regLijst"></div><div id="regDetail"></div></div>';
     }
@@ -222,6 +223,9 @@
     }
     function kolom(o, re) { for (var k in o) if (re.test(k) && o[k]) return o[k]; return ''; }
     function uitRij(o) {
+      var kg = null, k = kolom(o, /configuratie.*kookgroep/i);
+      try { kg = k ? JSON.parse(k) : null; } catch (e) { kg = null; }
+      if (kg && kg.ref) return kgItem(kg, kolom(o, /submitted|created|date|datum/i) || '', o, 'csv');
       var tech = null, t = kolom(o, /configuratie.*technisch/i);
       try { tech = t ? JSON.parse(t) : null; } catch (e) { tech = null; }
       var ref = (tech && tech.ref) || kolom(o, /^(aanvraagnummer|referentie)$/i);
@@ -233,6 +237,15 @@
         tech: tech, velden: o
       };
     }
+    /* Kookgroep/Perilex-aanvraag (veld "Configuratie (kookgroep)") */
+    function kgItem(kg, datum, velden, bron) {
+      var kl = kg.klant || {}, v = velden || {};
+      return { ref: kg.ref, soort: 'kookgroep', datum: datum, bron: bron, naam: kl.naam || kolom(v, /^naam$/i), email: kl.email || kolom(v, /e-?mail/i),
+        telefoon: kl.telefoon || kolom(v, /telefoon/i), adres: kl.adres || kolom(v, /^(installatie)?adres$/i), tech: kg, velden: v };
+    }
+    function isKg(a) { return a && a.soort === 'kookgroep'; }
+    function kgWat(a) { var st = (a.tech && a.tech.staat) || {}; return KGC ? KGPrijs.omschrijving(KGC, st) : 'Kookgroep / Perilex'; }
+    function kgPrijs(a) { var p = a.tech && a.tech.prijs; return p ? (KGPrijs.prijsTekst(p) || 'Op aanvraag') : '–'; }
     function voegToe(a) {
       var bestaand = data.items[a.ref];
       data.items[a.ref] = Object.assign({ status: 'Nieuw', notities: '' }, bestaand || {}, a, bestaand ? { status: bestaand.status, notities: bestaand.notities } : {});
@@ -243,17 +256,18 @@
       var el = $('#regLijst'); if (!el) return;
       var z = ($('#regZoek').value || '').toLowerCase(), fs = $('#regFilter').value;
       var items = Object.keys(data.items).map(function (k) { return data.items[k]; })
-        .filter(function (a) { return (!fs || a.status === fs) && (!z || JSON.stringify([a.ref, a.naam, a.adres, a.tech && a.tech.staat && a.tech.staat.product]).toLowerCase().indexOf(z) > -1); })
+        .filter(function (a) { return (!fs || a.status === fs) && (!z || JSON.stringify([a.ref, a.naam, a.adres, a.tech && a.tech.staat && a.tech.staat.product, isKg(a) ? kgWat(a) : '']).toLowerCase().indexOf(z) > -1); })
         .sort(function (a, b) { return String(b.datum || b.ref).localeCompare(String(a.datum || a.ref)); });
       if (!items.length) { el.innerHTML = '<p class="hint">Nog geen aanvragen in dit overzicht. Importeer de CSV-export uit Formspree.</p>'; return; }
-      el.innerHTML = '<table><thead><tr><th>Aanvraag</th><th>Klant</th><th>Laadpaal</th><th>Route</th><th class="num">Prijsindicatie</th><th>Status</th><th></th></tr></thead><tbody>' + items.map(function (a) {
-        var st = a.tech && a.tech.staat || {}, p = EKPricing.product(CFG, st.product);
-        return '<tr><td><b>' + esc(a.ref) + '</b><br><small>' + esc(String(a.datum).slice(0, 16)) + '</small></td><td>' + esc(a.naam) + '<br><small>' + esc(a.adres) + '</small></td><td>' + esc(p ? p.naam : (a.velden && a.velden.Laadpaal) || '–') + '</td><td>' + (a.tech && a.tech.route === 'offerte' ? 'Offerte (meterkast)' : 'Standaard') + '</td><td class="num">' + (a.tech && a.tech.route !== 'offerte' ? eur(a.tech.totaal) : '–') + '</td>' +
+      el.innerHTML = '<table><thead><tr><th>Aanvraag</th><th>Klant</th><th>Laadpaal / werk</th><th>Route</th><th class="num">Prijsindicatie</th><th>Status</th><th></th></tr></thead><tbody>' + items.map(function (a) {
+        var st = a.tech && a.tech.staat || {}, p = EKPricing.product(CFG, st.product), kgA = isKg(a);
+        return '<tr><td><b>' + esc(a.ref) + '</b><br><small>' + esc(String(a.datum).slice(0, 16)) + '</small></td><td>' + esc(a.naam) + '<br><small>' + esc(a.adres) + '</small></td><td>' + esc(kgA ? kgWat(a) : (p ? p.naam : (a.velden && a.velden.Laadpaal) || '–')) + '</td><td>' + (kgA ? 'Kookgroep / Perilex' : (a.tech && a.tech.route === 'offerte' ? 'Offerte (meterkast)' : 'Standaard')) + '</td><td class="num">' + (kgA ? esc(kgPrijs(a)) : (a.tech && a.tech.route !== 'offerte' ? eur(a.tech.totaal) : '–')) + '</td>' +
           '<td><select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td><td style="white-space:nowrap"><button class="btn light" type="button" data-open="' + esc(a.ref) + '">Details</button> <button class="btn light" type="button" data-regwis="' + esc(a.ref) + '" title="Verwijderen">✕</button></td></tr>';
       }).join('') + '</tbody></table>';
     }
     function detail(ref) {
       open = ref; var a = data.items[ref], el = $('#regDetail'); if (!a) { el.innerHTML = ''; return; }
+      if (isKg(a)) return detailKg(a, el);
       var t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product);
       var r = function (k, v) { return '<tr><th>' + k + '</th><td>' + esc(v == null || v === '' ? '–' : v) + '</td></tr>'; };
       var rows = r('Aanvraagnummer', a.ref) + r('Datum', a.datum) + r('Naam', a.naam) + r('E-mail', a.email) + r('Telefoon', a.telefoon) + r('Installatieadres', a.adres) +
@@ -278,6 +292,31 @@
       toonFotos(ref);
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    function statusEnFotos(a, soorten) {
+      return '<label class="full">Status<select data-status="' + esc(a.ref) + '">' + STATUSSEN.map(function (x) { return '<option' + (x === a.status ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
+        '<label class="full">Interne notities<textarea id="regNotitie">' + esc(a.notities || '') + '</textarea></label>' +
+        '<div class="full"><h3 style="margin-top:12px">Foto’s</h3><p class="hint">Foto’s die met de aanvraag zijn verstuurd, staan in de e-mail en in Formspree. Foto’s die de klant later per e-mail of WhatsApp stuurt, voegt u hier toe.</p>' +
+        '<p><select id="regFotoSoort" style="max-width:260px;display:inline-block">' + soorten.map(function (x) { return '<option value="' + x[0] + '">' + x[1] + '</option>'; }).join('') + '</select> <label class="btn" style="display:inline-block">Foto’s toevoegen<input type="file" id="regFoto" accept="image/*,.heic,.heif,.pdf" multiple hidden></label></p><div id="regFotos" style="display:flex;gap:10px;flex-wrap:wrap"></div></div>';
+    }
+    function detailKg(a, el) {
+      var t = a.tech || {}, st = t.staat || {}, v = a.velden || {};
+      var r = function (k, w) { return '<tr><th>' + k + '</th><td>' + esc(w == null || w === '' ? '–' : w) + '</td></tr>'; };
+      var keuzes = KGC ? KGPrijs.keuzes(KGC, st) : [];
+      var rows = r('Aanvraagnummer', a.ref) + r('Datum', a.datum) + r('Soort', 'Kookgroep / Perilex') + r('Naam', a.naam) + r('E-mail', a.email) + r('Telefoon', a.telefoon) + r('Adres', a.adres) +
+        keuzes.map(function (x) { return r(esc(x[0]), x[1]); }).join('') +
+        r('Prijsindicatie in de aanvraag', kgPrijs(a)) + r('Prijsconfiguratie', t.versie || v['Prijsconfiguratie versie']) +
+        r('Opmerkingen klant', v['Opmerkingen klant']) + r('Foto’s bij aanvraag', v['Foto’s'] || v["Foto's"]);
+      var nu = KGC ? KGPrijs.bereken(KGC, st) : null, bedrag = function (x) { return x.min === null ? 'Op aanvraag' : (x.max === null ? (x.min === 0 ? 'Na beoordeling' : 'Vanaf ' + eur(x.min)) : (x.min === x.max ? (x.min === 0 ? 'Inbegrepen' : eur(x.min)) : eur(x.min) + ' – ' + eur(x.max))); };
+      var opbouw = nu ? nu.regels.map(function (x) { return '<tr><td>' + esc(x.label) + (x.toelichting ? '<br><small>' + esc(x.toelichting) + '</small>' : '') + '</td><td class="num">' + esc(bedrag(x)) + '</td></tr>'; }).join('') + '<tr><th>Totaal incl. btw</th><th class="num">' + esc(KGPrijs.prijsTekst(nu) || 'Op aanvraag') + '</th></tr>' : '';
+      var afwijking = nu && t.prijs && KGPrijs.prijsTekst(nu) !== KGPrijs.prijsTekst(t.prijs) ? '<p class="bad">Let op: met de huidige prijzen zou dit ' + esc(KGPrijs.prijsTekst(nu) || 'op aanvraag') + ' zijn.</p>' : '';
+      el.innerHTML = '<div class="sub"><h3>Aanvraag ' + esc(a.ref) + ' <button class="btn light" type="button" data-sluit>Sluiten</button></h3>' +
+        '<div class="grid"><div class="full"><table>' + rows + '</table></div>' +
+        '<div class="full"><h3 style="margin-top:12px">Prijsopbouw</h3>' + (opbouw ? '<table>' + opbouw + '</table>' : '<p class="hint">De kookgroepprijzen konden niet worden geladen.</p>') + afwijking + '</div>' +
+        '<div class="full"><h3 style="margin-top:12px">Aandachtspunten</h3><ul>' + (nu ? nu.aandachtspunten : []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
+        statusEnFotos(a, [['meterkast', 'Meterkast'], ['bestaand', 'Huidige aansluiting keuken'], ['locatie', 'Plek kookplaat'], ['typeplaatje', 'Typeplaatje / aansluitschema'], ['overig', 'Overig']]) + '</div></div>';
+      toonFotos(a.ref);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     function toonFotos(ref) {
       fotos(ref).then(function (l) {
         var el = $('#regFotos'); if (!el) return;
@@ -293,10 +332,10 @@
       return fotos(ref).then(function (l) { return Promise.all(l.map(function (f) { return fotoWis(f.id); })); }).catch(function () {});
     }
     function exportCsv() {
-      var kop = ['Aanvraagnummer', 'Datum', 'Status', 'Naam', 'E-mail', 'Telefoon', 'Adres', 'Laadpaal', 'Route', 'Prijsindicatie', 'gclid', 'Notities'];
+      var kop = ['Aanvraagnummer', 'Datum', 'Status', 'Naam', 'E-mail', 'Telefoon', 'Adres', 'Laadpaal / werk', 'Route', 'Prijsindicatie', 'gclid', 'Notities'];
       var q = function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; };
       var rows = Object.keys(data.items).map(function (k) { var a = data.items[k], t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product), ids = {}; try { ids = JSON.parse((a.velden || {})['Advertentie-ID’s'] || '{}'); } catch (e) {}
-        return [a.ref, a.datum, a.status, a.naam, a.email, a.telefoon, a.adres, p ? p.naam : '', t.route, t.totaal, ids.gclid || '', a.notities].map(q).join(';'); });
+        return (isKg(a) ? [a.ref, a.datum, a.status, a.naam, a.email, a.telefoon, a.adres, kgWat(a), 'kookgroep', kgPrijs(a), ids.gclid || '', a.notities] : [a.ref, a.datum, a.status, a.naam, a.email, a.telefoon, a.adres, p ? p.naam : '', t.route, t.totaal, ids.gclid || '', a.notities]).map(q).join(';'); });
       download('aanvragen-elektroklik.csv', '﻿' + kop.join(';') + '\n' + rows.join('\n'), 'text/csv');
     }
     function download(naam, inhoud, type) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([inhoud], { type: type })); a.download = naam; a.click(); }
@@ -321,7 +360,7 @@
         if (e.target.closest('[data-sluit]')) { open = null; $('#regDetail').innerHTML = ''; }
         var fw = e.target.closest('[data-fotowis]'); if (fw && confirm('Deze foto verwijderen?')) fotoWis(Number(fw.getAttribute('data-fotowis'))).then(function () { toonFotos(open); });
         if (e.target.id === 'regPlakOpen') $('#regPlak').hidden = !$('#regPlak').hidden;
-        if (e.target.id === 'regPlakGo') { try { var tech = JSON.parse($('#regPlakIn').value); if (!tech.ref) throw 0; voegToe({ ref: tech.ref, datum: new Date().toISOString().slice(0, 16), naam: tech.klant && tech.klant.naam, email: tech.klant && tech.klant.email, telefoon: tech.klant && tech.klant.telefoon, adres: tech.klant && tech.klant.adres, tech: tech, velden: {}, bron: 'handmatig' }); bewaar(); lijst(); $('#regPlakIn').value = ''; } catch (er) { alert('Plak het volledige veld “Configuratie (technisch)” uit de e-mail.'); } }
+        if (e.target.id === 'regPlakGo') { try { var tech = JSON.parse($('#regPlakIn').value); if (!tech.ref) throw 0; if (tech.soort === 'kookgroep' || /^KG-/.test(tech.ref)) { voegToe(kgItem(tech, new Date().toISOString().slice(0, 16), {}, 'handmatig')); bewaar(); lijst(); $('#regPlakIn').value = ''; return; } voegToe({ ref: tech.ref, datum: new Date().toISOString().slice(0, 16), naam: tech.klant && tech.klant.naam, email: tech.klant && tech.klant.email, telefoon: tech.klant && tech.klant.telefoon, adres: tech.klant && tech.klant.adres, tech: tech, velden: {}, bron: 'handmatig' }); bewaar(); lijst(); $('#regPlakIn').value = ''; } catch (er) { alert('Plak het volledige veld “Configuratie (technisch)” of “Configuratie (kookgroep)” uit de e-mail.'); } }
         var rw = e.target.closest('[data-regwis]'); if (rw) { var wref = rw.getAttribute('data-regwis'); if (confirm('Aanvraag ' + wref + ' uit dit overzicht verwijderen, met de foto’s die u hier heeft toegevoegd? De e-mail en de inzending in Formspree blijven bestaan.')) verwijder(wref); }
         if (e.target.id === 'regExport') exportCsv();
         if (e.target.id === 'regBackup') download('aanvragen-backup.json', JSON.stringify(data, null, 1), 'application/json');
@@ -362,11 +401,33 @@
     function vanAanvraag(ref) {
       var reg = {}; try { reg = JSON.parse(localStorage.getItem('ek_register_v1') || '{"items":{}}').items || {}; } catch (e) {}
       var a = reg[ref]; if (!a) return;
+      if (a.soort === 'kookgroep') return vanKookgroep(a);
       var r = leeg(), t = a.tech || {}, st = t.staat || {}, p = EKPricing.product(CFG, st.product);
       r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
       if (p) { r.o.titel = p.naam + (st.locatie === 'paal' ? ' op een montagepaal' : '') + ', inclusief installatie'; var g = (p.specs && p.specs.garantie) || ''; if (/^\d+ jaar/.test(g)) r.o.garantie.push('Op de ' + p.naam + ' krijgt u ' + g + '.'); }
       if ((t.regels || []).length) r.o.regels = t.regels.map(function (x) { return { omschrijving: x.label, bedrag: x.bedrag }; });
       if (st.locatie === 'paal') r.o.inbegrepen = r.o.inbegrepen.map(function (x) { return /^Montage van de laadpaal/i.test(x) ? 'Plaatsing van uw laadstation op een montagepaal' : x; });
+      data.items[r.nr] = r; bewaar(); open(r.nr);
+    }
+    /* Offerte voor een kookgroep/Perilex-aanvraag: vaste bedragen worden overgenomen, indicaties moet u zelf invullen */
+    function vanKookgroep(a) {
+      var r = leeg(), st = (a.tech && a.tech.staat) || {};
+      r.soort = 'kookgroep';
+      r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
+      r.o.inbegrepen = []; r.o.aanbetalingPercentage = 0;
+      r.controle = [];
+      if (KGC) {
+        var b = KGPrijs.bereken(KGC, st);
+        r.o.titel = KGPrijs.omschrijving(KGC, st);
+        r.o.regels = [];
+        b.regels.forEach(function (x) {
+          if (x.min !== null && x.max === x.min) { if (x.min > 0) r.o.regels.push({ omschrijving: x.label, bedrag: x.min }); return; }
+          r.o.regels.push({ omschrijving: x.label, bedrag: x.min || 0 });
+          r.controle.push(x.label + ': in de aanvraag ' + (x.min === null ? 'op aanvraag' : (x.max === null ? (x.min ? 'vanaf ' + eur(x.min) : 'na beoordeling') : eur(x.min) + ' – ' + eur(x.max))));
+        });
+        if (!r.o.regels.length) r.o.regels = [{ omschrijving: '', bedrag: 0 }];
+        r.aandachtspunten = b.aandachtspunten;
+      }
       data.items[r.nr] = r; bewaar(); open(r.nr);
     }
     function lijst() {
@@ -395,6 +456,8 @@
     function open(nr) {
       bewerk = nr; var r = data.items[nr], o = r.o, el = $('#offEditor');
       el.innerHTML = '<div class="sub"><h3>Offerte ' + esc(r.nr) + (r.versie > 1 ? ' (versie ' + r.versie + ')' : '') + ' <button class="btn light" type="button" data-offsluit>Sluiten</button></h3>' +
+        ((r.controle || []).length ? '<div class="banner warn"><b>Vul deze bedragen zelf in.</b> In de aanvraag waren dit nog geen vaste bedragen:<ul style="margin:6px 0 0">' + r.controle.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>Een regel die niet nodig is, verwijdert u met ✕.</div>' : '') +
+        ((r.aandachtspunten || []).length ? '<div class="banner ok"><b>Aandachtspunten uit de aanvraag</b> (alleen voor u zichtbaar):<ul style="margin:6px 0 0">' + r.aandachtspunten.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' : '') +
         (r.gepubliceerd ? '<div class="banner warn">Deze offerte staat online. Past u iets aan, klik dan op “Wijzigingen online zetten”. De klant ziet via <b>dezelfde link</b> dan versie ' + (r.versie + 1) + '. In de akkoordmail ziet u altijd welke versie de klant heeft geaccepteerd.</div>' : '') +
         '<div class="grid">' + veld('titel', 'Titel', o.titel, 'text', 'Bijv. Zaptec Go 2 op een montagepaal, inclusief installatie') + veld('aanvraag', 'Bij aanvraag', o.aanvraag) +
         veld('klant.naam', 'Naam klant', o.klant.naam) + veld('klant.email', 'E-mail klant', o.klant.email, 'email') + veld('klant.telefoon', 'Telefoon klant', o.klant.telefoon) + veld('klant.adres', 'Installatieadres', o.klant.adres) + '</div>' +
@@ -440,12 +503,13 @@
       var r = data.items[bewerk], o = r.o;
       if (!o.klant.naam || !o.regels.some(function (x) { return x.omschrijving && Number(x.bedrag) > 0; })) return alert('Vul ten minste de naam van de klant en één regel met een bedrag in.');
       if (o.betaallink && !/^https:\/\//i.test(o.betaallink)) return alert('De Tikkie-link moet beginnen met https://');
+      if (o.regels.some(function (x) { return x.omschrijving && !Number(x.bedrag); }) && !confirm('Er staat een regel met € 0 in de offerte. De klant ziet die regel ook. Toch online zetten?')) return;
       if (!r.id) { r.id = EKOfferte.nieuweId(); r.sleutel = EKOfferte.nieuweSleutel(); }
       var versie = r.gepubliceerd ? r.versie + 1 : r.versie;
       var offerte = { nr: r.nr, versie: versie, datum: vandaag(), geldigTot: o.geldigTot, aanvraag: o.aanvraag, titel: o.titel, klant: o.klant,
         regels: o.regels.filter(function (x) { return x.omschrijving || Number(x.bedrag); }).map(function (x) { return { omschrijving: x.omschrijving, bedrag: Math.round(Number(x.bedrag) * 100) / 100 }; }),
         btwPercentage: CFG.instellingen.btwPercentage, aanbetalingPercentage: Number(o.aanbetalingPercentage) || 0, inbegrepen: o.inbegrepen, garantie: o.garantie,
-        installatiedatum: o.installatiedatum, opmerking: o.opmerking, betaallink: o.betaallink, voorwaardenUrl: inst.voorwaardenUrl, garantieUrl: inst.garantieUrl,
+        installatiedatum: o.installatiedatum, opmerking: o.opmerking, betaallink: o.betaallink, voorwaardenUrl: inst.voorwaardenUrl, garantieUrl: r.soort === 'kookgroep' ? '' : inst.garantieUrl,
         bedrijf: inst.bedrijf, formEndpoint: CFG.instellingen.formEndpoint };
       var knop = $('#offLink'); knop.disabled = true; knop.textContent = 'Bezig met online zetten…';
       var inhoud;
@@ -479,8 +543,8 @@
     function toonResultaat(r) {
       var el = $('#offResultaat'); if (!el) return;
       var b = inst.bedrijf, voornaam = (r.o.klant.naam || '').split(' ')[0], n = '\n';
-      var b1 = 'Goedendag ' + voornaam + ',' + n + n + 'Hierbij ontvangt u onze offerte' + (r.o.titel ? ' voor de ' + r.o.titel : '') + ':' + n + r.link + n + n +
-        (Number(r.o.aanbetalingPercentage) ? 'Via deze link bekijkt u de offerte, geeft u akkoord en voldoet u de aanbetaling. Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken.' : 'Via deze link bekijkt u de offerte en geeft u akkoord.') + n + n +
+      var b1 = 'Goedendag ' + voornaam + ',' + n + n + (r.soort === 'kookgroep' ? 'Hierbij ontvangt u onze offerte' + (r.o.titel ? ': ' + r.o.titel + '.' : ':') : 'Hierbij ontvangt u onze offerte' + (r.o.titel ? ' voor de ' + r.o.titel : '') + ':') + n + r.link + n + n +
+        (Number(r.o.aanbetalingPercentage) ? 'Via deze link bekijkt u de offerte, geeft u akkoord en voldoet u de aanbetaling. Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken.' : 'Via deze link bekijkt u de offerte en geeft u akkoord. Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.') + n + n +
         'Heeft u vragen? Neem gerust contact met ons op via ' + b.telefoon + '.' + n + n + 'Met vriendelijke groet,' + n + b.naam;
       el.innerHTML = '<div id="offOnline"></div>' +
         '<div class="grid"><label class="full">Bericht aan de klant<textarea readonly id="offB1" style="min-height:190px">' + esc(b1) + '</textarea></label></div>' +
@@ -489,7 +553,7 @@
         (r.o.klant.telefoon ? '<a class="btn" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/' + esc(waNummer(r.o.klant.telefoon)) + '?text=' + encodeURIComponent(b1) + '">Via WhatsApp sturen</a>' : '') +
         '<button class="btn light" type="button" data-kopieer="offB1">Kopieer bericht</button>' +
         '<a class="btn light" style="text-decoration:none" target="_blank" rel="noopener" href="' + esc(r.link) + '">Bekijk als klant</a></p>' +
-        '<div class="sub"><h3>Na ontvangst van de aanbetaling: bevestiging sturen</h3><p class="hint">Is de aanbetaling binnen? Stuur dan deze bevestiging. Zo heeft de klant de afspraken en uw algemene voorwaarden per e-mail, zoals de wet vraagt bij een akkoord via internet.</p>' +
+        '<div class="sub">' + (Number(r.o.aanbetalingPercentage) ? '<h3>Na ontvangst van de aanbetaling: bevestiging sturen</h3><p class="hint">Is de aanbetaling binnen? Stuur dan deze bevestiging.' : '<h3>Na het akkoord: bevestiging sturen</h3><p class="hint">Heeft de klant akkoord gegeven? Stuur dan deze bevestiging.') + ' Zo heeft de klant de afspraken en uw algemene voorwaarden per e-mail, zoals de wet vraagt bij een akkoord via internet.</p>' +
         '<textarea readonly id="offB3" style="min-height:220px;width:100%">' + esc(bevestiging(r)) + '</textarea>' +
         '<p style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + (r.o.klant.email ? '<a class="btn" style="text-decoration:none" href="mailto:' + esc(r.o.klant.email) + '?subject=' + encodeURIComponent('Bevestiging van uw opdracht – offerte ' + r.nr + ' – ' + b.naam) + '&body=' + encodeURIComponent(bevestiging(r)) + '">Bevestiging sturen</a>' : '') +
         '<button class="btn light" type="button" data-kopieer="offB3">Kopieer bevestiging</button></p></div>';
@@ -501,7 +565,7 @@
         'Hartelijk dank voor uw akkoord op onze offerte ' + r.nr + (r.verstuurdeVersie > 1 ? ' (versie ' + r.verstuurdeVersie + ')' : '') +
         (aanb ? ' en voor uw aanbetaling van ' + EKOfferte.euro(tt.aanbetaling) + ', die wij in goede orde hebben ontvangen' : '') + '. Hierbij bevestigen wij uw opdracht.' + n + n +
         (o.titel ? o.titel + n : '') + regels + n + 'Totaal inclusief btw: ' + EKOfferte.euro(tt.totaal) + n + n +
-        (aanb ? 'Betaling' + n + '- Aanbetaling (' + o.aanbetalingPercentage + '%): ' + EKOfferte.euro(tt.aanbetaling) + ', ontvangen' + n + '- Na de installatie: ' + EKOfferte.euro(tt.rest) + n + n : '') +
+        (aanb ? 'Betaling' + n + '- Aanbetaling (' + o.aanbetalingPercentage + '%): ' + EKOfferte.euro(tt.aanbetaling) + ', ontvangen' + n + '- Na de installatie: ' + EKOfferte.euro(tt.rest) + n + n : 'Betaling' + n + '- Het volledige bedrag betaalt u na de installatie.' + n + n) +
         (o.installatiedatum ? 'Voorgestelde installatie: ' + o.installatiedatum + n + n : '') +
         ((o.garantie || []).length ? 'Garantie' + n + o.garantie.map(function (g) { return '- ' + g; }).join(n) + n + n : '') +
         (inst.voorwaardenUrl ? 'Op deze opdracht zijn onze algemene voorwaarden van toepassing, met onder meer informatie over de betaling, de garantie en uw bedenktijd: ' + inst.voorwaardenUrl + n + n : '') +
@@ -661,6 +725,7 @@
 
   window.addEventListener('beforeunload', function (e) { if (JSON.stringify(CFG) !== ORIG) { e.preventDefault(); e.returnValue = ''; } });
 
+  fetch('../assets/kookgroep/config.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (c) { KGC = c; }).catch(function () {});
   fetch('../laadpalen/data/config.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (c) {
     CFG = c; ORIG = JSON.stringify(c);
     $('#tabs').innerHTML = TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join('');

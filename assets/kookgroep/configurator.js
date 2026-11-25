@@ -58,7 +58,7 @@
   function stapWerk() {
     return '<h3 class="kg-titel" tabindex="-1">Wat wilt u laten doen?</h3>' +
       kaarten('werk', 'Kies wat het best bij uw situatie past', [
-        { id: 'aansluiten', titel: 'Alleen kookplaat of fornuis aansluiten', tekst: 'U heeft al een geschikte kookaansluiting en wilt uw apparaat laten aansluiten.', prijs: eur(C.werk.aansluiten.prijs) + ' incl. btw' },
+        { id: 'aansluiten', titel: 'Alleen kookplaat of fornuis aansluiten', tekst: 'U heeft al een geschikte kookaansluiting en wilt uw apparaat laten aansluiten. Inclusief Perilex-stekker.', prijs: eur(C.werk.aansluiten.prijs) + ' incl. btw' },
         { id: 'perilex', titel: 'Perilex-stopcontact plaatsen of vervangen', tekst: 'De juiste groep en kabel zijn er al, alleen het Perilex-stopcontact moet worden geplaatst of vervangen.', prijs: eur(C.werk.perilex.prijs) + ' incl. btw' },
         { id: 'compleet', titel: 'Complete kookgroep met Perilex', tekst: 'Een nieuwe aansluiting vanuit de meterkast naar de keuken.', prijs: 'Vanaf ' + eur(C.compleet['1fase'].prijs) + ' incl. btw' },
         { id: 'weetniet', titel: 'Ik weet niet precies wat ik nodig heb', tekst: 'Beantwoord een paar eenvoudige vragen, dan helpen wij u kiezen.', prijs: 'Wij helpen u kiezen' }
@@ -95,6 +95,9 @@
       ], 'Dit staat in de handleiding of op het typeplaatje van uw kookplaat. Prijzen zijn inclusief maximaal ' + C.kabel.inbegrepenMeters + ' meter kabelaanleg en btw.', 2);
     if (S.kookplaatType === '3fase' && S.woningFase === '1') h += melding('warn', '<b>Let op:</b> voor een 3-fase krachtgroep heeft uw woning een 3-fase-aansluiting nodig. Uw aansluiting kan worden verzwaard door de netbeheerder; dat is niet inbegrepen. Wij beoordelen uw situatie en maken een offerte op maat.');
     else if (S.kookplaatType === '2fase') h += melding('info', 'Een 2-fase kookgroep bestaat uit twee groepen in de meterkast. Dat werkt ook bij een woning met een 1-fase-aansluiting.');
+    h += pillen('meterkastRuimte', 'Is er nog plek in uw meterkast voor de nieuwe kookgroep?', [['ja', 'Ja'], ['nee', 'Nee'], ['onbekend', 'Weet ik niet']],
+      'Kijk of er in de meterkast nog lege plekken naast de bestaande groepen zitten.');
+    if (S.meterkastRuimte === 'nee' || S.meterkastRuimte === 'onbekend') h += melding('info', 'Is er geen plek, dan is een uitbreiding van de meterkast nodig. Die is niet inbegrepen in de prijs. Wij beoordelen dit aan de hand van de foto van uw meterkast en nemen het mee in uw offerte.');
     return h;
   }
   /* ---------- Stap: afstand ---------- */
@@ -124,7 +127,7 @@
   function stapKookplaat() {
     var h = '<h3 class="kg-titel" tabindex="-1">Uw kookplaat of fornuis</h3>';
     if (S.werk === 'compleet') h += pillen('kookplaatAansluiten', 'Wilt u dat wij de kookplaat of het fornuis direct aansluiten?', [['ja', 'Ja, + ' + eur(C.kookplaatAansluiten)], ['nee', 'Nee']]);
-    else h += '<p class="kg-intro">Het aansluiten van uw kookplaat of fornuis is inbegrepen. Wij gaan uit van een bestaande, geschikte kookaansluiting; die controleren wij bij het aansluiten.</p>';
+    else h += '<p class="kg-intro">Het aansluiten van uw kookplaat of fornuis is inbegrepen, inclusief Perilex-stekker. Wij gaan uit van een bestaande, geschikte kookaansluiting; die controleren wij bij het aansluiten.</p>';
     h += '<div class="kg-vraag"><label class="kg-label" for="kg-merk">Merk en type van uw kookplaat of fornuis <span class="kg-opt">(optioneel)</span></label>' +
       '<input class="kg-invoer" type="text" id="kg-merk" maxlength="120" value="' + esc(S.merkModel) + '" placeholder="Bijv. Bosch PIE631FB1E">' +
       '<p class="kg-uitleg" style="margin-top:6px">Dan controleren wij vooraf welke aansluiting nodig is. Het aansluitschema van de fabrikant en uw huidige installatie zijn altijd leidend.</p></div>';
@@ -164,29 +167,14 @@
       '<label class="kg-check"><input type="checkbox" id="kg-akkoord"' + (G.akkoord ? ' checked' : '') + '><span>Ik ga ermee akkoord dat ElektroKlik mijn gegevens gebruikt om mijn aanvraag te behandelen, zoals beschreven in de <a href="/privacyverklaring/" target="_blank" rel="noopener">privacyverklaring</a>.</span></label>' +
       '<p class="kg-fout" id="kge-akkoord" hidden>Geef toestemming om uw aanvraag te kunnen behandelen.</p><div id="kg-verzendfout" role="alert"></div>';
   }
-  function keuzeTekst() {
-    var rij = [];
-    var lab = function (naam, id) { var m = { '1': '1-fase', '3': '3-fase', onbekend: 'Weet ik niet', ja: 'Ja', nee: 'Nee', '1fase': '1-fase kookaansluiting', '2fase': '2-fase kookgroep', '3fase': '3-fase krachtgroep', perilex: 'Perilex-stopcontact', kabel: 'Kabel of aansluitdoos', geen: 'Geen aansluiting' }; return m[id] || id; };
-    var werk = { aansluiten: C.werk.aansluiten.label, perilex: C.werk.perilex.label, compleet: 'Complete kookgroep met Perilex', weetniet: 'Ik weet niet precies wat ik nodig heb' }[S.werk];
-    rij.push(['Werkzaamheden', werk]);
-    if (S.werk === 'weetniet') { rij.push(['In de keuken nu', lab('', S.hulpAansluiting)]); if (S.hulpWerkte) rij.push(['Werkte er eerder een kookplaat op', lab('', S.hulpWerkte)]); }
-    if (S.werk === 'compleet') {
-      rij.push(['Aansluiting woning', lab('', S.woningFase)]); rij.push(['Kookplaat heeft nodig', lab('', S.kookplaatType)]);
-      var m = KGPrijs.geldigeMeters(C, S.meters), cat = C.kabel.categorieen.filter(function (k) { return k.id === S.afstand; })[0];
-      rij.push(['Afstand meterkast–keuken', m ? 'circa ' + m + ' meter' : (cat ? cat.label : '–')]);
-      rij.push(['Kruipruimte', lab('', S.kruipruimte)]); if (S.kruipruimte && S.kruipruimte !== 'ja' && C.kabelroute[S.route]) rij.push(['Kabelroute', C.kabelroute[S.route].label]);
-      rij.push(['Kookplaat aansluiten', lab('', S.kookplaatAansluiten)]);
-    }
-    if (S.merkModel) rij.push(['Merk en type kookplaat', S.merkModel]);
-    return rij;
-  }
+  function keuzeTekst() { return KGPrijs.keuzes(C, S); }
   function overzicht(r) {
     return '<div class="kg-overzicht"><p class="kg-label">Uw keuzes</p><dl>' + keuzeTekst().map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('') + '</dl>' +
       '<p class="kg-label" style="margin-top:14px">Prijsindicatie</p>' + prijsTabel(r) +
       '<p class="kg-uitleg" style="margin-top:8px">Dit is een prijsindicatie, geen definitieve technische goedkeuring. Wij controleren vooraf uw meterkast, de kabelroute en de aansluiting van uw kookplaat. Eventuele werkzaamheden van de netbeheerder zijn niet inbegrepen.</p>' +
       '<p style="margin:8px 0 0"><button type="button" class="kg-link" data-ga="werk">Keuzes aanpassen</button></p></div>';
   }
-  function bedrag(x) { return x.min === null ? 'Op aanvraag' : (x.max === null ? 'Vanaf ' + eur(x.min) : (x.min === x.max ? (x.min === 0 ? 'Inbegrepen' : eur(x.min)) : eur(x.min) + ' – ' + eur(x.max))); }
+  function bedrag(x) { return x.min === null ? 'Op aanvraag' : (x.max === null ? (x.min === 0 ? 'Na beoordeling' : 'Vanaf ' + eur(x.min)) : (x.min === x.max ? (x.min === 0 ? 'Inbegrepen' : eur(x.min)) : eur(x.min) + ' – ' + eur(x.max))); }
   function prijsTabel(r) {
     if (r.modus === 'leeg') return '';
     return '<table class="kg-tabel"><tbody>' + r.regels.map(function (x) { return '<tr><td>' + esc(x.label) + (x.toelichting ? '<small>' + esc(x.toelichting) + '</small>' : '') + '</td><td>' + esc(bedrag(x)) + '</td></tr>'; }).join('') +
@@ -220,7 +208,7 @@
   var VERPLICHT = {
     werk: function () { return ['werk']; },
     situatie: function () { return ['hulpAansluiting'].concat(S.hulpAansluiting === 'perilex' ? ['hulpWerkte'] : []); },
-    aansluiting: function () { return ['woningFase', 'kookplaatType']; },
+    aansluiting: function () { return ['woningFase', 'kookplaatType', 'meterkastRuimte']; },
     kabel: function () { return ['afstand']; },
     route: function () { return ['kruipruimte'].concat(S.kruipruimte && S.kruipruimte !== 'ja' ? ['route'] : []); },
     kookplaat: function () { return S.werk === 'compleet' ? ['kookplaatAansluiten'] : []; },
@@ -319,7 +307,7 @@
     add('Foto’s', FILES.length ? FILES.map(function (f) { return FOTOS[f.soort].label; }).join(', ') : 'Geen (klant kan later mailen of WhatsAppen met de referentie)');
     add('Prijsconfiguratie versie', C.versie); add('Cookies', cookieTekst());
     var ids = klikIds(); if (Object.keys(ids).length) add('Advertentie-ID’s', JSON.stringify(ids));
-    add('Configuratie (kookgroep)', JSON.stringify({ ref: ref, staat: S, prijs: { modus: r.modus, min: r.min, max: r.max } }));
+    add('Configuratie (kookgroep)', JSON.stringify({ soort: 'kookgroep', ref: ref, versie: C.versie, staat: S, prijs: { modus: r.modus, min: r.min, max: r.max }, klant: { naam: naam, email: G.email.trim(), telefoon: G.telefoon.trim(), adres: G.postcode.trim().toUpperCase() + ' ' + G.huisnummer.trim() } }));
     if (metFotos) FILES.forEach(function (f, i) { if (f.file) fd.append('upload', f.file, (ref + '-' + f.soort + '-' + (i + 1) + '-' + f.file.name).slice(0, 90)); });
     return fd;
   }

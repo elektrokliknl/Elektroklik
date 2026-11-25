@@ -5,7 +5,7 @@ const path = require('path');
 const P = require(path.join(__dirname, '../assets/kookgroep/prijs.js'));
 const C = require(path.join(__dirname, '../assets/kookgroep/config.json'));
 let n = 0; const t = (naam, fn) => { fn(); n++; console.log('✓', naam); };
-const compleet = (extra) => Object.assign({ werk: 'compleet', woningFase: '1', kookplaatType: '2fase', afstand: '0-5', kruipruimte: 'ja', kookplaatAansluiten: 'nee' }, extra);
+const compleet = (extra) => Object.assign({ werk: 'compleet', woningFase: '1', kookplaatType: '2fase', meterkastRuimte: 'ja', afstand: '0-5', kruipruimte: 'ja', kookplaatAansluiten: 'nee' }, extra);
 
 t('niets gekozen → leeg', () => { const r = P.bereken(C, {}); assert.strictEqual(r.modus, 'leeg'); assert.deepStrictEqual(r.ontbreekt, ['werk']); });
 t('A: alleen kookplaat aansluiten → € 109 vast, geen extra kookplaattoeslag', () => {
@@ -67,6 +67,21 @@ t('D: weet niet → advies en prijs op aanvraag', () => {
   assert.strictEqual(P.bereken(C, { werk: 'weetniet', hulpAansluiting: 'onbekend' }).modus, 'opMaat');
 });
 t('kookplaat aansluiten bij complete installatie: + € 45, één keer', () => { const r = P.bereken(C, compleet({ kookplaatAansluiten: 'ja' })); assert.strictEqual(r.min, 344); assert.strictEqual(r.regels.filter(x => /aansluiten/i.test(x.label)).length, 1); });
+t('meterkast vol of onbekend → vanaf-prijs met aandachtspunt, nooit stilzwijgend inbegrepen', () => {
+  for (const v of ['nee', 'onbekend']) {
+    const r = P.bereken(C, compleet({ meterkastRuimte: v }));
+    assert.strictEqual(r.modus, 'vanaf', v); assert.strictEqual(r.min, 299, v); assert(r.aandachtspunten.some(x => /meterkast/.test(x)), v);
+    assert(r.regels.some(x => /Uitbreiding van de meterkast/.test(x.label)), v);
+  }
+  assert(P.bereken(C, compleet({ meterkastRuimte: null })).ontbreekt.includes('meterkastRuimte'));
+});
+t('keuzes en omschrijving (voor e-mail, beheer en offerte)', () => {
+  const k = P.keuzes(C, compleet({ meterkastRuimte: 'nee', meters: 8 }));
+  assert.deepStrictEqual(k.find(x => x[0] === 'Plek in de meterkast'), ['Plek in de meterkast', 'Nee']);
+  assert.deepStrictEqual(k.find(x => x[0] === 'Afstand meterkast–keuken'), ['Afstand meterkast–keuken', 'circa 8 meter']);
+  assert.strictEqual(P.omschrijving(C, compleet({ kookplaatType: '2fase', kookplaatAansluiten: 'ja' })), 'Complete 2-fase kookgroep met Perilex, inclusief aansluiten van uw kookplaat');
+  assert.strictEqual(P.omschrijving(C, { werk: 'perilex' }), C.werk.perilex.label);
+});
 t('prijstekst', () => {
   assert.strictEqual(P.prijsTekst(P.bereken(C, { werk: 'aansluiten' })), '€ 109');
   assert.strictEqual(P.prijsTekst(P.bereken(C, compleet({ afstand: '6-10' }))), '€ 311 – € 359');

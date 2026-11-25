@@ -215,6 +215,8 @@
     if (O.opmerking) { $('oOpmerking').textContent = O.opmerking; $('oOpmerkingKaart').hidden = false; }
     var afspraken = [];
     if (O.aanbetalingPercentage) afspraken.push('Na uw akkoord betaalt u ' + O.aanbetalingPercentage + '% aanbetaling. Daarmee bestellen wij uw materialen en leggen wij uw installatiedatum vast. De rest betaalt u na de installatie.');
+    else afspraken.push('U betaalt het volledige bedrag na de installatie.');
+    $('akkoordGerust').textContent = O.aanbetalingPercentage ? 'Na ontvangst van uw aanbetaling ontvangt u van ons per e-mail een bevestiging met alle afspraken.' : 'Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.';
     (O.garantie || []).forEach(function (g) { afspraken.push(g); });
     $('oAfspraken').innerHTML = afspraken.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
       (veiligeLink(O.garantieUrl) ? '<li><a href="' + esc(O.garantieUrl) + '" target="_blank" rel="noopener">Lees de garantievoorwaarden</a></li>' : '');
