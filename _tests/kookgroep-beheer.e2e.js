@@ -54,7 +54,7 @@ const CSV = ['Referentie,Naam,Adres,email,Opmerkingen klant,Prijsconfiguratie ve
   const ed = await beh.textContent('#offEditor');
   assert(ed.includes('Vul deze bedragen zelf in') && ed.includes('Uitbreiding van de meterkast') && ed.includes('Aandachtspunten uit de aanvraag'));
   const regels = await beh.$$eval('[data-offregel][data-k="omschrijving"]', l => l.map(x => x.value));
-  assert.deepStrictEqual(regels, ['Complete 2-fase kookgroep met Perilex', 'Uitbreiding van de meterkast, als dat nodig is', 'Extra kabel: 3 meter × € 12', 'Kookplaat of fornuis aansluiten']);
+  assert.deepStrictEqual(regels, ['Complete 2-fase kookgroep met Perilex', 'Uitbreiding van de meterkast, als dat nodig is', 'Extra kabel: 3 meter × € 12', 'Kookplaat of fornuis aansluiten, inclusief Perilex-stekker']);
   // regel van € 0: eerst waarschuwing, niet online zetten
   bevestig = false; await beh.click('#offLink'); await beh.waitForTimeout(400); assert.strictEqual(puts.length, 0, 'niet online met een regel van € 0'); bevestig = true;
   await beh.click('[data-offregelwis="1"]');

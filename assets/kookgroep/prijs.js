@@ -50,7 +50,7 @@
     if (WERK.indexOf(staat.werk) < 0) { r.ontbreekt.push('werk'); return r; }
 
     if (staat.werk === 'aansluiten') {
-      var a = config.werk.aansluiten; regel(a.label, a.prijs);
+      var a = config.werk.aansluiten; regel(a.label + ', inclusief Perilex-stekker', a.prijs);
       r.aandachtspunten.push('Wij gaan uit van een bestaande, geschikte kookaansluiting. Die controleren wij bij het aansluiten.');
     }
     if (staat.werk === 'perilex') {
@@ -115,7 +115,7 @@
       }
       // 4. Kookplaat aansluiten
       if (!staat.kookplaatAansluiten) r.ontbreekt.push('kookplaatAansluiten');
-      else if (staat.kookplaatAansluiten === 'ja') regel('Kookplaat of fornuis aansluiten', config.kookplaatAansluiten);
+      else if (staat.kookplaatAansluiten === 'ja') regel('Kookplaat of fornuis aansluiten, inclusief Perilex-stekker', config.kookplaatAansluiten);
       // Nog niet alle vragen beantwoord: toon een vanaf-prijs, geen schijnzekerheid
       if (r.ontbreekt.length) open = true;
     }

@@ -126,7 +126,7 @@
   /* ---------- Stap: kookplaat ---------- */
   function stapKookplaat() {
     var h = '<h3 class="kg-titel" tabindex="-1">Uw kookplaat of fornuis</h3>';
-    if (S.werk === 'compleet') h += pillen('kookplaatAansluiten', 'Wilt u dat wij de kookplaat of het fornuis direct aansluiten?', [['ja', 'Ja, + ' + eur(C.kookplaatAansluiten)], ['nee', 'Nee']]);
+    if (S.werk === 'compleet') h += pillen('kookplaatAansluiten', 'Wilt u dat wij de kookplaat of het fornuis direct aansluiten?', [['ja', 'Ja, + ' + eur(C.kookplaatAansluiten) + ' (inclusief Perilex-stekker)'], ['nee', 'Nee']]);
     else h += '<p class="kg-intro">Het aansluiten van uw kookplaat of fornuis is inbegrepen, inclusief Perilex-stekker. Wij gaan uit van een bestaande, geschikte kookaansluiting; die controleren wij bij het aansluiten.</p>';
     h += '<div class="kg-vraag"><label class="kg-label" for="kg-merk">Merk en type van uw kookplaat of fornuis <span class="kg-opt">(optioneel)</span></label>' +
       '<input class="kg-invoer" type="text" id="kg-merk" maxlength="120" value="' + esc(S.merkModel) + '" placeholder="Bijv. Bosch PIE631FB1E">' +
