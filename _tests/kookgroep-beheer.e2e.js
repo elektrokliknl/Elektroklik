@@ -50,7 +50,7 @@ const CSV = ['Referentie,Naam,Adres,email,Opmerkingen klant,Prijsconfiguratie ve
   assert.strictEqual(await beh.inputValue('[data-off="titel"]'), 'Complete 2-fase kookgroep met Perilex, inclusief aansluiten van uw kookplaat');
   assert.strictEqual(await beh.inputValue('[data-off="klant.email"]'), 'kees@voorbeeld.nl');
   assert.strictEqual(await beh.inputValue('[data-off="aanbetalingPercentage"]'), '0');
-  assert.strictEqual(await beh.inputValue('[data-off="inbegrepen"]'), '');
+  assert.strictEqual(await beh.inputValue('[data-off="inbegrepen"]'), 'Uitgevoerd door gecertificeerde monteurs\nAangelegd volgens de geldende normen\nNa afloop testen wij de installatie, zodat u zeker weet dat alles veilig werkt\nGeen voorrijkosten');
   const ed = await beh.textContent('#offEditor');
   assert(ed.includes('Vul deze bedragen zelf in') && ed.includes('Uitbreiding van de meterkast') && ed.includes('Aandachtspunten uit de aanvraag'));
   const regels = await beh.$$eval('[data-offregel][data-k="omschrijving"]', l => l.map(x => x.value));
@@ -75,7 +75,7 @@ const CSV = ['Referentie,Naam,Adres,email,Opmerkingen klant,Prijsconfiguratie ve
   assert.strictEqual((await kl.textContent('#oBetaal')).trim(), '', 'geen aanbetalingsblok');
   const afspr = await kl.textContent('#oAfspraken');
   assert(afspr.includes('U betaalt het volledige bedrag na de installatie.') && !afspr.includes('garantievoorwaarden'), 'betaling na installatie, geen laadpaalgarantie-link');
-  assert(await kl.isHidden('#oInbegrepenKaart'));
+  assert((await kl.textContent('#oInbegrepen')).includes('Uitgevoerd door gecertificeerde monteurs'));
   assert.strictEqual(await kl.textContent('#akkoordGerust'), 'Na uw akkoord ontvangt u van ons per e-mail een bevestiging met alle afspraken.');
   if (process.env.SHOT) await kl.screenshot({ path: process.env.SHOT + '/kg-offerte-klant.png', fullPage: true });
   await kl.check('#akkoord'); await kl.click('#akkoordKnop'); await kl.waitForSelector('#betaalKaart:not([hidden])');

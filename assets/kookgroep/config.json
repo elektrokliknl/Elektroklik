@@ -35,5 +35,13 @@
     "muur": { "label": "Kabel wegwerken in de muur (frezen)", "toeslag": null, "soort": "opMaat" },
     "onbekend": { "label": "Weet ik niet", "toeslag": 0, "soort": "beoordelen" }
   },
-  "kookplaatAansluiten": 45
+  "kookplaatAansluiten": 45,
+  "offerte": {
+    "inbegrepen": [
+      "Uitgevoerd door gecertificeerde monteurs",
+      "Aangelegd volgens de geldende normen",
+      "Na afloop testen wij de installatie, zodat u zeker weet dat alles veilig werkt",
+      "Geen voorrijkosten"
+    ]
+  }
 }

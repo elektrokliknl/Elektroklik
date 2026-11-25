@@ -161,7 +161,7 @@
       veld('email', 'E-mailadres', 'email', { ac: 'email', im: 'email' }) + veld('telefoon', 'Telefoonnummer', 'tel', { ac: 'tel', im: 'tel' }) +
       veld('postcode', 'Postcode', 'text', { ac: 'postal-code', ph: '1234 AB' }) + veld('huisnummer', 'Huisnummer en toevoeging', 'text', { ph: '12 A' }) +
       veld('opmerkingen', 'Opmerkingen', 'textarea', { vol: true, optioneel: true, ph: 'Bijvoorbeeld een gewenste periode of bijzonderheden over uw keuken.' }) + '</div>' +
-      '<div class="kg-fotoblok"><p class="kg-label" style="font-size:1.02rem">Foto’s <span class="kg-opt">(optioneel, maar handig)</span></p><p class="kg-uitleg">Met een paar foto’s kunnen wij u een nauwkeurige offerte sturen, zonder eerst langs te komen. JPG, PNG of HEIC, maximaal ' + MAX_MB + ' MB per foto.</p>' +
+      '<div class="kg-fotoblok"><p class="kg-label" style="font-size:1.02rem">Foto’s <span class="kg-opt">(optioneel, maar handig)</span></p><p class="kg-uitleg">Met een paar foto’s kunnen wij u een nauwkeurige offerte sturen. JPG, PNG of HEIC, maximaal ' + MAX_MB + ' MB per foto.</p>' +
       fotoSoorten().map(uploadBlok).join('') + '</div>' +
       '<input type="text" id="kg-gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
       '<label class="kg-check"><input type="checkbox" id="kg-akkoord"' + (G.akkoord ? ' checked' : '') + '><span>Ik ga ermee akkoord dat ElektroKlik mijn gegevens gebruikt om mijn aanvraag te behandelen, zoals beschreven in de <a href="/privacyverklaring/" target="_blank" rel="noopener">privacyverklaring</a>.</span></label>' +

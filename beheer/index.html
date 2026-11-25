@@ -414,7 +414,7 @@
       var r = leeg(), st = (a.tech && a.tech.staat) || {};
       r.soort = 'kookgroep';
       r.o.aanvraag = a.ref; r.o.klant = { naam: a.naam || '', email: a.email || '', telefoon: a.telefoon || '', adres: a.adres || '' };
-      r.o.inbegrepen = []; r.o.aanbetalingPercentage = 0;
+      r.o.inbegrepen = ((KGC && KGC.offerte && KGC.offerte.inbegrepen) || []).slice(); r.o.aanbetalingPercentage = 0;
       r.controle = [];
       if (KGC) {
         var b = KGPrijs.bereken(KGC, st);
