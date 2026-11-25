@@ -1,0 +1,39 @@
+{
+  "_uitleg": "Centrale prijzen voor de kookgroep- en Perilex-configurator op /blog/perilex-aansluiten-kosten/. Alle bedragen in euro inclusief btw. Pas alleen de getallen aan; de pagina rekent alles automatisch opnieuw uit.",
+  "versie": "2026-11-25",
+  "btwPercentage": 21,
+  "formEndpoint": "https://formspree.io/f/xjgzdzww",
+  "telefoon": "085 060 05 72",
+  "telefoonLink": "+31850600572",
+  "email": "info@elektroklik.nl",
+  "whatsappLink": "https://wa.me/31850600572",
+  "werk": {
+    "aansluiten": { "label": "Alleen kookplaat of fornuis aansluiten", "prijs": 109 },
+    "perilex": { "label": "Perilex-stopcontact plaatsen of vervangen", "prijs": 129 }
+  },
+  "compleet": {
+    "1fase": { "label": "Complete 1-fase kookaansluiting", "prijs": 259 },
+    "2fase": { "label": "Complete 2-fase kookgroep met Perilex", "prijs": 299 },
+    "3fase": { "label": "Complete 3-fase krachtgroep met Perilex", "prijs": 349 }
+  },
+  "kabel": {
+    "inbegrepenMeters": 5,
+    "prijsPerExtraMeter": 12,
+    "maxMeters": 100,
+    "categorieen": [
+      { "id": "0-5", "label": "0 – 5 meter", "van": 0, "tot": 5 },
+      { "id": "6-10", "label": "6 – 10 meter", "van": 6, "tot": 10 },
+      { "id": "11-15", "label": "11 – 15 meter", "van": 11, "tot": 15 },
+      { "id": "15+", "label": "Meer dan 15 meter", "van": 16, "tot": null },
+      { "id": "onbekend", "label": "Weet ik niet", "van": 0, "tot": null }
+    ]
+  },
+  "kabelroute": {
+    "kruipruimte": { "label": "Via de kruipruimte", "toeslag": 0, "soort": "vast" },
+    "leiding": { "label": "Via een bestaande lege leiding", "toeslag": 0, "soort": "vast" },
+    "kabelgoot": { "label": "Zichtbaar langs de wand in een kabelgoot", "toeslag": 75, "soort": "vanaf" },
+    "muur": { "label": "Kabel wegwerken in de muur (frezen)", "toeslag": null, "soort": "opMaat" },
+    "onbekend": { "label": "Weet ik niet", "toeslag": 0, "soort": "beoordelen" }
+  },
+  "kookplaatAansluiten": 45
+}

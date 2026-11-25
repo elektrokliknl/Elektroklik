@@ -1,0 +1,113 @@
+/* ElektroKlik – kookgroep- en Perilex-configurator (in de stijl van de laadpalenconfigurator) */
+.kg { --kg-p: #0b7f75; --kg-p2: #0e9a86; --kg-ink: #0f1b2d; --kg-tekst: #334155; --kg-mut: #5b6b80; --kg-lijn: #e3e8ef; --kg-bg: #f5f7fa; --kg-zacht: #e6f5f3; --kg-warn: #8a4b00; --kg-warnbg: #fff7e8; --kg-err: #c62828;
+  margin: 1.4rem 0 2.4rem; font-family: 'DM Sans', system-ui, sans-serif; color: var(--kg-tekst); }
+.kg *, .kg *::before, .kg *::after { box-sizing: border-box; }
+.kg-kaartvak { background: #fff; border: 1px solid var(--kg-lijn); border-radius: 18px; box-shadow: 0 14px 36px rgba(15, 27, 45, .07); position: relative; }
+.kg-kaartvak > form { padding: 22px 24px 8px; }
+/* voortgang */
+.kg-voortgang { padding: 18px 24px 0; }
+.kg .kg-telling { margin: 0 0 8px; font-size: .86rem; font-weight: 700; color: var(--kg-p); line-height: 1.4; }
+.kg-balk { height: 6px; background: var(--kg-bg); border-radius: 99px; overflow: hidden; }
+.kg-balk span { display: block; height: 100%; background: linear-gradient(90deg, var(--kg-p), var(--kg-p2)); border-radius: 99px; transition: width .3s ease; }
+.kg .kg-stappen { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 0; padding: 0; font-size: .8rem; color: var(--kg-mut); }
+.kg .kg-stappen li { margin: 0; }
+.kg .kg-stappen li.nu { color: var(--kg-ink); font-weight: 700; }
+.kg .kg-stappen li.klaar { color: var(--kg-p); }
+.kg .kg-stappen button { background: none; border: 0; padding: 0; font: inherit; color: var(--kg-p); text-decoration: underline; cursor: pointer; }
+/* titels en tekst */
+.kg .kg-titel { font: 800 1.3rem/1.25 'Exo 2', sans-serif; color: var(--kg-ink); margin: 0 0 6px; outline: none; }
+.kg .kg-intro { margin: 0 0 16px; font-size: .95rem; color: var(--kg-mut); line-height: 1.6; }
+.kg .kg-uitleg { margin: 0 0 10px; font-size: .86rem; color: var(--kg-mut); line-height: 1.55; }
+.kg-vraag { border: 0; margin: 0 0 22px; padding: 0; min-width: 0; }
+.kg-vraag legend, .kg .kg-label { display: block; font-weight: 700; color: var(--kg-ink); font-size: .98rem; margin: 0 0 8px; padding: 0; line-height: 1.4; }
+.kg-opt { font-weight: 400; color: var(--kg-mut); font-size: .86rem; }
+/* keuzekaarten */
+.kg-keuzes { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.kg-keuzes.kg-k2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kg-keuze { position: relative; display: block; cursor: pointer; margin: 0; }
+.kg-keuze input, .kg-pil input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.kg-kaart { display: flex; flex-direction: column; gap: 4px; height: 100%; padding: 14px 16px 14px 44px; border: 2px solid var(--kg-lijn); border-radius: 14px; background: #fff; transition: border-color .15s, background .15s, box-shadow .15s; position: relative; }
+.kg-kaart::before { content: ''; position: absolute; left: 14px; top: 16px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #b8c4d2; background: #fff; }
+.kg-keuze:hover .kg-kaart { border-color: #b8d9d4; }
+.kg-keuze input:checked + .kg-kaart { border-color: var(--kg-p); background: var(--kg-zacht); box-shadow: 0 4px 14px rgba(11, 127, 117, .12); }
+.kg-keuze input:checked + .kg-kaart::before { border-color: var(--kg-p); background: var(--kg-p); box-shadow: inset 0 0 0 4px #fff; }
+.kg-keuze input:focus-visible + .kg-kaart, .kg-pil input:focus-visible + span { outline: 3px solid rgba(11, 127, 117, .45); outline-offset: 2px; }
+.kg-kt { font-weight: 700; color: var(--kg-ink); font-size: .98rem; line-height: 1.35; }
+.kg-kd { font-size: .86rem; color: var(--kg-mut); line-height: 1.45; }
+.kg-kp { margin-top: auto; padding-top: 6px; font-weight: 800; color: var(--kg-p); font-size: .95rem; }
+/* pillen */
+.kg-pillen { display: flex; flex-wrap: wrap; gap: 8px; }
+.kg-pil { position: relative; margin: 0; cursor: pointer; }
+.kg-pil span { display: inline-flex; align-items: center; min-height: 44px; padding: 9px 16px; border: 2px solid var(--kg-lijn); border-radius: 999px; background: #fff; font-weight: 600; color: var(--kg-ink); font-size: .93rem; transition: border-color .15s, background .15s; }
+.kg-pil:hover span { border-color: #b8d9d4; }
+.kg-pil input:checked + span { border-color: var(--kg-p); background: var(--kg-zacht); color: #0a5d56; }
+/* invoer */
+.kg-invoer { width: 100%; min-height: 46px; padding: 10px 12px; border: 1.5px solid #cfd8e3; border-radius: 10px; font: inherit; font-size: 1rem; color: var(--kg-ink); background: #fff; }
+.kg-invoer:focus { outline: none; border-color: var(--kg-p); box-shadow: 0 0 0 3px rgba(11, 127, 117, .15); }
+.kg-invoer[aria-invalid="true"] { border-color: var(--kg-err); }
+.kg-kort { max-width: 140px; display: inline-block; }
+.kg-eenheid { color: var(--kg-mut); margin-left: 6px; }
+textarea.kg-invoer { min-height: 90px; resize: vertical; }
+.kg-velden { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; margin: 18px 0; }
+.kg-veld { min-width: 0; } .kg-vol { grid-column: 1 / -1; }
+.kg-veld .kg-label { font-size: .9rem; margin-bottom: 4px; }
+.kg .kg-fout { color: var(--kg-err); font-size: .86rem; font-weight: 600; margin: 6px 0 0; }
+.kg-check { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 4px; font-size: .9rem; line-height: 1.5; cursor: pointer; }
+.kg-check input { width: 22px; height: 22px; flex: none; margin-top: 1px; accent-color: var(--kg-p); }
+/* meldingen */
+.kg-melding { border-radius: 12px; padding: 12px 14px; margin: 0 0 18px; font-size: .92rem; line-height: 1.55; }
+.kg-melding.kg-ok { background: var(--kg-zacht); border: 1px solid #bfe3de; color: #0a5d56; }
+.kg-melding.kg-info { background: #eef5fb; border: 1px solid #cfe1f1; color: #23466b; }
+.kg-melding.kg-warn { background: var(--kg-warnbg); border: 1px solid #f3d199; color: var(--kg-warn); }
+.kg-melding a { color: inherit; font-weight: 700; }
+/* overzicht en tabel */
+.kg-overzicht { background: var(--kg-bg); border-radius: 14px; padding: 16px 18px; margin: 4px 0 6px; }
+.kg-overzicht dl { margin: 0; display: grid; gap: 4px; }
+.kg-overzicht dl div { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; border-bottom: 1px dashed var(--kg-lijn); padding: 4px 0; }
+.kg-overzicht dt { color: var(--kg-mut); } .kg-overzicht dd { margin: 0; color: var(--kg-ink); font-weight: 600; text-align: right; }
+.kg-tabel { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 0; }
+.kg-tabel td { padding: 7px 0; border-bottom: 1px solid var(--kg-lijn); vertical-align: top; color: var(--kg-tekst); }
+.kg-tabel td:last-child { text-align: right; white-space: nowrap; padding-left: 12px; font-weight: 700; color: var(--kg-ink); }
+.kg-tabel small { display: block; color: var(--kg-mut); font-size: .8rem; font-weight: 400; }
+.kg-tabel tr.kg-tot td { border-bottom: 0; border-top: 2px solid var(--kg-ink); font: 800 1.05rem 'Exo 2', sans-serif; color: var(--kg-ink); padding-top: 10px; }
+/* foto's */
+.kg-fotoblok { border-top: 1px solid var(--kg-lijn); padding-top: 16px; margin-top: 8px; }
+.kg-upload { border: 1.5px dashed #cfd8e3; border-radius: 12px; padding: 12px 14px; margin: 0 0 10px; }
+.kg-upload .kg-label { margin-bottom: 2px; font-size: .93rem; }
+.kg-file { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.kg .kg-fotos { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+.kg .kg-fotos li { display: flex; align-items: center; gap: 10px; font-size: .86rem; margin: 0; }
+.kg-fotos img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid var(--kg-lijn); }
+.kg-fotos span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* knoppen */
+.kg-knop { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 20px; border-radius: 12px; border: 0; background: var(--kg-p); color: #fff; font: 700 .98rem 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; }
+.kg-knop:hover { background: #096c63; }
+.kg-knop:disabled { opacity: .6; cursor: default; }
+.kg-knop-licht { background: #fff; color: var(--kg-ink); border: 1.5px solid #cfd8e3; }
+.kg-knop-licht:hover { background: var(--kg-bg); }
+.kg-link { background: none; border: 0; padding: 0; text-align: left; color: var(--kg-p); font: 600 .88rem 'DM Sans', sans-serif; text-decoration: underline; cursor: pointer; }
+/* voet met prijs (blijft onderaan in beeld) */
+.kg-voet { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 24px; background: #fff; border-top: 1px solid var(--kg-lijn); border-radius: 0 0 18px 18px; box-shadow: 0 -8px 20px rgba(15, 27, 45, .06); }
+.kg-prijsvak { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.kg-prijslabel { font-size: .78rem; color: var(--kg-mut); }
+.kg-prijs { font: 800 1.35rem/1.2 'Exo 2', sans-serif; color: var(--kg-ink); }
+.kg-knoppen { display: flex; gap: 8px; }
+.kg-opbouw { flex-basis: 100%; max-height: 45vh; overflow: auto; }
+/* bevestiging */
+.kg-klaar { padding: 28px 24px; text-align: center; }
+.kg-klaar p { margin: 0 0 12px; }
+.kg-klaar .kg-melding { text-align: left; }
+.kg-vink { width: 56px; height: 56px; border-radius: 50%; background: var(--kg-zacht); color: var(--kg-p); font: 800 1.6rem/56px 'Exo 2', sans-serif; margin: 0 auto 12px; }
+[hidden] { display: none !important; }
+/* De site zet body op overflow-x: hidden; dat maakt van body een scrollcontainer en daardoor werkt 'sticky' niet.
+   clip snijdt net zo goed af, maar zonder dat neveneffect. Alleen op pagina's met deze configurator. */
+body:has(.kg) { overflow-x: clip; }
+@media (max-width: 640px) {
+  .kg-kaartvak > form { padding: 18px 16px 6px; } .kg-voortgang { padding: 16px 16px 0; }
+  .kg-keuzes.kg-k2, .kg-velden { grid-template-columns: 1fr; }
+  .kg .kg-stappen { display: none; }
+  .kg-voet { padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); }
+  .kg-knoppen { flex: 1 1 100%; } .kg-knoppen .kg-knop { flex: 1; }
+  .kg-prijs { font-size: 1.2rem; }
+  body.kg-in-beeld .whatsapp-btn { bottom: calc(var(--kg-voet-h, 200px) + 12px); width: 48px; height: 48px; font-size: 1.3rem; }
+}
