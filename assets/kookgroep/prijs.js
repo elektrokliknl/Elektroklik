@@ -20,7 +20,7 @@
 
   function leegeStaat() {
     return { werk: null, hulpAansluiting: null, hulpWerkte: null, woningFase: null, kookplaatType: null, meterkastRuimte: null,
-      afstand: null, meters: null, kruipruimte: null, route: null, kookplaatAansluiten: null, merkModel: '' };
+      afstand: null, meters: null, kruipruimte: null, kookplaatAansluiten: null, merkModel: '' };
   }
   function geldigeMeters(config, m) {
     var n = Number(m);
@@ -104,15 +104,11 @@
         else if (emax === 0) regel('Kabelaanleg tot ' + config.kabel.inbegrepenMeters + ' meter', 0, 0, 'Inbegrepen');
         else regel('Extra kabel (' + cat.label.replace(/\s+/g, ' ') + ')', emin, emax, euro(config.kabel.prijsPerExtraMeter) + ' per meter boven ' + config.kabel.inbegrepenMeters + ' meter, afhankelijk van de kabelroute');
       } else r.ontbreekt.push('afstand');
-      // 3. Kruipruimte en kabelroute
+      // 3. Kruipruimte: zonder kruipruimte een vaste toeslag
+      var gk = config.geenKruipruimte;
       if (!staat.kruipruimte) r.ontbreekt.push('kruipruimte');
-      else if (staat.kruipruimte !== 'ja') {
-        var route = config.kabelroute[staat.route];
-        if (!route || (staat.route === 'kruipruimte' && staat.kruipruimte === 'nee')) r.ontbreekt.push('route');
-        else if (route.soort === 'opMaat') { opMaat = true; r.regels.push({ label: route.label, min: null, max: null, toelichting: 'Prijs op aanvraag' }); r.aandachtspunten.push('Kabel wegwerken in de muur (freeswerk): offerte op maat.'); }
-        else if (route.soort === 'vanaf') regel(route.label, route.toeslag, null, 'Vanaf-prijs, afhankelijk van de route');
-        else if (route.soort === 'beoordelen') { regel('Kabelroute (beoordelen wij aan de hand van uw foto’s)', 0, null, 'Mogelijk meerwerk'); r.aandachtspunten.push('Kabelroute onbekend en geen toegankelijke kruipruimte bevestigd: route beoordelen.'); }
-      }
+      else if (staat.kruipruimte === 'nee') regel(gk.label, gk.toeslag);
+      else if (staat.kruipruimte === 'onbekend') { regel(gk.label + ', als er geen kruipruimte is', 0, gk.toeslag, 'Afhankelijk van uw situatie'); r.aandachtspunten.push('Onbekend of er een toegankelijke kruipruimte is: controleren (zonder kruipruimte + ' + euro(gk.toeslag) + ').'); }
       // 4. Kookplaat aansluiten
       if (!staat.kookplaatAansluiten) r.ontbreekt.push('kookplaatAansluiten');
       else if (staat.kookplaatAansluiten === 'ja') regel('Kookplaat of fornuis aansluiten, inclusief Perilex-stekker', config.kookplaatAansluiten);
@@ -140,7 +136,7 @@
       rij.push(['Plek in de meterkast', lab(staat.meterkastRuimte)]);
       var m = geldigeMeters(config, staat.meters), cat = config.kabel.categorieen.filter(function (k) { return k.id === staat.afstand; })[0];
       rij.push(['Afstand meterkast–keuken', m ? 'circa ' + m + ' meter' : (cat ? cat.label : '–')]);
-      rij.push(['Kruipruimte', lab(staat.kruipruimte)]); if (staat.kruipruimte && staat.kruipruimte !== 'ja' && config.kabelroute[staat.route]) rij.push(['Kabelroute', config.kabelroute[staat.route].label]);
+      rij.push(['Kruipruimte', lab(staat.kruipruimte)]);
       rij.push(['Kookplaat aansluiten', lab(staat.kookplaatAansluiten)]);
     }
     if (staat.merkModel) rij.push(['Merk en type kookplaat', staat.merkModel]);

@@ -38,14 +38,11 @@ t('afstandscategorieën geven een bereik of vanaf-prijs', () => {
 t('ongeldige meters worden genegeerd (categorie telt)', () => {
   for (const m of [0, -3, 2.5, 500, 'abc']) assert.strictEqual(P.bereken(C, compleet({ meters: m, afstand: '0-5' })).min, 299, String(m));
 });
-t('geen kruipruimte rekent niet automatisch € 75', () => {
-  let r = P.bereken(C, compleet({ kruipruimte: 'nee' })); assert(r.ontbreekt.includes('route'), 'vervolgvraag nodig');
-  r = P.bereken(C, compleet({ kruipruimte: 'nee', route: 'leiding' })); assert.strictEqual(r.modus, 'vast'); assert.strictEqual(r.min, 299);
+t('geen kruipruimte → + € 70 in de totaalprijs, geen vervolgvraag', () => {
+  const r = P.bereken(C, compleet({ kruipruimte: 'nee' })); assert.strictEqual(r.modus, 'vast'); assert.strictEqual(r.min, 299 + 70); assert.deepStrictEqual(r.ontbreekt, []);
+  assert(r.regels.some(x => x.label === 'Kabelaanleg zonder kruipruimte' && x.min === 70));
 });
-t('kabelgoot: vanaf € 75 extra', () => { const r = P.bereken(C, compleet({ kruipruimte: 'nee', route: 'kabelgoot' })); assert.strictEqual(r.modus, 'vanaf'); assert.strictEqual(r.min, 299 + 75); });
-t('kabel in de muur wegwerken → prijs op aanvraag', () => { const r = P.bereken(C, compleet({ kruipruimte: 'nee', route: 'muur' })); assert.strictEqual(r.modus, 'opMaat'); assert.strictEqual(r.max, null); assert(r.aandachtspunten.some(x => /freeswerk/.test(x))); });
-t('kruipruimte onbekend + route onbekend → vanaf, met aandachtspunt', () => { const r = P.bereken(C, compleet({ kruipruimte: 'onbekend', route: 'onbekend' })); assert.strictEqual(r.modus, 'vanaf'); assert(r.aandachtspunten.some(x => /Kabelroute onbekend/.test(x))); });
-t('"via de kruipruimte" kan niet als er geen kruipruimte is', () => { assert(P.bereken(C, compleet({ kruipruimte: 'nee', route: 'kruipruimte' })).ontbreekt.includes('route')); });
+t('kruipruimte onbekend → bereik tot + € 70, met aandachtspunt', () => { const r = P.bereken(C, compleet({ kruipruimte: 'onbekend' })); assert.strictEqual(r.modus, 'bereik'); assert.strictEqual(r.min, 299); assert.strictEqual(r.max, 369); assert(r.aandachtspunten.some(x => /kruipruimte/.test(x))); });
 t('3-fase kookplaat in een 1-fase woning → nooit een gewone prijs', () => {
   const r = P.bereken(C, compleet({ kookplaatType: '3fase', woningFase: '1' })); assert.strictEqual(r.modus, 'opMaat'); assert(r.aandachtspunten.some(x => /netbeheerder/.test(x)));
 });
@@ -86,7 +83,6 @@ t('prijstekst', () => {
   assert.strictEqual(P.prijsTekst(P.bereken(C, { werk: 'aansluiten' })), '€ 109');
   assert.strictEqual(P.prijsTekst(P.bereken(C, compleet({ afstand: '6-10' }))), '€ 311 – € 359');
   assert.strictEqual(P.prijsTekst(P.bereken(C, compleet({ afstand: '15+' }))), 'Vanaf € 431');
-  assert.strictEqual(P.prijsTekst(P.bereken(C, compleet({ kruipruimte: 'nee', route: 'muur' }))), 'Prijs op aanvraag');
   assert.strictEqual(P.prijsTekst(P.bereken(C, compleet({ meters: 108 + 1000 }))).startsWith('€'), true);
 });
 t('prijzen in de introductie van de pagina kloppen met de prijsconfiguratie', () => {

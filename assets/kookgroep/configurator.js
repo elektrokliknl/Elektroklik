@@ -2,7 +2,7 @@
  * Stappen per keuze:
  *   A aansluiten : werkzaamheden → kookplaat → gegevens
  *   B perilex    : werkzaamheden → gegevens
- *   C compleet   : werkzaamheden → aansluiting → afstand → kabelroute → kookplaat → gegevens
+ *   C compleet   : werkzaamheden → aansluiting → afstand → kruipruimte → kookplaat → gegevens
  *   D weetniet   : werkzaamheden → uw situatie → (advies: verder als A, B of C, of offerte op maat) → gegevens
  * Prijzen: assets/kookgroep/config.json, berekening: assets/kookgroep/prijs.js.
  * Aanvragen gaan via hetzelfde Formspree-formulier als de rest van de website, met foto's als bijlage.
@@ -15,7 +15,7 @@
   var C = null, S = KGPrijs.leegeStaat(), FILES = [], stap = 'werk', bezocht = { werk: true }, verzonden = false, gestart = false;
   var G = { voornaam: '', achternaam: '', email: '', telefoon: '', postcode: '', huisnummer: '', opmerkingen: '', akkoord: false };
   var STORE = 'ek_kookgroep_v1', MAX_PER_SOORT = 3, MAX_MB = 20;
-  var NAMEN = { werk: 'Werkzaamheden', situatie: 'Uw situatie', aansluiting: 'Aansluiting', kabel: 'Afstand', route: 'Kabelroute', kookplaat: 'Kookplaat', gegevens: 'Gegevens' };
+  var NAMEN = { werk: 'Werkzaamheden', situatie: 'Uw situatie', aansluiting: 'Aansluiting', kabel: 'Afstand', route: 'Kruipruimte', kookplaat: 'Kookplaat', gegevens: 'Gegevens' };
   var FOTOS = {
     meterkast: { label: 'Foto van uw meterkast', uitleg: 'De hele meterkast in beeld. U hoeft niets open te schroeven.' },
     bestaand: { label: 'Foto van de huidige aansluiting in de keuken', uitleg: 'Bijvoorbeeld het Perilex-stopcontact, de aansluitdoos of de kabel.' },
@@ -111,16 +111,9 @@
   }
   /* ---------- Stap: kabelroute ---------- */
   function stapRoute() {
-    var h = '<h3 class="kg-titel" tabindex="-1">De kabelroute</h3>' +
+    var h = '<h3 class="kg-titel" tabindex="-1">Kruipruimte</h3>' +
       pillen('kruipruimte', 'Is er een toegankelijke kruipruimte tussen de meterkast en de keuken?', [['ja', 'Ja'], ['nee', 'Nee'], ['onbekend', 'Weet ik niet']]);
-    if (S.kruipruimte && S.kruipruimte !== 'ja') {
-      var opties = ['kruipruimte', 'leiding', 'kabelgoot', 'muur', 'onbekend'].filter(function (id) { return !(id === 'kruipruimte' && S.kruipruimte === 'nee'); });
-      h += kaarten('route', 'Hoe kan de kabel worden aangelegd?', opties.map(function (id) {
-        var r = C.kabelroute[id];
-        return { id: id, titel: r.label, prijs: r.soort === 'opMaat' ? 'Offerte op maat' : (r.soort === 'vanaf' ? 'Vanaf + ' + eur(r.toeslag) : (r.soort === 'beoordelen' ? 'Wij kijken mee' : 'Geen meerprijs')) };
-      }), '', 2);
-      if (S.route === 'muur') h += melding('warn', 'Voor het wegwerken van de kabel in de muur (freeswerk) maken wij een offerte op maat.');
-    }
+    if (S.kruipruimte === 'nee') h += melding('info', 'Zonder kruipruimte komt er ' + eur(C.geenKruipruimte.toeslag) + ' bij voor het aanleggen van de kabel.');
     return h;
   }
   /* ---------- Stap: kookplaat ---------- */
@@ -210,14 +203,14 @@
     situatie: function () { return ['hulpAansluiting'].concat(S.hulpAansluiting === 'perilex' ? ['hulpWerkte'] : []); },
     aansluiting: function () { return ['woningFase', 'kookplaatType', 'meterkastRuimte']; },
     kabel: function () { return ['afstand']; },
-    route: function () { return ['kruipruimte'].concat(S.kruipruimte && S.kruipruimte !== 'ja' ? ['route'] : []); },
+    route: function () { return ['kruipruimte']; },
     kookplaat: function () { return S.werk === 'compleet' ? ['kookplaatAansluiten'] : []; },
     gegevens: function () { return []; }
   };
   function controleer() {
     var eerste = null;
     VERPLICHT[stap]().forEach(function (v) {
-      var leeg = !S[v] || (v === 'route' && S.route === 'kruipruimte' && S.kruipruimte === 'nee');
+      var leeg = !S[v];
       var e = $('kgf-' + v); if (e) e.hidden = !leeg;
       if (leeg && !eerste) eerste = v;
     });
@@ -360,8 +353,6 @@
         S[t.name] = t.value;
         if (t.name === 'werk') { bezocht = { werk: true }; }
         if (t.name === 'hulpAansluiting' && t.value !== 'perilex') S.hulpWerkte = null;
-        if (t.name === 'kruipruimte' && t.value === 'ja') S.route = null;
-        if (t.name === 'kruipruimte' && t.value === 'nee' && S.route === 'kruipruimte') S.route = null;
         var er = $('kgf-' + t.name); if (er) er.hidden = true;
         var naam = t.name, waarde = t.value; render(false);
         var el = root.querySelector('input[name="' + naam + '"][value="' + waarde + '"]'); if (el) el.focus({ preventScroll: true });

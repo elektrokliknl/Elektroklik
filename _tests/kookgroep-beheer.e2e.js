@@ -5,7 +5,7 @@ const assert = require('assert');
 const BASE = 'http://127.0.0.1:8765';
 const REF = 'KG-261125-TST42';
 const KG = { soort: 'kookgroep', ref: REF, versie: '2026-11-25',
-  staat: { werk: 'compleet', woningFase: '1', kookplaatType: '2fase', meterkastRuimte: 'onbekend', afstand: '6-10', meters: 8, kruipruimte: 'ja', route: null, kookplaatAansluiten: 'ja', merkModel: 'Bosch PIE631FB1E' },
+  staat: { werk: 'compleet', woningFase: '1', kookplaatType: '2fase', meterkastRuimte: 'onbekend', afstand: '6-10', meters: 8, kruipruimte: 'ja', kookplaatAansluiten: 'ja', merkModel: 'Bosch PIE631FB1E' },
   prijs: { modus: 'vanaf', min: 380, max: null },
   klant: { naam: 'Kees Kook', email: 'kees@voorbeeld.nl', telefoon: '06 87654321', adres: '3811 AB 12' } };
 const q = v => '"' + String(v).replace(/"/g, '""') + '"';

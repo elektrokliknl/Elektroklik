@@ -28,13 +28,7 @@
       { "id": "onbekend", "label": "Weet ik niet", "van": 0, "tot": null }
     ]
   },
-  "kabelroute": {
-    "kruipruimte": { "label": "Via de kruipruimte", "toeslag": 0, "soort": "vast" },
-    "leiding": { "label": "Via een bestaande lege leiding", "toeslag": 0, "soort": "vast" },
-    "kabelgoot": { "label": "Zichtbaar langs de wand in een kabelgoot", "toeslag": 75, "soort": "vanaf" },
-    "muur": { "label": "Kabel wegwerken in de muur (frezen)", "toeslag": null, "soort": "opMaat" },
-    "onbekend": { "label": "Weet ik niet", "toeslag": 0, "soort": "beoordelen" }
-  },
+  "geenKruipruimte": { "label": "Kabelaanleg zonder kruipruimte", "toeslag": 70 },
   "kookplaatAansluiten": 45,
   "offerte": {
     "inbegrepen": [

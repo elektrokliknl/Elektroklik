@@ -95,12 +95,10 @@ const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.r
     await p.fill('#kg-meters', '8'); assert.strictEqual(await prijs(p), 'Vanaf € 335');
     await p.fill('#kg-meters', '2.5'); await volgende(p); assert(await p.isVisible('#kgf-meters'), 'ongeldig aantal meters');
     await p.fill('#kg-meters', '8'); await volgende(p);
-    await kies(p, 'kruipruimte', 'nee'); assert(!(await p.$('input[name="route"][value="kruipruimte"]')), 'geen "via kruipruimte" zonder kruipruimte');
-    await volgende(p); assert(await p.isVisible('#kgf-route'), 'vervolgvraag kabelroute verplicht');
-    await kies(p, 'route', 'leiding'); assert.strictEqual(await prijs(p), 'Vanaf € 335', 'geen automatische € 75');
-    await kies(p, 'route', 'kabelgoot'); assert.strictEqual(await prijs(p), 'Vanaf € 410');
-    await kies(p, 'route', 'muur'); assert.strictEqual(await prijs(p), 'Prijs op aanvraag');
-    await kies(p, 'kruipruimte', 'ja'); assert(!(await p.$('input[name="route"]')), 'geen vervolgvraag bij kruipruimte');
+    await kies(p, 'kruipruimte', 'nee'); assert(!(await p.$('input[name="route"]')), 'geen vraag meer over de kabelroute');
+    assert.strictEqual(await prijs(p), 'Vanaf € 405', 'zonder kruipruimte + € 70'); assert((await p.textContent('#kg-stap')).includes('€ 70'));
+    await kies(p, 'kruipruimte', 'onbekend'); await p.click('#kg-opbouwknop'); assert((await p.textContent('#kg-opbouw')).includes('Kabelaanleg zonder kruipruimte, als er geen kruipruimte is')); await p.click('#kg-opbouwknop');
+    await kies(p, 'kruipruimte', 'ja'); assert.strictEqual(await prijs(p), 'Vanaf € 335');
     await volgende(p); await kies(p, 'kookplaatAansluiten', 'ja');
     assert.strictEqual(await prijs(p), '€ 380', 'voorbeeldberekening uit de opdracht');
     await p.click('#kg-opbouwknop'); const opb = await p.textContent('#kg-opbouw');
