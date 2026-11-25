@@ -38,7 +38,7 @@ const veld = (post, naam) => { const m = post.match(new RegExp('name="' + naam.r
   // 0) Pagina: configurator bovenaan, prijstabel weg, introductie met de nieuwe prijzen
   { const { ctx, p, st } = await nieuw(b, { viewport: { width: 1280, height: 900 } });
     assert(!(await p.$('.prijs-tabel')), 'oude prijstabel is weg');
-    assert((await p.textContent('.artikel > p')).includes('€ 109'));
+    assert(!(await p.textContent('.artikel > p')).includes('€'), 'geen prijzen in de introductie'); assert((await p.textContent('.faq-blok')).includes('€ 109'), 'prijzen in de FAQ');
     assert.strictEqual(await prijs(p), 'Kies wat u wilt laten doen');
     assert(await p.isHidden('#kg-vorige'));
     await volgende(p); assert(await p.isVisible('#kgf-werk'), 'eerst een keuze maken');

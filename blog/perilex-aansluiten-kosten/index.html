@@ -66,6 +66,12 @@
     .cta-blok h2 { margin-top: 0; }
     .cta-blok .btn-primary { display: inline-block; text-decoration: none; margin-top: .8rem; }
     .faq-blok { margin-top: 2.5rem; }
+    .artikel h1 + p { margin-top: 0; }
+    .voordelen { list-style: none; display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: .2rem 0 0 !important; padding: 0; }
+    .voordelen li { margin: 0; font-weight: 600; font-size: .92rem; }
+    .voordelen li::before { content: "✓"; color: var(--electric); font-weight: 800; margin-right: .45rem; }
+    .artikel #samenstellen { margin-top: 1.8rem; }
+    @media (max-width: 600px) { .artikel { padding-top: 20px; } .artikel h1 { font-size: 1.65rem; margin-bottom: .7rem; } .artikel .intro { line-height: 1.6; margin-bottom: .6rem; } .voordelen { gap: .25rem 1rem; } .voordelen li { font-size: .88rem; } .artikel #samenstellen { margin-top: 1.2rem; margin-bottom: .5rem; } }
     .faq-item { border-bottom: 1px solid var(--border); padding: 1.1rem 0; }
     .faq-item h3 { margin: 0 0 .5rem; font-size: 1rem; color: #fff; }
     .faq-item p { margin-bottom: 0; font-size: .9rem; }
@@ -105,12 +111,18 @@
 
 <main>
 <article class="artikel">
-  <h1>Wat kost een <span>Perilex aansluiting</span> in 2026?</h1>
+  <h1>Perilex aansluiten of <span>kookgroep laten installeren</span></h1>
 
-  <p><strong>Bij ElektroKlik kost het aansluiten van een kookplaat of fornuis op een bestaande aansluiting <span data-kg="werk.aansluiten.prijs">€ 109</span>, het plaatsen of vervangen van een Perilex-stopcontact <span data-kg="werk.perilex.prijs">€ 129</span> en een complete nieuwe kookgroep met Perilex vanaf <span data-kg="compleet.1fase.prijs">€ 259</span>, inclusief btw.</strong> Wat u precies betaalt, hangt af van drie dingen: uw meterkast, de afstand tot de keuken en het type aansluiting (1-fasig, 2-fasig of 3-fase). Hieronder stelt u in een paar stappen uw aansluiting samen en ziet u direct uw prijsindicatie.</p>
+  <p class="intro">Laat uw kookplaat of fornuis veilig en vakkundig aansluiten door ElektroKlik. Of het nu gaat om een bestaande aansluiting of een volledig nieuwe kookgroep, wij zorgen voor een passende oplossing.</p>
+  <p class="intro">Bereken hieronder eenvoudig uw persoonlijke prijsindicatie, inclusief btw en installatie.</p>
+  <ul class="voordelen">
+    <li>Duidelijke prijzen</li>
+    <li>Vrijblijvende offerte</li>
+    <li>Vakkundige installatie</li>
+  </ul>
 
-  <h2 id="samenstellen">Stel uw <span>aansluiting samen</span></h2>
-  <p>Kies wat u wilt laten doen en zie direct uw prijsindicatie inclusief btw. Vrijblijvend: u betaalt nu niets.</p>
+  <h2 id="samenstellen">Bereken uw <span>installatiekosten</span></h2>
+  <p class="intro">Vertel ons wat u wilt laten doen. U ziet direct een prijsindicatie op basis van uw situatie.</p>
   <div class="kg" id="kookgroep" data-base="../../assets/kookgroep/">
     <noscript><p>Schakel JavaScript in om uw prijs te berekenen, of vraag een offerte aan via <a href="../../offerte/">ons offerteformulier</a> of bel <a href="tel:+31850600572">085 060 05 72</a>.</p></noscript>
   </div>
@@ -153,6 +165,11 @@
 
   <div class="faq-blok">
     <h2>Veelgestelde <span>vragen</span></h2>
+
+    <div class="faq-item">
+      <h3>Wat kost een Perilex aansluiting?</h3>
+      <p>Bij ElektroKlik kost het aansluiten van een kookplaat of fornuis op een bestaande aansluiting <span data-kg="werk.aansluiten.prijs">€ 109</span>, het plaatsen of vervangen van een Perilex-stopcontact <span data-kg="werk.perilex.prijs">€ 129</span> en een complete nieuwe kookgroep met Perilex vanaf <span data-kg="compleet.1fase.prijs">€ 259</span>, inclusief btw. Wat u precies betaalt, hangt af van uw meterkast, de afstand tot de keuken en het type aansluiting. <a href="#samenstellen">Bereken uw prijsindicatie</a>.</p>
+    </div>
 
     <div class="faq-item">
       <h3>Hoe lang duurt het aansluiten van een perilex?</h3>
