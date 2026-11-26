@@ -69,9 +69,13 @@ function verwerk(file) {
     return open + euro(v) + (/,-\s*$/.test(inhoud) ? ',-' : '') + sluit;
   });
 
-  // 2) "vanaf € …" in titel en meta-omschrijvingen
+  // 2) "vanaf € …" in titel en meta-omschrijvingen – alleen op laadpaalpagina's (titel bevat "laadpa"),
+  //    zodat bijvoorbeeld "vanaf € 109" op de Perilex-pagina niet wordt overschreven met de laadpaalprijs.
+  const titel = (s.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
+  const laadpaalPagina = /laadpa/i.test(titel);
   const vanaf = 'vanaf ' + euro(prijsVan('min'));
-  s = s.replace(/<title>[^<]*<\/title>|<meta\b[^>]*\bcontent="[^"]*"[^>]*>/g, m => m.replace(/vanaf € \d{1,3}(?:\.\d{3})*/g, vanaf));
+  const zetVanaf = t => laadpaalPagina ? t.replace(/([Vv])anaf € \d{1,3}(?:\.\d{3})*/g, (m, v) => v + vanaf.slice(1)) : t;
+  s = s.replace(/<title>[^<]*<\/title>|<meta\b[^>]*\bcontent="[^"]*"[^>]*>/g, zetVanaf);
 
   // 3) Gestructureerde gegevens
   s = s.replace(/(<script type="application\/ld\+json">\s*)([\s\S]*?)(\s*<\/script>)/g, (m, a, json, b) => {
@@ -115,7 +119,7 @@ function verwerk(file) {
     // "vanaf € …" in alle teksten (omschrijvingen, antwoorden)
     const loop = o => {
       for (const key of Object.keys(o)) {
-        if (typeof o[key] === 'string') { const t = o[key].replace(/vanaf € \d{1,3}(?:\.\d{3})*/g, vanaf); if (t !== o[key]) { o[key] = t; veranderd = true; } }
+        if (typeof o[key] === 'string') { const t = zetVanaf(o[key]); if (t !== o[key]) { o[key] = t; veranderd = true; } }
         else if (o[key] && typeof o[key] === 'object') loop(o[key]);
       }
     };
